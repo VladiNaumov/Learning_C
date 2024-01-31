@@ -1,0 +1,1 @@
+gcc -std=c99 -Wall -pedantic prompt.c -o prompt.exe
