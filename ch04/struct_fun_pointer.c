@@ -4,7 +4,7 @@
   
 typedef struct
 {
-    char* name;
+    char name;
     int age;
 } person;
   
@@ -38,9 +38,10 @@ struct person create_person(char* name, int age)
     user.age = age;
     return user;
 } 
+
 int main(void)
 {
-    struct person bob = create_person("Bob", 22);
+    struct person bob = {"Bob", 22};
     printf("Name: %s \n", bob.name);
     printf("Age: %d \n", bob.age);
     return 0;
