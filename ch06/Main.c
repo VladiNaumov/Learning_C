@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-#include "Public_interface_list.h"
+#include "List.h"
 
 int reverse(struct list_t* source, struct list_t* dest) {
   list_clear(dest);
