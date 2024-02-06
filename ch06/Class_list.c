@@ -14,18 +14,18 @@
 // Define the alias type bool_t
 typedef int bool_t;
 
-// определяем тип list_t
+// Define the type list_t
 typedef struct {
   size_t size;
   int* items;
 } list_t;
 
-// приватное поведение которое определяет заполнен ли список List
+// A private behavior which checks if list is full
 bool_t __list_is_full(list_t* list) {
   return (list->size == MAX_SIZE);
 }
 
-// приватное поведение для проверки индекса
+// Another private behavior which checks the index
 bool_t __check_index(list_t* list, const int index) {
   return (index >= 0 && index <= list->size);
 }

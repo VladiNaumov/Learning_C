@@ -4,22 +4,22 @@
 //              As you see, the attribute structure does not
 //              disclose any of its members.
 
-#ifndef EXTREME_C_EXAMPLES_CHAPTER_6_3_H
-#define EXTREME_C_EXAMPLES_CHAPTER_6_3_H
+#ifndef PUBLIC_INTERFACE_LIST_H
+#define PUBLIC_INTERFACE_LIST_H
 
 #include <unistd.h>
 
-// структура атрибутов без публичного доступа полей
+// The attribute structure with no disclosed attribute
 struct list_t;
 
-// функция выделение памяти
+// Allocation function
 struct list_t* list_malloc();
 
 // Constructor and destructor functions
 void list_init(struct list_t*);
 void list_destroy(struct list_t*);
 
-// публичное поведение функции
+// Public behavior functions
 int list_add(struct list_t*, int);
 int list_get(struct list_t*, int, int*);
 void list_clear(struct list_t*);

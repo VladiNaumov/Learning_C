@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-#include "ExtremeC_examples_chapter6_3.h"
+#include "Public_interface_list.h"
 
 int reverse(struct list_t* source, struct list_t* dest) {
   list_clear(dest);
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
   struct list_t* list1 = list_malloc();
   struct list_t* list2 = list_malloc();
 
-  // создание объектов
+  // Construction
   list_init(list1);
   list_init(list2);
 
