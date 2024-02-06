@@ -5,6 +5,8 @@
 - ch02 Pointers
 - ch03 Array + pointer
 - ch04 Struct + pointer
+- ch05 Structure as a class
+- ch06 Structure and private functions (public interface)
 
 
 ### Compiling
