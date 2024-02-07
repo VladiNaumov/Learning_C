@@ -7,6 +7,8 @@
 - ch04 Struct + pointer
 - ch05 Structure as a "class"
 - ch06 Structure and private functions (заголовочный файл list.h как interface)
+- ch07 Отношение "композиция"
+- ch08 Отношение "aгрегация"
 
 
 ### Compiling
