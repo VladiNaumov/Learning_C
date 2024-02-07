@@ -9,17 +9,17 @@
 
 #include <unistd.h>
 
-// The attribute structure with no disclosed attribute
+// структура атрибутов без публично доступных полей
 struct list_t;
 
-// Allocation function
+// функция выделения памяти
 struct list_t* list_malloc();
 
-// Constructor and destructor functions
+// конструктор и деструктор
 void list_init(struct list_t*);
 void list_destroy(struct list_t*);
 
-// Public behavior functions
+// Public behavior functions (публичные поведенческие функции)
 int list_add(struct list_t*, int);
 int list_get(struct list_t*, int, int*);
 void list_clear(struct list_t*);
@@ -27,3 +27,13 @@ size_t list_size(struct list_t*);
 void list_print(struct list_t*);
 
 #endif
+
+
+/*
+Здесь	вы	можете	видеть,	как	мы	делаем	атрибуты	приватными.	Если	другой	исход-
+ный	файл	(например,	содержащий	функцию	main)	подключит	данный	заголовок,
+то	не	будет	иметь	доступ	к	атрибутам	внутри	типа	list_t.	Это	легко	объяснить:
+list_t	—	просто	объявление	без	определения,	которое	не	позволяет	обращаться
+к	полям	структуры.	Вы	даже	не	сможете	объявить	переменную	на	основе	данного
+типа.	Таким	образом,	мы	соблюдаем	принцип	сокрытия.
+*/

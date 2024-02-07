@@ -11,7 +11,7 @@
 
 #define MAX_SIZE 10
 
-// Define the alias type bool_t
+// Define the alias type bool_t (создаем псевдоним bool_t)
 typedef int bool_t;
 
 // Define the type list_t
@@ -20,17 +20,17 @@ typedef struct {
   int* items;
 } list_t;
 
-// A private behavior which checks if list is full
+// A private behavior which checks if list is full (приватное поведение, которое проверяет, заполнен ли список)
 bool_t __list_is_full(list_t* list) {
   return (list->size == MAX_SIZE);
 }
 
-// Another private behavior which checks the index
+// Another private behavior which checks the index (еще одно приватное поведение для проверки индекса)
 bool_t __check_index(list_t* list, const int index) {
   return (index >= 0 && index <= list->size);
 }
 
-// Allocates memory for a list object
+// Allocates memory for a list object (выделяет память для объекта)
 list_t* list_malloc() {
   return (list_t*)malloc(sizeof(list_t));
 }
@@ -49,7 +49,7 @@ void list_destroy(list_t* list) {
 }
 
 int list_add(list_t* list, const int item) {
-  // The usage of the private behavior
+  // The usage of the private behavior (использование приватного поведения)
   if (__list_is_full(list)) {
     return -1;
   }
@@ -80,3 +80,14 @@ void list_print(list_t* list) {
   }
   printf("]\n");
 }
+
+/*
+Все	определения,	приведенные	в	этом	листинге,	являются	приватными.	Внешней
+логике,	которая	будет	использовать	объект	list_t,	ничего	о	них	неизвестно,	и	по-
+лагаться	она	может	только	на	код	в	заголовочном	файле.
+Заметьте,	что	в	данном	листинге	не	было	подключено	никаких	заголовков!	Совпа-
+дений	сигнатур	функций	с	объявлениями	в	заголовочном	файле	достаточно.
+Но	все	же	заголовки	рекомендуется	подключать,	поскольку	это	гарантирует	со-
+вместимость	между	объявлениями	и	соответствующими	определениями.
+
+*/
