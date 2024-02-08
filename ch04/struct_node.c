@@ -8,7 +8,6 @@ typedef struct
 
 }node;
 
-//
 void write_node(node* node, char* p, char* name)
 {
     node->value = name;
@@ -16,30 +15,41 @@ void write_node(node* node, char* p, char* name)
 
 }
 
-int p_node(){
+void pointer(){
 
-// создание экземпляра структуры
     node bob;
     node lisp;
     node kate;
     node tom;
 
-// устанавливаем указатель на экземпляр структуры
+    // устанавливаем указатель на экземпляр структуры
     node *p1 = &bob;
     node *p2 = &lisp;
     node *p3 = &kate;
     node *p4 = &tom;
 
-    write_node(&bob, &lisp, "Bob");
-    write_node(&lisp, &kate, "Lisp");
-    write_node(&kate, &tom, "Kate");
-    write_node(&tom, 0, "Tim");
 
-// p = адрес экземпляра структуры, *p = value, p->next
     printf("Variable: address=%p \t name=%s \t address=%p \n", (void*) p1,  *p1, p1->next);
     printf("Variable: address=%p \t name=%s \t address=%p \n", (void*) p2,  *p2, p2->next);
     printf("Variable: address=%p \t name=%s \t address=%p \n", (void*) p3,  *p3, p3->next);
     printf("Variable: address=%p \t name=%s \t address=%p \n", (void*) p4,  *p4, p4->next);
+
+
+}
+
+
+int p_node(){
+
+    node bob;
+    node lisp;
+    node kate;
+    node tom;
+
+
+    write_node(&bob, &lisp, "Bob");
+    write_node(&lisp, &kate, "Lisp");
+    write_node(&kate, &tom, "Kate");
+    write_node(&tom, 0, "Tim");
 
 
     // устанавливаем указатель на первую структуру в цепочке
@@ -61,7 +71,6 @@ int main(void)
 
 
 }
-
 
 /*
 Здесь определяем три переменных структуры: kate, tom и bob. У объекта kate элемент next указывает на объект tom:
