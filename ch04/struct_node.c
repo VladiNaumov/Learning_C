@@ -10,6 +10,8 @@ typedef struct
 
 void write_node(node* node, char* p, char* name)
 {
+    // strcopy(node->value, name);
+    // strcopy(node->next, (void*) p);
     node->value = name;
     node->next = (void*) p;
 
@@ -17,6 +19,7 @@ void write_node(node* node, char* p, char* name)
 
 void pointer(){
 
+// создание экземпляра  структуры
     node bob;
     node lisp;
     node kate;
