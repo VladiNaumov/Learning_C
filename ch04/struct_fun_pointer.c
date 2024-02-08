@@ -67,7 +67,8 @@ struct person
 void change_person(struct person * user)
 {
     user->age = user->age + 1;
-} 
+}
+
 int main(void)
 {
     struct person bob = {"Bob", 22};

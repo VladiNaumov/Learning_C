@@ -1,30 +1,67 @@
 #include <stdio.h>
-  
-// Ссылка структуры на саму себя 
-struct node
+
+// Ссылка структуры на саму себя
+typedef struct
 {
-    char* value;     // значение 
-    struct node* next;     // указатель на следующий узел
-};
-  
-int main(void)
+    char* value;          // значение
+    struct node* next;    // указатель на следующий узел
+
+}node;
+
+void write_node(node* node, char* p, char* name)
 {
-    struct node kate = {.value = "Kate"};
-    struct node tom = {.value = "Tom" };
-    struct node bob = {.value = "Bob"};
- 
-    kate.next = &tom;   // Kate - Tom
-    tom.next = &bob;    // Tom - Bob
- 
+    node->value = name;
+    node->next = (void*) p;
+
+}
+
+int p_node(){
+
+    node bob;
+    node lisp;
+    node kate;
+    node tom;
+
+    node *p1=&bob;
+    node *p2=&lisp;
+    node *p3=&kate;
+    node *p4=&tom;
+
+
+    write_node(&bob, &lisp, "Bob");
+    write_node(&lisp, &kate, "Lisp");
+    write_node(&kate, &tom, "Kate");
+    write_node(&tom, 0, "Tim");
+
+
+
+    printf("Variable: address=%p \t name=%s \t address=%p \n", (void*) p1,  *p1, p1->next);
+    printf("Variable: address=%p \t name=%s \t address=%p \n", p2,  *p2, p2->next);
+    printf("Variable: address=%p \t name=%s \t address=%p \n", p3,  *p3, p3->next);
+    printf("Variable: address=%p \t name=%s \t address=%p \n", p4,  *p4, p4->next);
+
+
+
     // устанавливаем указатель на первую структуру в цепочке
-    struct node * pointer = &kate;
+    node *pointer = &bob;
     while(pointer != NULL)
     {
         printf("value = %s \n", pointer->value);
         pointer = pointer->next;     // переходим к следующему объекту
     }
+
     return 0;
+
 }
+
+int main(void)
+{
+
+    p_node();
+
+
+}
+
 
 /*
 Здесь определяем три переменных структуры: kate, tom и bob. У объекта kate элемент next указывает на объект tom:
