@@ -36,7 +36,7 @@ int p_node(){
 
     // устанавливаем указатель на первую структуру в цепочке
     node *pointer = &bob;
-    //
+
     while(pointer != NULL)
     {
         printf("value = %s \n", pointer->value);
