@@ -16,10 +16,10 @@ int array(){
     node kate;
     node tom;
 
-    node *p1=&bob;
-    node *p2=&lisp;
-    node *p3=&kate;
-    node *p4=&tom;
+    node* p1 = &bob;
+    node* p2 = &lisp;
+    node* p3 = &kate;
+    node* p4 = &tom;
 
 
     node arr[] = {*p1, *p2, *p3, *p4};

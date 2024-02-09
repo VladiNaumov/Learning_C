@@ -43,8 +43,6 @@ int main(void)
     node_constructor(&tom, 0, "Tim");
 
     // устанавливаем указатель на первую структуру в цепочке
-    node* pointer = &bob;
-
     iterator(&bob);
 
     return 0;

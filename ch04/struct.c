@@ -84,7 +84,7 @@ int main(void)
 {
     struct person kate = {31, "Kate"};
     // указатель на переменную kate
-    struct person * p_kate = &kate;
+    struct person *p_kate = &kate;
      
     // получаем значение элемента name
     char *name = p_kate->name;

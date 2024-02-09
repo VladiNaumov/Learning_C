@@ -17,16 +17,16 @@ void pointer(){
     node tom = {"Tom", NULL};
 
     // устанавливаем указатель на экземпляр структуры
-    node *p1 = &bob;
+    node* p1 = &bob;
     p1->next = &lisp;
 
-    node *p2 = &lisp;
+    node* p2 = &lisp;
     p2->next = &kate;
 
-    node *p3 = &kate;
+    node* p3 = &kate;
     p3->next = &tom;
 
-    node *p4 = &tom;
+    node* p4 = &tom;
     p4->next = NULL;
 
 

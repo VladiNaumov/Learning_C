@@ -64,7 +64,7 @@ struct person
     int age;
 };
  
-void change_person(struct person * user)
+void change_person(struct person* user)
 {
     user->age = user->age + 1;
 }
