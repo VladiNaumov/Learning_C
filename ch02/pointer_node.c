@@ -8,29 +8,25 @@ typedef struct
 
 }node;
 
-
 void pointer(){
     // создание экземпляра  структуры
-    node bob;
-    node lisp;
-    node kate;
-    node tom;
+
+    node bob = {"Bob", NULL};
+    node lisp = {"Lisp", NULL};
+    node kate = {"Kate", NULL};
+    node tom = {"Tom", NULL};
 
     // устанавливаем указатель на экземпляр структуры
     node *p1 = &bob;
-    p1->value = "bob";
     p1->next = &lisp;
 
     node *p2 = &lisp;
-    p2->value = "lisp";
     p2->next = &kate;
 
     node *p3 = &kate;
-    p3->value = "kate";
     p3->next = &tom;
 
     node *p4 = &tom;
-    p4->value = "tom";
     p4->next = NULL;
 
 
