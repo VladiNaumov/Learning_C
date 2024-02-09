@@ -87,8 +87,8 @@ int main(void)
     struct person * p_kate = &kate;
      
     // получаем значение элемента name
+    char *name = p_kate->name;
     // получаем значение элемента age
-    char * name = p_kate->name;
     int age = (*p_kate).age;
      
     printf("name = %s \t age = %d \n", name, age);
