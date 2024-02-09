@@ -8,21 +8,29 @@ typedef struct
 
 }node;
 
-
-void node_constructor(node* node, char* p, char* name)
+void node_constructor(node* pointer, char* p, char* name)
 {
     /* не поддерживается стандартом ISO C99 */
     // strcopy(node->value, name);
     // strcopy(node->next, (void*) p);
 
-    node->value = name;
-    node->next = (void*) p;
+    pointer->value = name;
+    pointer->next = (void*) p;
 
 }
 
+void iterator(node* pointer){
 
-int p_node(){
+    while(pointer != NULL)
+    {
+        printf("value = %s \n", pointer->value);
+        pointer = pointer->next;     // переходим к следующему объекту
+    }
 
+}
+
+int main(void)
+{
     // создание экземпляра структуры
     node bob;
     node lisp;
@@ -35,20 +43,11 @@ int p_node(){
     node_constructor(&tom, 0, "Tim");
 
     // устанавливаем указатель на первую структуру в цепочке
-    node *pointer = &bob;
+    node* pointer = &bob;
 
-    while(pointer != NULL)
-    {
-        printf("value = %s \n", pointer->value);
-        pointer = pointer->next;     // переходим к следующему объекту
-    }
+    iterator(&bob);
 
     return 0;
-}
-
-int main(void)
-{
-    p_node();
 
 }
 
