@@ -31,7 +31,6 @@ int main(void)
 
 
     for (int var = 0; var < 3; ++var) {
-
         struct node* ext = node_malloc();
         node_init(ext, "LEGION");
 
