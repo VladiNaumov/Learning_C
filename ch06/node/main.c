@@ -4,7 +4,7 @@
 int main(void)
 {
 
-    // функция выделения памяти
+    // создаём "hip" и помещаем структуру в её
     struct node* bob = node_malloc();
     struct node* lisp = node_malloc();
     struct node* kate = node_malloc();
