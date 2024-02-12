@@ -6,7 +6,7 @@
 - ch03 Array + pointer
 - ch04 Struct + pointer
 - ch05 Structure as a "class"
-- ch06 Structure and "private attribute",в заголовочном файлe объявляем структуры и функции, но не реализовываем их! (т.e list.h как interface).
+- ch06 Structure and "private attribute", в заголовочном файлe List.h объявляем структуры и функции, но не реализовываем их! (т.e как interface).
 - ch07 Отношение "композиция"
 - ch08 Отношение "aгрегация"
 - ch09 Наследование	"восходящее приведение"

@@ -8,7 +8,7 @@ typedef struct
 
 }node;
 
-void node_constructor(node* pointer, char* p, char* name)
+void node_constructor(node* pointer, void* p, char* name)
 {
     /* не поддерживается стандартом ISO C99 */
     // strcopy(node->value, name);
