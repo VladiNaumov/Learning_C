@@ -22,8 +22,7 @@ const node* node_malloc() {
 // Constructor of a node object
 void node_init(node* pointer, char* value) {
     pointer->value = value;
-    // Allocates from the heap memory
-    // ??? pointer->next = (int*)malloc(MAX_SIZE * sizeof(int));
+    pointer->next = NULL;
 }
 
 // Destructor of a node object
