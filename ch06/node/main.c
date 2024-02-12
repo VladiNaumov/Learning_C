@@ -1,6 +1,5 @@
 #include"node.h"
 
-
 int main(void)
 {
 
@@ -23,19 +22,14 @@ int main(void)
     node_linc(bob, lisp);
     node_linc(lisp, 0);
 
-
     getAddress(bob);
     getAddress(lisp);
 
-
-
-   node_linc(kate, lisp);
-   node_linc(tom, kate);
-
+    node_linc(kate, lisp);
+    node_linc(tom, kate);
 
    // устанавливаем указатель на первую структуру в цепочке
    iterator(bob);
-
 
     for (int var = 0; var < 3; ++var) {
 
@@ -44,15 +38,11 @@ int main(void)
 
         addArray_(ext, var);
 
-
        // node_linc(ext, lisp);
 
     }
 
     getArr(3);
-
-
-
 
     node_destroy(bob);
     node_destroy(lisp);
@@ -66,7 +56,6 @@ int main(void)
     free(kate);
     free(tom);
    */
-
 
     return 0;
 
