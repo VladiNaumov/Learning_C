@@ -10,17 +10,21 @@ int main(void)
     struct node* kate = node_malloc();
     struct node* tom = node_malloc();
 
+     getAddress(bob);
+
     // создание экземпляра структуры
-    node_init(bob, "BOB");
-    node_init(lisp,"LISP");
-    node_init(kate,"KATE");
-    node_init(tom,"TOM");
+    new_node(bob, "BOB");
+    new_node(lisp,"LISP");
+    new_node(kate,"KATE");
+    new_node(tom,"TOM");
+
+    getAddress(bob);
 
     node_linc(bob, lisp);
     node_linc(lisp, 0);
 
 
-    getAddress(tom);
+    getAddress(bob);
     getAddress(lisp);
 
 
@@ -29,25 +33,26 @@ int main(void)
    node_linc(tom, kate);
 
 
+   // устанавливаем указатель на первую структуру в цепочке
+   iterator(bob);
+
 
     for (int var = 0; var < 3; ++var) {
-        struct node* ext = node_malloc();
-        node_init(ext, "LEGION");
 
-        node_linc(ext, lisp);
+        struct node* ext = node_malloc();
+        new_node(ext, "LEGION");
 
         addArray_(ext, var);
 
 
-        node_linc(ext, lisp);
+       // node_linc(ext, lisp);
 
     }
 
     getArr(3);
 
 
-    // устанавливаем указатель на первую структуру в цепочке
-    iterator(bob);
+
 
     node_destroy(bob);
     node_destroy(lisp);

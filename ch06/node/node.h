@@ -9,7 +9,7 @@ struct node;
 struct node* node_malloc();
 
 // конструктор
-void node_init(struct node* pointer, char* value);
+void new_node(struct node* pointer, char* value);
 
 // деструктор
 void node_destroy(struct node*);
