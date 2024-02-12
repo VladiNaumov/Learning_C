@@ -13,10 +13,10 @@ int main(void)
      getAddress(bob);
 
     // создание экземпляра структуры
-    new_node(bob, "BOB");
-    new_node(lisp,"LISP");
-    new_node(kate,"KATE");
-    new_node(tom,"TOM");
+    node_new(bob, "BOB");
+    node_new(lisp,"LISP");
+    node_new(kate,"KATE");
+    node_new(tom,"TOM");
 
     getAddress(bob);
 

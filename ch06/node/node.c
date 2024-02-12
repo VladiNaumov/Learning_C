@@ -18,7 +18,7 @@ node* node_malloc()
 }
 
 // Constructor of a node object
-void new_node(node* pointer, char* value)
+void node_new(node* pointer, char* value)
 {
     /* не поддерживается стандартом ISO C99 */
     // strcopy(node->value, name);
