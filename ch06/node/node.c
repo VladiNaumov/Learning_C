@@ -33,6 +33,7 @@ void node_destroy(node* pointer)
 {
     // Deallocates the allocated memory
     free(pointer->next);
+    free(pointer->value);
 }
 
 void getAddress(node* pointer)
