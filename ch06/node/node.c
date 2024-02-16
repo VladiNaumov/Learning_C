@@ -9,7 +9,6 @@ typedef struct
 
 }node;
 
-node arr[100];
 
 // Allocates memory for a node object (выделяет память для объекта)
 node* node_malloc()
@@ -60,24 +59,5 @@ void iterator(node* pointer)
 
 }
 
-void addArray_(node* pointer, int var)
-{
-        arr[var] = *pointer;
 
-}
-
-void getArr(int num)
-{
-
-    for (int var = 0; var < num; ++var) {
-
-        void* address = arr + var;
-        node next = *(arr + var);
-        node value = *(arr + var);
-
-        printf("array[%d]: address=%p \t name=%s \t address_next=%p \n", var, address, next, value);
-
-    }
-
-}
 

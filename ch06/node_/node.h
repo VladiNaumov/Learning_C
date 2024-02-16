@@ -3,21 +3,18 @@
 
 // структура атрибутов без публично доступных полей
 struct node;
-
+struct Node* head;
 
 // функция выделения памяти
-struct node* node_malloc();
+void push(struct node **head, char* data);
 
-// конструктор
-void node_new(struct node* pointer, char* value);
 
 // деструктор
 void node_destroy(struct node*);
 
-void node_linc(struct node* pointer, void* p);
 
 void iterator(struct node* pointer);
 
-void getAddress(struct node* pointer);
+
 
 #endif
