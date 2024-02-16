@@ -3,7 +3,7 @@
 
 // структура атрибутов без публично доступных полей
 struct node;
-struct Node* head;
+struct node* head;
 
 // функция выделения памяти
 void push(struct node **head, char* data);

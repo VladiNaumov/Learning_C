@@ -11,7 +11,7 @@ typedef struct node
 
 
 // указатель на первый элемент списка. Вначале списка нет и указатель ссылается на NULL.
-struct Node *head = NULL;
+struct node* head = NULL;
 
 /* Для добавления нового узла необходимо
 
@@ -24,8 +24,8 @@ struct Node *head = NULL;
 
 
 // Allocates memory for a node object (выделяет память для объекта)
-void push(node **head, char* data) {
-    node *tmp = (node*) malloc(sizeof(node));
+void push(node** head, char* data) {
+    node* tmp = (node*) malloc(sizeof(node));
     tmp->value = data;
     tmp->next = (*head);
     (*head) = tmp;

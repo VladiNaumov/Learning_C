@@ -4,7 +4,7 @@
 
 int main(void)
 {
-    struct Node* head = NULL;
+    struct node* head = NULL;
 
     for (int var = 0; var < 1000; ++var) {
         push(&head, "100");
