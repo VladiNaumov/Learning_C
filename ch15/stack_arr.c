@@ -31,7 +31,6 @@ void push(Stack_t *stack, const T value) {
 
 
 //Аналогично, определим операцию Pop, которая возвращает элемент с вершины и переходит к следующему
-
 T pop(Stack_t *stack) {
     if (stack->size == 0) {
         exit(STACK_UNDERFLOW);
@@ -51,7 +50,6 @@ T peek(const Stack_t *stack) {
 //Ещё одно важное замечание – у нас нет функции создания стека, поэтому необходимо вручную обнулять значение size
 
 //Вспомогательные функции для печати элементов стека
-
 void printStackValue(const T value) {
     printf("%d", value);
 }
@@ -72,7 +70,6 @@ void printStack(const Stack_t *stack, void (*printStackValue)(const T)) {
 
 int main()
 {
-
     Stack_t stack;
     stack.size = 0;
 

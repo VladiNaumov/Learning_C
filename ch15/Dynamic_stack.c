@@ -14,7 +14,6 @@
 typedef int T;
 
 //Теперь сама структура
-
 typedef struct Stack_tag {
     T *data;
     size_t size;
@@ -49,8 +48,6 @@ void deleteStack(Stack_t **stack) {
 }
 
 // Теперь напишем вспомогательную функцию изменения размера.
-
-
     void resize(Stack_t *stack) {
     stack->size *= MULTIPLIER;
     stack->data = realloc(stack->data, stack->size * sizeof(T));
@@ -61,7 +58,6 @@ void deleteStack(Stack_t **stack) {
 
 
 // Функция push проверяет, вышли ли мы за пределы массива. Если да, то увеличиваем его размер
-
     void push(Stack_t *stack, T value) {
     if (stack->top >= stack->size) {
         resize(stack);
@@ -71,8 +67,6 @@ void deleteStack(Stack_t **stack) {
 }
 
 // Функции pop и peek аналогичны тем, которые использовались для массива фиксированного размера
-
-
         T pop(Stack_t *stack) {
         if (stack->top == 0) {
             exit(STACK_UNDERFLOW);
