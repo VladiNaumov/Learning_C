@@ -27,6 +27,13 @@ void push(Node **head, int data) {
     tmp->value = data;
     tmp->next = (*head);
     (*head) = tmp;
+
+    /*
+    Node *tmp = (Node*) malloc(sizeof(Node));
+    (*tmp).value = data;
+    (*tmp).next = (*head);
+    (*head) = tmp;
+    */
 }
 
 
