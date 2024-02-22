@@ -15,7 +15,10 @@
 - ch12 Полиморфизм
 - ch13 Singly linked list
 - ch14 Doubly linked list
-- ch15 Стек
+- ch15 Stack
+- ch16 Stack (Dynamic, stack array, stack linked list)
+- ch17 Queue
+- ch18 Binary search tree
 
 
 ### Compiling

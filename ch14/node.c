@@ -9,8 +9,6 @@ typedef struct listNode {
 
 typedef ListNode *ListNodePtr;
 
-
-
 // вставляет новое значение в список в порядке сортировки
 void insert( ListNodePtr *sPtr, char value )
 {
