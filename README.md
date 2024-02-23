@@ -3,7 +3,7 @@
 
 - ch01 Bit operations
 - ch02 Pointers
-- ch03 Array + pointer
+- ch03 Array + pointer, dynamic array
 - ch04 Struct + pointer
 - ch05 Structure as a "class"
 - ch06 Structure and "private attribute", заголовочный файл List.h как interface.
