@@ -50,15 +50,17 @@ int main()
     if (key == 'd') x++;
 
     //ogranichivaem peredvigenie za steni
-    if (mas[y][x] == '@')
+    if (mas[y][x] == '#')
     {
         x = ox;
         y = oy;
     }
     if((x == ax) && (y == ay))
     {
-        ax = rand() * 1.0 / RAND_MAX * 18 + 1;
-        ay = rand() * 1.0 / RAND_MAX * 8 + 1;
+       // ax = rand() * 1.0 / RAND_MAX * 18 + 1;
+       // ay = rand() * 1.0 / RAND_MAX * 8 + 1;
+       ax = 2;
+       ay = 7;
     }
 
     } while (key != 'e');
