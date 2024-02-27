@@ -31,6 +31,43 @@ int main()
 }
 
 
+/* -------------------------*/
+
+void print2d(int *arr, int y, int x) {
+
+// Выводим таблицу умножения
+    for ( int i = 1; i < y * x; ++i ) {
+        printf("%2d ", arr[i]);
+        if ( ( i + 1 ) % x == 0 )
+            printf("\n");
+    }
+}
+
+int main()
+{
+    // Объявляем массив 10x10
+    int y = 10;
+    int x = 10;
+
+    int product[y][x];
+
+    // Создаем таблицу умножения
+    for (int i = 0; i < y; ++i)
+    {
+        for (int j = 0; j < x; ++j)
+        {
+            product[i][j] = i * j;
+        }
+    }
+
+    print2d(*product, y,x);
+
+
+    return 0;
+}
+
+/*--------------------*/
+
 int pointer_two_array(){
     int array[3][4] =
     {
