@@ -1,5 +1,43 @@
+// Array В двумерном массиве первый (левый) индекс принято читать как количество строк, а второй (правый) как количество столбцов.
+
+int main()
+{
+    // Объявляем массив 10x10
+        int y = 10;
+        int x = 10;
+
+        int product[y][x];
+
+        // Создаем таблицу умножения
+        for (int i = 0; i < y; ++i)
+        {
+            for (int j = 0; j < x; ++j)
+            {
+                product[i][j] = i * j;
+            }
+        }
+        // Выводим таблицу умножения
+        for (int i = 1; i < y; ++i)
+        {
+            for (int j = 1; j < x; ++j)
+            {
+                printf("%d ", product[i][j]);
+            }
+
+            printf("\n");
+        }
+
+    return 0;
+}
+
+
 int pointer_two_array(){
-    int array[3][4] = { {1, 2, 3, 4} , {5, 6, 7, 8}, {9, 10, 11, 12}};
+    int array[3][4] =
+    {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
     int n = sizeof(array)/sizeof(array[0]);         // число строк
     int m = sizeof(array[0])/sizeof(array[0][0]);   // число столбцов
 
@@ -16,7 +54,11 @@ int pointer_two_array(){
     }
 
 int pointer_two_array_(){
-     int M[2][2] = { {1, 2} , {3, 4} };
+     int M[2][2] =
+     {
+        {1, 2},
+        {3, 4}
+      };
 
         // (*mp)[k] => (*mp)[k] => mp[0][k].
         int (*mp)[2] = M; //again you must not add '&' to variable M.
