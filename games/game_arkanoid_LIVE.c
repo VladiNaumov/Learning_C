@@ -99,7 +99,7 @@ initRacket();
     do
     {
 
-        setcur(0,0);
+        setcur(0,0); //ochistka ekrana
         init();
         putRacket();
         show();
