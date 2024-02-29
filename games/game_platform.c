@@ -8,8 +8,6 @@
 #define mapWidth 80
 #define mapHeight 25
 
-
-
 typedef struct SObject{
     float x,y;
     float width;
