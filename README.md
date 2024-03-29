@@ -30,7 +30,7 @@
 - gcc -std=c17 -Wall -pedantic app.c -o app.exe
 - gcc -std=c23 -Wall -pedantic app.c -o app.exe
 - gcc -E app.c (компиляции в единицу трансляции)
-- gcc -S app.c (Компиляция с созданием файла ассемблерного кода)
+- gcc -S -masm=intel app.c (Компиляция с созданием файла ассемблерного кода синтаксис -masm)
 - as -alhnd app.s > output.lst (Эта команда преобразует файл ассемблерного кода app.s в листинг программы output.lst)
 - gcc -c app.c (компиляция в машинный код "объектный файл")
 - gcc --version
