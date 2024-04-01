@@ -15,9 +15,6 @@ int pointer_four(){
 int pointer_ten(){
 
     int *pointer;
-    int *iptr1, *iptr2;
-    int *iptr3, iptr4; /* iptr3 is a pointer variable, whereas iptr4 is misnamed and is an int */
-
     int value2 = 10;
     pointer = &value2;
     printf("Value from pointer: %d\n", *pointer);
@@ -32,7 +29,6 @@ int pointer_ten(){
 
 
 }
-
 
 int pointer_one_one(){
 
