@@ -7,6 +7,7 @@
  // выводит инструкцию по использованию программы
  void instructions( void )
  {
+   // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
      puts( "Enter choice:\n"
           "1 to push a value on the stack\n"
           "2 to pop a value off the stack\n"
