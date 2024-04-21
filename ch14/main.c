@@ -63,6 +63,7 @@ void menu(){
 // выводит инструкцию по работе с программой
 void instructions( void )
 {
+    // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
     puts( "Enter your choice:\n"
          "   1 to insert an element into the list.\n"
          "   2 to delete an element from the list.\n"
