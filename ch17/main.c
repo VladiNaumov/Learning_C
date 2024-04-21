@@ -8,7 +8,7 @@
 void instructions( void )
 {
     // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
-    printf ( "Enter your choice:\n"
+    puts ( "Enter your choice:\n"
            "   1 to add an item to the queue\n"
            "   2 to remove an item from the queue\n"
            "   3 to end\n" );
