@@ -13,12 +13,13 @@
 - ch10 Первый подход к наследованию (одиночного наследования) 
 - ch11 Второй подход к наследованию (множественного наследования)
 - ch12 Полиморфизм
-- ch13 Singly linked list
-- ch14 Doubly linked list
-- ch15 Stack
-- ch16 Stack (Dynamic, stack array, stack linked list)
-- ch17 Queue
-- ch18 Binary search tree
+- ch13 Socket-programming (Project "Calculator")
+- ch14 Singly linked list
+- ch15 Doubly linked list
+- ch16 Stack
+- ch17 Stack (Dynamic, stack array, stack linked list)
+- ch18 Queue
+- 
 
 
 ### Compiling

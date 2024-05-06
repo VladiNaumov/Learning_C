@@ -1,62 +1,84 @@
- // Реализация простого стека
+// Вставка узлов в список и удаление их из списка
+#include <stdio.h>
+#include <stdlib.h>
+#include "node.h"
 
- #include <stdio.h>
- #include <stdlib.h>
- #include "stack.h"
+void menu(){
 
- // выводит инструкцию по использованию программы
- void instructions( void )
- {
-   // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
-     puts( "Enter choice:\n"
-          "1 to push a value on the stack\n"
-          "2 to pop a value off the stack\n"
-          "3 to end program" );
- }
+    ListNodePtr startPtr = NULL; // изначально список пуст
+    unsigned int choice;         // выбор пользователя
+    char item;                   // символ, введенный пользователем
 
- void menu(){
-     StackNodePtr stackPtr = NULL; // указатель на вершину стека
-     unsigned int choice;          // пункт меню, выбранный пользователем
-     int value;                    // целое число, введенное пользователем
+    instructions(); // вывести меню
 
-     instructions(); // вывести меню
+    printf( "%s", "? " );
+    scanf( "%u", &choice );
 
-     printf( "%s", "? " );
-     scanf( "%u", &choice );
+    // выполнять цикл, пока пользователь не выберет пункт 3
 
-     // пока пользователь не выберет пункт меню 3
-     while ( choice != 3 ) {
+    while ( choice != 3 ) {
+        switch ( choice ) {
 
-         switch ( choice ) {
-         // втолкнуть значение в стек
-         case 1:
-             printf( "%s", "Enter an integer: " );
-             scanf( "%d", &value );
-             push( &stackPtr, value );
-             printStack( stackPtr );
-             break;
-         // вытолкнуть значение со стека
-         case 2:
-             // если стек не пуст
-             if ( !isEmpty( stackPtr ) ) {
-                 printf( "The popped value is %d.\n", pop( &stackPtr ) );
-             }
-             printStack( stackPtr );
-             break;
-         default:
-             puts( "Invalid choice.\n" );
-             instructions();
-             break;
-         }
+        case 1:
+            printf( "%s", "Enter a character: " );
+            scanf( "\n%c", &item );
+            insert( &startPtr, item ); // вставить элемент в список
+            printList( startPtr );
+            break;
 
-         printf( "%s", "? " );
-         scanf( "%u", &choice );
-     }
+        case 2: // удалить элемент
 
-     puts( "End of run." );
- }
+            // если список не пуст
+            if ( !isEmpty( startPtr ) ) {
+                printf( "%s", "Enter character to be deleted: " );
+                scanf( "\n%c", &item );
 
- // выполнение программы начинается с функции main
- int main( void ){
-     menu();
- }
+                // если символ найден, удалить его из списка
+                if ( delete( &startPtr, item ) ) { // удалить элемент
+                    printf( "%c deleted.\n", item );
+                    printList( startPtr );
+                }
+                else {
+                    printf( "%c not found.\n\n", item );
+                }
+            }
+            else {
+                puts( "List is empty.\n" );
+            }
+
+            break;
+        default:
+            puts( "Invalid choice.\n" );
+            instructions();
+            break;
+        }
+
+        printf( "%s", "? " );
+        scanf( "%u", &choice );
+    }
+
+    puts( "End of run." );
+}
+
+// выводит инструкцию по работе с программой
+void instructions( void )
+{
+    // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
+    puts( "Enter your choice:\n"
+         "   1 to insert an element into the list.\n"
+         "   2 to delete an element from the list.\n"
+         "   3 to end." );
+
+
+}
+
+int main( void )
+{
+    menu();
+
+}
+
+
+
+
+
