@@ -21,16 +21,30 @@ Person** allocatePersonsArray(size_t numPersons) {
     return persons;
 }
 
+/*
+Выделение памяти под массив указателей на объекты Person
+Эта строка кода выделяет память под массив указателей на объекты типа Person. Рассмотрим её подробнее:
+
+Person **persons: Это двойной указатель на Person. Он используется для хранения массива указателей на объекты Person.
+
+malloc(numPersons * sizeof(Person*)): Функция malloc выделяет память размером numPersons * sizeof(Person*) байтов. 
+Здесь numPersons - это количество элементов (то есть указателей на Person), которые вы хотите выделить, а sizeof(Person*) - размер указателя на объект типа Person в байтах.
+
+азъяснение двойного указателя
+В C и C++, двойные указатели (например, Person **) используются для работы с массивами указателей или для передачи указателей на функции. 
+В данном случае, persons представляет собой массив указателей на объекты типа Person. 
+Каждый элемент массива persons[i] будет указывать на объект типа Person.
+
+*/
+
 
 // Функция для создания объекта Person
 Person* createPerson(const char *name, int age) {
-    // Выделение памяти под новый объект Person
     Person *newPerson = malloc(sizeof(Person));
     if (newPerson != NULL) {
-        // Копирование имени в новый объект Person
-        strncpy(newPerson->name, name, sizeof(newPerson->name) - 1);
-        newPerson->name[sizeof(newPerson->name) - 1] = '\0'; // Убедимся, что строка завершена нулевым символом
-        // Установка возраста нового объекта Person
+        // Копирование имени в поле name с использованием strncpy_s
+        strncpy_s(newPerson->name, sizeof(newPerson->name), name, _TRUNCATE);
+        // Установка возраста
         newPerson->age = age;
     }
     return newPerson;
