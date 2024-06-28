@@ -1,25 +1,21 @@
-// File name: ExtremeC_examples_chapter8_3_person.c
+// File name: ExtremeC_examples_chapter8_2_person.c
 // Description: Private implementation of the person class
 
 #include <stdlib.h>
 #include <string.h>
 
-// Private definition
-typedef struct {
-  char first_name[32];
-  char last_name[32];
-  unsigned int birth_year;
-} person_t;
+// person_t is defined in the following header file.
+#include "person_p.h"
 
 // Memory allocator
 person_t* person_new() {
-  return (person_t*)malloc(sizeof(person_t));
+  return (person_t*)malloc(sizeof(person_t)); 
 }
 
 // Constructor
-void person_ctor(person_t* person,
-                 const char* first_name,
-                 const char* last_name,
+void person_ctor(person_t* person, 
+                 const char* first_name, 
+                 const char* last_name, 
                  unsigned int birth_year) {
   strcpy(person->first_name, first_name);
   strcpy(person->last_name, last_name);

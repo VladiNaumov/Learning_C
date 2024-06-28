@@ -1,42 +1,43 @@
-// File name: ExtremeC_examples_chapter8_4_main.c
-// Description: Main scenario which calls the
-// polymorphic functions
+// File name: ExtremeC_examples_chapter8_3_main.c
+// Description: Main scenario
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-// Only public interfaces
-#include "animal.h"
-#include "cat.h"
-#include "duck.h"
+#include "student.h"
 
 int main(int argc, char** argv) {
-  struct animal_t* animal = animal_new();
-  struct cat_t* cat = cat_new();
-  struct duck_t* duck = duck_new();
+  // Create and construct the student object
+  struct student_t* student = student_new();
+  student_ctor(student, "John", "Doe",
+          1987, "TA5667", 134);
 
-  animal_ctor(animal);
-  cat_ctor(cat);
-  duck_ctor(duck);
+  // We have to use student's behavior functions because the
+  // student pointer is not a person pointer and we cannot
+  // access to private parent pointer in the student object.
+  char buffer[32];
+  student_get_first_name(student, buffer);
+  printf("First name: %s\n", buffer);
 
-  animal_sound(animal);
-  animal_sound((struct animal_t*)cat);
-  animal_sound((struct animal_t*)duck);
+  student_get_last_name(student, buffer);
+  printf("Last name: %s\n", buffer);
 
-  animal_dtor(animal);
-  cat_dtor(cat);
-  duck_dtor(duck);
+  printf("Birth year: %d\n", student_get_birth_year(student));
 
-  free(duck);
-  free(cat);
-  free(animal);
+  student_get_student_number(student, buffer);
+  printf("Student number: %s\n", buffer);
+
+  printf("Passed credits: %d\n",
+          student_get_passed_credits(student));
+
+  // Destruct and free the student object
+  student_dtor(student);
+  free(student);
+
   return 0;
 }
 
 /*
-    Здесь используются только публичные интерфейсы классов Animal, Cat и Duck.
-    Поэтому функция main ничего не знает об их внутренней реализации.
-    Чтобы продемонстрировать полиморфизм в действии,мы вызываем функцию animal_sound, передавая ей разные указатели.
- */
-
+мы не подключили публичный интерфейс класса Person. Нам	также пришлось использовать поведенческие функции класса Student,
+поскольку указатели student_t и person_t больше не взаимозаменяемы.
+*/

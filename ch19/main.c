@@ -1,46 +1,76 @@
+  // Реализация простой очереди
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include "queue.h"
 
-// Определение структуры Person
-struct Person {
-    char name[50];
-    int age;
-};
 
-int main() {
-    int numPersons = 5; // Количество элементов в массиве
-    struct Person *persons = (struct Person *)malloc(numPersons * sizeof(struct Person));
-
-    // Проверка, выделена ли память успешно
-    if (persons == NULL) {
-        fprintf(stderr, "Ошибка выделения памяти\n");
-        return 1;
-    }
-
-    // Пример инициализации массива объектов Person
-    strcpy(persons[0].name, "Иван Иванов");
-    persons[0].age = 30;
-
-    strcpy(persons[1].name, "Петр Петров");
-    persons[1].age = 25;
-
-    strcpy(persons[2].name, "Мария Сидорова");
-    persons[2].age = 35;
-
-    strcpy(persons[3].name, "Елена Николаева");
-    persons[3].age = 28;
-
-    strcpy(persons[4].name, "Алексей Васильев");
-    persons[4].age = 40;
-
-    // Пример обращения к элементам массива объектов Person
-    for (int i = 0; i < numPersons; ++i) {
-        printf("Person %d: %s, возраст %d лет\n", i+1, persons[i].name, persons[i].age);
-    }
-
-    // Освобождение памяти после использования
-    free(persons);
-
-    return 0;
+// display program instructions to user
+void instructions( void )
+{
+    // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
+    puts ( "Enter your choice:\n"
+           "   1 to add an item to the queue\n"
+           "   2 to remove an item from the queue\n"
+           "   3 to end\n" );
 }
+
+void menu(){
+
+    QueueNodePtr headPtr = NULL; // инициализировать headPtr
+    QueueNodePtr tailPtr = NULL; // инициализировать tailPtr
+    unsigned int choice;         // пункт меню, выбранный пользователем
+    char item;                   // символ, введенный пользователем
+
+    instructions();// вывести меню
+
+
+    printf( "%s", "? " );
+    scanf( "%u", &choice );
+
+    // пока пользователь не выберет пункт меню 3
+    while ( choice != 3 ) {
+
+        switch( choice ) {
+        // поставить значение в очередь
+        case 1:
+            printf( "%s", "Enter a character: " );
+            scanf( "\n%c", &item );
+            enqueue( &headPtr, &tailPtr, item );
+            printQueue( headPtr );
+            break;
+
+            // удалить значение из очереди
+        case 2:
+            // если очередь не пуста
+            if ( !isEmpty( headPtr ) ) {
+                item = dequeue( &headPtr, &tailPtr );
+                printf( "%c has been dequeued.\n", item );
+            }
+
+            printQueue( headPtr );
+            break;
+
+        default:
+            puts( "Invalid choice.\n" );
+            instructions();
+            break;
+        }
+
+        printf( "%s", "? " );
+        scanf( "%u", &choice );
+    }
+
+    puts( "End of run." );
+}
+
+
+
+ // выполнение программы начинается с функции main
+ int main( void )
+ {
+     menu();
+
+
+ }
+
+
