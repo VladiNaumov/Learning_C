@@ -10,12 +10,17 @@ typedef struct {
 
 // Функция для выделения памяти под массив указателей на объекты Person
 Person** allocatePersonsArray(size_t numPersons) {
+    // Выделение памяти под массив указателей на объекты Person
     Person **persons = malloc(numPersons * sizeof(Person*));
+    // Проверка, была ли успешной операция выделения памяти
     if (persons == NULL) {
+        // Вывод сообщения об ошибке в поток ошибок (stderr)
         fprintf(stderr, "Ошибка выделения памяти.\n");
     }
+    // Возврат указателя на выделенный массив указателей на объекты Person
     return persons;
 }
+
 
 // Функция для создания объекта Person
 Person* createPerson(const char *name, int age) {
