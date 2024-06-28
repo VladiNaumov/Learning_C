@@ -19,7 +19,7 @@
 - ch16 Stack
 - ch17 Stack (Dynamic, stack array, stack linked list)
 - ch18 Queue
-- 
+- ch19 создание массива объектов Person
 
 
 ### Compiling
