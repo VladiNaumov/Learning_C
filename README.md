@@ -21,8 +21,6 @@
 - ch18 Stack (Dynamic, stack array, stack linked list)
 - ch19 Queue
 
-
-
 ### Compiling
 
 - gcc app.c
