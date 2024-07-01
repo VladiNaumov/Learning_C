@@ -7,19 +7,20 @@
 - ch04 Struct + pointer
 - ch05 Structure as a "class"
 - ch06 создание массива объектов Person
-- ch07 Structure and "private attribute", заголовочный файл List.h как interface.
-- ch08 Отношение "композиция"
-- ch09 Отношение "aгрегация"
-- ch10 Наследование	"восходящее приведение"
-- ch11 Первый подход к наследованию (одиночного наследования) 
-- ch12 Второй подход к наследованию (множественного наследования)
-- ch13 Полиморфизм
-- ch14 Socket-programming (Project "Calculator")
-- ch15 Singly linked list
-- ch16 Doubly linked list
-- ch17 Stack
-- ch18 Stack (Dynamic, stack array, stack linked list)
-- ch19 Queue
+- ch07 struct into array
+- ch08 Structure and "private attribute", заголовочный файл List.h как interface.
+- ch09 Отношение "композиция"
+- ch10 Отношение "aгрегация"
+- ch11 Наследование	"восходящее приведение"
+- ch12 Первый подход к наследованию (одиночного наследования) 
+- ch13 Второй подход к наследованию (множественного наследования)
+- ch14 Полиморфизм
+- ch15 Socket-programming (Project "Calculator")
+- ch16 Singly linked list
+- ch17 Doubly linked list
+- ch18 Stack
+- ch19 Stack (Dynamic, stack array, stack linked list)
+- ch20 Queue
 
 
 

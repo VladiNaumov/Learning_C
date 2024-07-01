@@ -1,47 +1,33 @@
-// File name: ExtremeC_examples_chapter7_2_main.c
-// Description: The main scenario for the Player and Gun objects
+// File name: ExtremeC_examples_chapter7_1_main.c
+// Description: Main scenario using a car object
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "player.h"
-#include "gun.h"
+#include "car.h"
 
 int main(int argc, char** argv) {
-  // Create and constructor the gun object
-  struct gun_t* gun = gun_new();
-  gun_ctor(gun, 3);
 
-  // Create and construct the player object
-  struct player_t* player = player_new();
-  player_ctor(player, "Billy");
+  // Allocate memory for the car object
+  struct car_t *car = car_new();
 
-  // Begin the aggregation relation.
-  player_pickup_gun(player, gun);
+  // Construct the car object
+  car_ctor(car);
 
-  // Shoot until no bullet is left.
-  while (gun_has_bullets(gun)) {
-    player_shoot(player);
-  }
+  printf("Engine temperature before starting the car: %f\n",
+          car_get_engine_temperature(car));
+  car_start(car);
+  printf("Engine temperature after starting the car: %f\n",
+          car_get_engine_temperature(car));
+  car_stop(car);
+  printf("Engine temperature after stopping the car: %f\n",
+          car_get_engine_temperature(car));
 
-  // Refill the gun
-  gun_refill(gun);
+  // Destruct the car object
+  car_dtor(car);
 
-  // Shoot until no bullet is left.
-  while (gun_has_bullets(gun)) {
-    player_shoot(player);
-  }
-
-  // End the aggregation relation.
-  player_drop_gun(player);
-
-  // Destruct and free the player object
-  player_dtor(player);
-  free(player);
-
-  // Destruct and free the gun object
-  gun_dtor(gun);
-  free(gun);
+  // Free the memory allocated for the car object
+  free(car);
 
   return 0;
 }

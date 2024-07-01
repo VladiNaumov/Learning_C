@@ -1,84 +1,37 @@
-// Вставка узлов в список и удаление их из списка
+#include "node.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "node.h"
 
-void menu(){
-
-    ListNodePtr startPtr = NULL; // изначально список пуст
-    unsigned int choice;         // выбор пользователя
-    char item;                   // символ, введенный пользователем
-
-    instructions(); // вывести меню
-
-    printf( "%s", "? " );
-    scanf( "%u", &choice );
-
-    // выполнять цикл, пока пользователь не выберет пункт 3
-
-    while ( choice != 3 ) {
-        switch ( choice ) {
-
-        case 1:
-            printf( "%s", "Enter a character: " );
-            scanf( "\n%c", &item );
-            insert( &startPtr, item ); // вставить элемент в список
-            printList( startPtr );
-            break;
-
-        case 2: // удалить элемент
-
-            // если список не пуст
-            if ( !isEmpty( startPtr ) ) {
-                printf( "%s", "Enter character to be deleted: " );
-                scanf( "\n%c", &item );
-
-                // если символ найден, удалить его из списка
-                if ( delete( &startPtr, item ) ) { // удалить элемент
-                    printf( "%c deleted.\n", item );
-                    printList( startPtr );
-                }
-                else {
-                    printf( "%c not found.\n\n", item );
-                }
-            }
-            else {
-                puts( "List is empty.\n" );
-            }
-
-            break;
-        default:
-            puts( "Invalid choice.\n" );
-            instructions();
-            break;
-        }
-
-        printf( "%s", "? " );
-        scanf( "%u", &choice );
-    }
-
-    puts( "End of run." );
-}
-
-// выводит инструкцию по работе с программой
-void instructions( void )
+int main(void)
 {
-    // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
-    puts( "Enter your choice:\n"
-         "   1 to insert an element into the list.\n"
-         "   2 to delete an element from the list.\n"
-         "   3 to end." );
+
+    struct Node* head = NULL;
+    int arr[] = {1,2,3,4,5,6,7,8,9,10};
+    //Создаём список из массива
+    fromArray(&head, arr, 10);
+
+    printLinkedList(head);
+
+    //Вставляем узел со значением 333 после 4-го элемента (станет пятым)
+    insert(head, 4, 333);
+    printLinkedList(head);
+
+    pushBack(head, 11);
+    pushBack(head, 12);
+    pushBack(head, 13);
+    pushBack(head, 14);
+    printLinkedList(head);
+
+    printf("%d\n", pop(&head));
+    printf("%d\n", popBack(&head));
+
+    printLinkedList(head);
+    //Удаляем пятый элемент (индексация с нуля)
+    deleteNth(&head, 4);
+    printLinkedList(head);
+    deleteList(&head);
+
+   // getch(); ISO 99
 
 
 }
-
-int main( void )
-{
-    menu();
-
-}
-
-
-
-
-

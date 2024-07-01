@@ -1,8 +1,8 @@
-// File name: ExtremeC_examples_chapter8_3_student.h
+// File name: ExtremeC_examples_chapter8_2_student.h
 // Description: Public interface of the student class
 
-#ifndef EXTREME_C_EXAMPLES_CHAPTER_8_3_STUDENT_H
-#define EXTREME_C_EXAMPLES_CHAPTER_8_3_STUDENT_H
+#ifndef EXTREME_C_EXAMPLES_CHAPTER_8_2_STUDENT_H
+#define EXTREME_C_EXAMPLES_CHAPTER_8_2_STUDENT_H
 
 //Forward declaration
 struct student_t;
@@ -22,9 +22,6 @@ void student_ctor(struct student_t*,
 void student_dtor(struct student_t*);
 
 // Behavior functions
-void student_get_first_name(struct student_t*, char*);
-void student_get_last_name(struct student_t*, char*);
-unsigned int student_get_birth_year(struct student_t*);
 void student_get_student_number(struct student_t*, char*);
 unsigned int student_get_passed_credits(struct student_t*);
 
