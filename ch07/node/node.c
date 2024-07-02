@@ -2,8 +2,7 @@
 #include <stdlib.h>
 
 // Ссылка структуры на саму себя
-typedef struct
-{
+typedef struct{
     char* value;          // значение
     struct node* next;    // указатель на следующий узел
 
@@ -11,14 +10,12 @@ typedef struct
 
 
 // Allocates memory for a node object (выделяет память для объекта)
-node* node_malloc()
-{
+node* node_malloc(){
     return (node*)malloc(sizeof(node));
 }
 
 // Constructor of a node object
-void node_new(node* pointer, char* value)
-{
+void node_new(node* pointer, char* value){
     /* не поддерживается стандартом ISO C99 */
     // strcopy(node->value, name);
 
@@ -28,31 +25,26 @@ void node_new(node* pointer, char* value)
 }
 
 // Destructor of a node object
-void node_destroy(node* pointer)
-{
+void node_destroy(node* pointer){
     // Deallocates the allocated memory
     free(pointer->next);
     free(pointer->value);
 }
 
-void getAddress(node* pointer)
-{
+void getAddress(node* pointer){
 
     printf("address=%p \t name=%s \t address_next=%p \n", pointer, pointer->value, pointer->next);
 }
 
-void node_linc(node* pointer, void* p)
-{
+void node_linc(node* pointer, void* p){
     /* не поддерживается стандартом ISO C99 */
     // strcopy(node->next, (void*) p);
     pointer->next = (void*) p;
 }
 
-void iterator(node* pointer)
-{
+void iterator(node* pointer){
 
-    while(pointer != NULL)
-    {
+    while(pointer != NULL){
         printf("address=%p \t name=%s \t address_next=%p \n", pointer, pointer->value, pointer->next);
         pointer = pointer->next;     // переходим к следующему объекту
     }

@@ -1,7 +1,6 @@
 #include"node.h"
 
-int main(void)
-{
+int main(void){
 
     // создаём "hip" и помещаем структуру в её
     struct node* bob = node_malloc();

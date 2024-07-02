@@ -7,14 +7,16 @@
 - ch04 Struct + pointer
 - ch05 Structure as a "class"
 - ch06 создание массива объектов Person
-- ch07 struct into array
-- ch08 Structure and "private attribute", заголовочный файл List.h как interface.
+- ch07 Structure and "private attribute", заголовочный файл List.h как interface.
+- 
+- ch08 Several structures into one array (создание обобщений с помощью Enum, Union)
 - ch09 Отношение "композиция"
 - ch10 Отношение "aгрегация"
 - ch11 Наследование	"восходящее приведение"
 - ch12 Первый подход к наследованию (одиночного наследования) 
 - ch13 Второй подход к наследованию (множественного наследования)
 - ch14 Полиморфизм
+- 
 - ch15 Socket-programming (Project "Calculator")
 - ch16 Singly linked list
 - ch17 Doubly linked list
