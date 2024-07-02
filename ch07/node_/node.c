@@ -2,8 +2,7 @@
 #include <stdlib.h>
 
 // Ссылка структуры на саму себя
-typedef struct node
-{
+typedef struct node{
     char* value;          // значение
     struct node* next;    // указатель на следующий узел
 
@@ -34,16 +33,14 @@ void push(node** head, char* data) {
 
 
 // Destructor of a node object
-void node_destroy(node* pointer)
-{
+void node_destroy(node* pointer){
     // Deallocates the allocated memory
     free(pointer->next);
     free(pointer->value);
 }
 
 
-void iterator(node* pointer)
-{
+void iterator(node* pointer){
 
     while(pointer != NULL)
     {

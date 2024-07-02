@@ -8,13 +8,9 @@ struct node* head;
 // функция выделения памяти
 void push(struct node **head, char* data);
 
-
 // деструктор
 void node_destroy(struct node*);
 
-
 void iterator(struct node* pointer);
-
-
 
 #endif

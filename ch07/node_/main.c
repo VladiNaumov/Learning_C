@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(void)
-{
+int main(void){
     struct node* head = NULL;
 
     for (int var = 0; var < 1000; ++var) {
