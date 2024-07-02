@@ -11,19 +11,19 @@
 
 // Определяем три структуры
 typedef struct {
-    char name[50];
+    char *name;
     int age;
 } Person;
 
 typedef struct {
-    char title[100];
-    char author[50];
+    char *title;
+    char *author;
     int pages;
 } Book;
 
 typedef struct {
-    char brand[50];
-    char model[50];
+    char *brand;
+    char *model;
     int year;
 } Car;
 
