@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // Определяем три структуры
+
 typedef struct {
-    char name[50];
+    char* name;
     int age;
 } Person;
 
 typedef struct {
-    char title[100];
-    char author[50];
+    char* title;
+    char* author;
     int pages;
 } Book;
 
 typedef struct {
-    char brand[50];
-    char model[50];
+    char* brand;
+    char* model;
     int year;
 } Car;
 
@@ -34,68 +34,68 @@ typedef struct {
 } ArrayItem;
 
 int main() {
-    // Создаем массив ArrayItem для хранения объектов
+// Создаем массив ArrayItem для хранения объектов
     ArrayItem array[9];
 
     // Создаем и заполняем объекты Person
     Person *person1 = (Person *)malloc(sizeof(Person));
-    strcpy(person1->name, "Alice");
+    person1->name = "Alice";
     person1->age = 30;
     array[0].type = PERSON;
     array[0].data = person1;
 
     Person *person2 = (Person *)malloc(sizeof(Person));
-    strcpy(person2->name, "Bob");
+    person2->name= "Bob";
     person2->age = 25;
     array[1].type = PERSON;
     array[1].data = person2;
 
     Person *person3 = (Person *)malloc(sizeof(Person));
-    strcpy(person3->name, "Charlie");
+    person3->name ="Charlie";
     person3->age = 35;
     array[2].type = PERSON;
     array[2].data = person3;
 
     // Создаем и заполняем объекты Book
     Book *book1 = (Book *)malloc(sizeof(Book));
-    strcpy(book1->title, "1984");
-    strcpy(book1->author, "George Orwell");
+    book1->title = "1984";
+    book1->author = "George Orwell";
     book1->pages = 328;
     array[3].type = BOOK;
     array[3].data = book1;
 
     Book *book2 = (Book *)malloc(sizeof(Book));
-    strcpy(book2->title, "Brave New World");
-    strcpy(book2->author, "Aldous Huxley");
+    book2->title ="Brave New World";
+    book2->author= "Aldous Huxley";
     book2->pages = 288;
     array[4].type = BOOK;
     array[4].data = book2;
 
     Book *book3 = (Book *)malloc(sizeof(Book));
-    strcpy(book3->title, "Fahrenheit 451");
-    strcpy(book3->author, "Ray Bradbury");
+    book3->title= "Fahrenheit 451";
+    book3->author= "Ray Bradbury";
     book3->pages = 256;
     array[5].type = BOOK;
     array[5].data = book3;
 
     // Создаем и заполняем объекты Car
     Car *car1 = (Car *)malloc(sizeof(Car));
-    strcpy(car1->brand, "Toyota");
-    strcpy(car1->model, "Camry");
+    car1->brand= "Toyota";
+    car1->model= "Camry";
     car1->year = 2020;
     array[6].type = CAR;
     array[6].data = car1;
 
     Car *car2 = (Car *)malloc(sizeof(Car));
-    strcpy(car2->brand, "Honda");
-    strcpy(car2->model, "Civic");
+    car2->brand ="Honda";
+    car2->model ="Civic";
     car2->year = 2018;
     array[7].type = CAR;
     array[7].data = car2;
 
     Car *car3 = (Car *)malloc(sizeof(Car));
-    strcpy(car3->brand, "Ford");
-    strcpy(car3->model, "Mustang");
+    car3->brand ="Ford";
+    car3->model = "Mustang";
     car3->year = 2021;
     array[8].type = CAR;
     array[8].data = car3;
