@@ -49,8 +49,10 @@ typedef struct {
 } ArrayItem;
 
 int main() {
+
+    const int counter = 9;
     // Создаем массив ArrayItem для хранения объектов
-    ArrayItem array[9];
+    ArrayItem array[counter];
 
     // Заполняем массив объектами Person
     array[0].type = PERSON;
@@ -98,7 +100,7 @@ int main() {
     array[8].item.car.year = 2021;
 
     // Читаем и выводим содержимое массива
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < counter; i++) {
         if (array[i].type == PERSON) {
             printf("Person - Name: %s, Age: %d\n", array[i].item.person.name, array[i].item.person.age);
         } else if (array[i].type == BOOK) {

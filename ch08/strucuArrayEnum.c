@@ -34,8 +34,11 @@ typedef struct {
 } ArrayItem;
 
 int main() {
+
+    const int counter = 9;
+
 // Создаем массив ArrayItem для хранения объектов
-    ArrayItem array[9];
+    ArrayItem array[counter];
 
     // Создаем и заполняем объекты Person
     Person *person1 = (Person *)malloc(sizeof(Person));
@@ -101,7 +104,7 @@ int main() {
     array[8].data = car3;
 
     // Читаем и выводим содержимое массива
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < counter; i++) {
         if (array[i].type == PERSON) {
             Person *p = (Person *)array[i].data;
             printf("Person - Name: %s, Age: %d\n", p->name, p->age);

@@ -137,26 +137,28 @@ void free_item(ArrayItem *item) {
 }
 
 int main() {
-    // Создание массива элементов
-    ArrayItem items[4];
+        const int counter = 4;
 
-    // Добавление объектов в массив
-    items[0] = create_person("Alice", 30);
-    items[1] = create_person("Bob", 25);
-    items[2] = create_book("1984", "George Orwell", 328);
-    items[3] = create_car("Toyota", "Camry", 2020);
+        // Создание массива элементов
+        ArrayItem items[counter];
 
-    // Печать всех элементов массива
-    for (int i = 0; i < 4; i++) {
-        print_item(&items[i]);
-    }
+        // Добавление объектов в массив
+        items[0] = create_person("Alice", 30);
+        items[1] = create_person("Bob", 25);
+        items[2] = create_book("1984", "George Orwell", 328);
+        items[3] = create_car("Toyota", "Camry", 2020);
 
-    // Освобождение памяти всех элементов массива
-    for (int i = 0; i < 4; i++) {
-        free_item(&items[i]);
-    }
+        // Печать всех элементов массива
+        for (int i = 0; i < counter; i++) {
+            print_item(&items[i]);
+        }
 
-    return 0;
+        // Освобождение памяти всех элементов массива
+        for (int i = 0; i < counter; i++) {
+            free_item(&items[i]);
+        }
+
+        return 0;
 }
 
 /*

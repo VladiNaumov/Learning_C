@@ -85,8 +85,10 @@ void free_item(ArrayItem *item) {
 }
 
 int main() {
+
+    const int counter = 9;
     // Создаем массив ArrayItem для хранения указателей на объекты
-    ArrayItem array[9];
+    ArrayItem array[counter];
 
     // Инициализируем массив
     array[0].type = PERSON;
@@ -117,7 +119,7 @@ int main() {
     array[8].data = create_car("Ford", "Mustang", 2021);
 
     // Читаем и выводим содержимое массива
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < counter; i++) {
         if (array[i].data == NULL) {
             fprintf(stderr, "Error: Failed to allocate memory for item %d\n", i);
             continue;
@@ -126,7 +128,7 @@ int main() {
     }
 
     // Освобождаем память, выделенную под каждый объект
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < counter; i++) {
         free_item(&array[i]);
     }
 
