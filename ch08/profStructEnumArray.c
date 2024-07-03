@@ -87,8 +87,14 @@ void free_item(ArrayItem *item) {
 int main() {
 
     const int counter = 9;
-    // Создаем массив ArrayItem для хранения указателей на объекты
-    ArrayItem array[counter];
+
+        // Динамическое выделение памяти для массива ArrayItem
+        ArrayItem *array = (ArrayItem*)malloc(counter * sizeof(ArrayItem));
+        if (array == NULL) {
+            fprintf(stderr, "Error: Failed to allocate memory for array\n");
+            return 1;
+        }
+
 
     // Инициализируем массив
     array[0].type = PERSON;

@@ -43,41 +43,55 @@ typedef struct {
     ItemData data;
 } ArrayItem;
 
-
 // Функция для создания объекта Person
-ArrayItem create_person(char* name, int age) {
-    ArrayItem item;
-    item.type = PERSON;
-    item.data.person = (Person*)malloc(sizeof(Person));
-    if (item.data.person != NULL) {
-        item.data.person->name = name;
-        item.data.person->age = age;
+ArrayItem* create_person(char* name, int age) {
+    ArrayItem* item = (ArrayItem*)malloc(sizeof(ArrayItem));
+    if (item != NULL) {
+        item->type = PERSON;
+        item->data.person = (Person*)malloc(sizeof(Person));
+        if (item->data.person != NULL) {
+            item->data.person->name = name;
+            item->data.person->age = age;
+        } else {
+            free(item);
+            item = NULL;
+        }
     }
     return item;
 }
 
 // Функция для создания объекта Book
-ArrayItem create_book(char* title, char* author, int pages) {
-    ArrayItem item;
-    item.type = BOOK;
-    item.data.book = (Book*)malloc(sizeof(Book));
-    if (item.data.book != NULL) {
-        item.data.book->title = title;
-        item.data.book->author = author;
-        item.data.book->pages = pages;
+ArrayItem* create_book(char* title, char* author, int pages) {
+    ArrayItem* item = (ArrayItem*)malloc(sizeof(ArrayItem));
+    if (item != NULL) {
+        item->type = BOOK;
+        item->data.book = (Book*)malloc(sizeof(Book));
+        if (item->data.book != NULL) {
+            item->data.book->title = title;
+            item->data.book->author = author;
+            item->data.book->pages = pages;
+        } else {
+            free(item);
+            item = NULL;
+        }
     }
     return item;
 }
 
 // Функция для создания объекта Car
-ArrayItem create_car( char* brand,  char* model, int year) {
-    ArrayItem item;
-    item.type = CAR;
-    item.data.car = (Car*)malloc(sizeof(Car));
-    if (item.data.car != NULL) {
-        item.data.car->brand = brand;
-        item.data.car->model = model;
-        item.data.car->year = year;
+ArrayItem* create_car(char* brand, char* model, int year) {
+    ArrayItem* item = (ArrayItem*)malloc(sizeof(ArrayItem));
+    if (item != NULL) {
+        item->type = CAR;
+        item->data.car = (Car*)malloc(sizeof(Car));
+        if (item->data.car != NULL) {
+            item->data.car->brand = brand;
+            item->data.car->model = model;
+            item->data.car->year = year;
+        } else {
+            free(item);
+            item = NULL;
+        }
     }
     return item;
 }
@@ -101,21 +115,16 @@ void print_item(const ArrayItem *item) {
 
 // Функция для освобождения памяти объекта Person
 void free_person(Person *person) {
-    free(person->name);
     free(person);
 }
 
 // Функция для освобождения памяти объекта Book
 void free_book(Book *book) {
-    free(book->title);
-    free(book->author);
     free(book);
 }
 
 // Функция для освобождения памяти объекта Car
 void free_car(Car *car) {
-    free(car->brand);
-    free(car->model);
     free(car);
 }
 
@@ -134,49 +143,50 @@ void free_item(ArrayItem *item) {
     default:
         printf("Unknown type\n");
     }
+    free(item);
 }
 
 int main() {
-        const int counter = 4;
+    const int counter = 4;
 
-        // Создание массива элементов
-        ArrayItem items[counter];
+    // Создание массива указателей на элементы
+    ArrayItem* items[counter];
 
-        // Добавление объектов в массив
-        items[0] = create_person("Alice", 30);
-        items[1] = create_person("Bob", 25);
-        items[2] = create_book("1984", "George Orwell", 328);
-        items[3] = create_car("Toyota", "Camry", 2020);
+    // Добавление объектов в массив
+    items[0] = create_person("Alice", 30);
+    items[1] = create_person("Bob", 25);
+    items[2] = create_book("1984", "George Orwell", 328);
+    items[3] = create_car("Toyota", "Camry", 2020);
 
-        // Печать всех элементов массива
-        for (int i = 0; i < counter; i++) {
-            print_item(&items[i]);
+    // Печать всех элементов массива
+    for (int i = 0; i < counter; i++) {
+        if (items[i] != NULL) {
+            print_item(items[i]);
         }
+    }
 
-        // Освобождение памяти всех элементов массива
-        for (int i = 0; i < counter; i++) {
-            free_item(&items[i]);
+    // Освобождение памяти всех элементов массива
+    for (int i = 0; i < counter; i++) {
+        if (items[i] != NULL) {
+            free_item(items[i]);
         }
+    }
 
-        return 0;
+    return 0;
 }
 
 /*
-Пояснение кода
-Динамическое выделение памяти для объектов:
 
-В функциях create_person, create_book, и create_car выделяется память для объектов Person, Book, и Car соответственно.
-Создание строки с копированием:
+Пояснения
+Создание элементов на куче:
 
-Функция create_string выделяет необходимую память и копирует строку.
-Функции для создания объектов:
+В функциях create_person, create_book и create_car выделяется память для каждого элемента типа ArrayItem на куче с помощью malloc.
+Если выделение памяти для ArrayItem или для конкретной структуры (например, Person, Book, Car) не удалось, выделенная память освобождается.
 
-В каждой функции создания объектов выделяется память для строк с помощью create_string.
-Функция для печати элемента массива:
+Массив указателей на элементы:
+В main создается массив указателей ArrayItem* items[counter], каждый из которых указывает на динамически выделенный элемент.
+Освобождение памяти:
 
-print_item печатает данные в зависимости от типа объекта.
-Функции для освобождения памяти:
-
-free_person, free_book, free_car: функции для освобождения памяти, выделенной под строки и самих объектов.
-free_item: функция для вызова соответствующей функции освобождения памяти в зависимости от типа объекта.
+В конце программы, перед завершением, освобождается память для каждого динамически выделенного элемента с помощью функции free_item.
+Этот подход позволяет избежать проблем, связанных с ограничениями стека, и обеспечивает более гибкое управление памятью.
 */
