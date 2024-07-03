@@ -2,23 +2,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
 
 // Определение структур
 typedef struct {
-    char name[50];
+    char *name;
     int age;
 } Person;
 
 typedef struct {
-    char title[100];
-    char author[50];
+    char *title;
+    char *author;
     int pages;
 } Book;
 
 typedef struct {
-    char brand[50];
-    char model[50];
+    char *brand;
+    char *model;
     int year;
 } Car;
 
@@ -36,35 +36,30 @@ typedef struct {
 } ArrayItem;
 
 // Функции для создания объектов
-Person* create_person(const char* name, int age) {
+Person* create_person( char* name, int age) {
     Person *p = (Person*)malloc(sizeof(Person));
     if (p != NULL) {
-        strncpy(p->name, name, sizeof(p->name) - 1);
-        p->name[sizeof(p->name) - 1] = '\0';
+        p->name = name;
         p->age = age;
     }
     return p;
 }
 
-Book* create_book(const char* title, const char* author, int pages) {
+Book* create_book (char* title, char* author, int pages) {
     Book *b = (Book*)malloc(sizeof(Book));
     if (b != NULL) {
-        strncpy(b->title, title, sizeof(b->title) - 1);
-        b->title[sizeof(b->title) - 1] = '\0';
-        strncpy(b->author, author, sizeof(b->author) - 1);
-        b->author[sizeof(b->author) - 1] = '\0';
+        b->title = title;
+        b->author = author;
         b->pages = pages;
     }
     return b;
 }
 
-Car* create_car(const char* brand, const char* model, int year) {
+Car* create_car(char* brand, char* model, int year) {
     Car *c = (Car*)malloc(sizeof(Car));
     if (c != NULL) {
-        strncpy(c->brand, brand, sizeof(c->brand) - 1);
-        c->brand[sizeof(c->brand) - 1] = '\0';
-        strncpy(c->model, model, sizeof(c->model) - 1);
-        c->model[sizeof(c->model) - 1] = '\0';
+        c->brand = brand;
+        c->model = model;
         c->year = year;
     }
     return c;
