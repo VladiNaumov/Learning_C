@@ -37,7 +37,7 @@ int main() {
 
     const int counter = 9;
 
-// Создаем массив ArrayItem для хранения объектов
+// Создаем массив ArrayItem (в стеке) для хранения объектов
     ArrayItem array[counter];
 
     // Создаем и заполняем объекты Person
