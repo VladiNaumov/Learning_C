@@ -9,6 +9,14 @@
 
 #include "common_client_core.h"
 
+/* Этот код реализует клиент для UDP-сервера калькулятора.
+Клиент отправляет запросы, получает ответы и обрабатывает их в отдельном потоке. Вот подробный разбор кода. */
+
+/* Поток чтения ответов от сервера */
+
+/* Эта функция выполняется в отдельном потоке и непрерывно читает данные из сокета.
+Она использует recvfrom для получения данных и десериализует их с помощью calc_proto_ser_client_deserialize.
+Если возникает ошибка при чтении, функция выводит сообщение об ошибке и завершает работу. */
 void* datagram_response_reader(void* obj) {
   struct context_t* context = (struct context_t*)obj;
   char buf[64];
@@ -28,7 +36,10 @@ void* datagram_response_reader(void* obj) {
   return NULL;
 }
 
+/* Основной цикл клиента */
 void datagram_client_loop(int conn_sd) {
+
+/* Инициализация контекста и сериализатора */
   struct context_t context;
 
   context.sd = conn_sd;
@@ -37,11 +48,14 @@ void datagram_client_loop(int conn_sd) {
   calc_proto_ser_set_resp_callback(context.ser, on_response);
   calc_proto_ser_set_error_callback(context.ser, on_error);
 
+/* Создание потока для чтения ответов */
   pthread_t reader_thread;
   pthread_create(&reader_thread, NULL, datagram_response_reader, &context);
 
   char buffer[128];
   printf("? (type quit to exit) ");
+
+  /* Основной цикл обработки ввода пользователя */
   while (1) {
     scanf("%s", buffer);
     int brk = 0, cnt = 0;
@@ -67,9 +81,14 @@ void datagram_client_loop(int conn_sd) {
     }
     printf("The req(%d) is sent.\n", req.id);
   }
+
+  /* Завершение работы */
   shutdown(conn_sd, SHUT_RD);
   pthread_join(reader_thread, NULL);
   calc_proto_ser_dtor(context.ser);
   calc_proto_ser_delete(context.ser);
   printf("Bye.\n");
 }
+
+/* Этот код создает клиент для UDP-сервера, который обрабатывает арифметические операции.
+Клиент отправляет запросы, получает и обрабатывает ответы в отдельном потоке, обеспечивая асинхронную обработку данных. */
