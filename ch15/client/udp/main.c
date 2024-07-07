@@ -11,7 +11,7 @@
 
 int main(int argc, char** argv) {
 
-  // ----------- 1. Create socket object ------------------
+  // ----------- 1. Create socket object ( Создание сокета )------------------
 
   int conn_sd = socket(AF_INET, SOCK_DGRAM, 0);
   if (conn_sd == -1) {
@@ -20,9 +20,9 @@ int main(int argc, char** argv) {
     exit(1);
   }
 
-  // ------------ 2. Connect to server-- ------------------
+  // ------------ 2. Connect to server  -- ------------------
 
-  // Find the IP address behind the hostname
+  // Find the IP address behind the hostname( Получение IP-адреса хоста )
   char host[] = "localhost";
   struct hostent* host_entry;
   host_entry = gethostbyname(host);
@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     exit(1);
   }
 
-  // Prepare the address
+  // Prepare the address (  Установка соединения с сервером )
   struct sockaddr_in addr;
   memset(&addr, 0, sizeof(addr));
   addr.sin_family = AF_INET;
@@ -50,3 +50,4 @@ int main(int argc, char** argv) {
 
   return 0;
 }
+/* Приведенная программа представляет собой клиентскую часть, которая устанавливает UDP-соединение с сервером и запускает функцию datagram_client_loop для взаимодействия с сервером посредством этого соединения. */

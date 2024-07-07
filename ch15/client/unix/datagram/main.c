@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
   char server_sock_file[] = "/tmp/calc_svc.sock";
   char client_sock_file[] = "/tmp/calc_cli.sock";
 
-  // ----------- 1. Create socket object ------------------
+  // ----------- 1. Create socket object (Создание сокета) ------------------
 
   int conn_sd = socket(AF_UNIX, SOCK_DGRAM, 0);
   if (conn_sd == -1) {
@@ -22,9 +22,9 @@ int main(int argc, char** argv) {
     exit(1);
   }
 
-  // ----------- 2. Bind the client socket file ------------
+  // ----------- 2. Bind the client socket file ( Привязка клиентского сокета к файлу сокета )------------
 
-  // Delete the previously created socket file if it exists.
+  // Delete the previously created socket file if it exists (Удаление файла сокета, если он уже существует) .
   unlink(client_sock_file);
 
   // Prepare the client address
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     exit(1);
   }
 
-  // ----------- 3. Connect to server --------------------
+  // ----------- 3. Connect to server ( Установка соединения с сервером ) --------------------
 
   // Prepare the server address
   memset(&addr, 0, sizeof(addr));
@@ -63,3 +63,5 @@ int main(int argc, char** argv) {
 
   return 0;
 }
+
+/* Приведенная программа представляет собой клиентскую часть, которая устанавливает соединение с сервером через доменные сокеты UNIX и запускает функцию datagram_client_loop для взаимодействия с сервером посредством этого соединения. */
