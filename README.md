@@ -17,7 +17,9 @@
 - ch13 Второй подход к наследованию (множественного наследования)
 - ch14 Полиморфизм
 - 
-- ch15 Socket-programming (Project "Calculator")
+- ch15.1 Socket-programming "Calculator"
+- ch15.2 Socket-programming (Project "Calculator + unit test")
+
 - ch16 Singly linked list
 - ch17 Doubly linked list
 - ch18 Stack
