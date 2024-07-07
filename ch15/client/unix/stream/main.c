@@ -12,7 +12,7 @@
 int main(int argc, char** argv) {
   char sock_file[] = "/tmp/calc_svc.sock";
 
-  // ----------- 1. Create socket object ------------------
+  // ----------- 1. Create socket object (Создание сокета) ------------------
 
   int conn_sd = socket(AF_UNIX, SOCK_STREAM, 0);
   if (conn_sd == -1) {
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     exit(1);
   }
 
-  // ----------- 2. Connect to server ---------------------
+  // ----------- 2. Connect to server (Установка соединения с сервером) ---------------------
 
   // Prepare the address
   struct sockaddr_un addr;
@@ -41,3 +41,5 @@ int main(int argc, char** argv) {
 
   return 0;
 }
+
+/* Приведенная программа представляет собой клиентскую часть, которая устанавливает соединение с сервером через доменные сокеты UNIX и запускает функцию stream_client_loop для взаимодействия с сервером посредством потокового соединения  */
