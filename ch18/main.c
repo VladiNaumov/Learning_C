@@ -1,62 +1,76 @@
- // Реализация простого стека
+#include <stdio.h>
+#include "stack.h"
 
- #include <stdio.h>
- #include <stdlib.h>
- #include "stack.h"
+// Выводит инструкции по использованию программы
+void instructions(void) {
+    puts("Enter choice:\n"
+         "1 to push a value onto the stack\n"
+         "2 to pop a value off the stack\n"
+         "3 to end the program");
+}
 
- // выводит инструкцию по использованию программы
- void instructions( void )
- {
-   // puts / fputs() – вывод одной строки в стандартный поток вывода (на консоль).
-     puts( "Enter choice:\n"
-          "1 to push a value on the stack\n"
-          "2 to pop a value off the stack\n"
-          "3 to end program" );
- }
+// Обрабатывает выбор пользователя
+void handleChoice(unsigned int choice, StackNodePtr *stackPtr) {
+    int value;
 
- void menu(){
-     StackNodePtr stackPtr = NULL; // указатель на вершину стека
-     unsigned int choice;          // пункт меню, выбранный пользователем
-     int value;                    // целое число, введенное пользователем
+    switch (choice) {
+        case 1:
+            printf("Enter an integer: ");
+            if (scanf("%d", &value) != 1) {
+                fprintf(stderr, "Error: Invalid input. Please enter a valid integer.\n");
+                while (getchar() != '\n'); // Очистка ввода
+                break;
+            }
+            push(stackPtr, value);
+            printStack(*stackPtr);
+            break;
 
-     instructions(); // вывести меню
+        case 2:
+            if (!isEmpty(*stackPtr)) {
+                printf("The popped value is %d.\n", pop(stackPtr));
+            } else {
+                puts("The stack is empty. Nothing to pop.");
+            }
+            printStack(*stackPtr);
+            break;
 
-     printf( "%s", "? " );
-     scanf( "%u", &choice );
+        case 3:
+            puts("End of program.");
+            break;
 
-     // пока пользователь не выберет пункт меню 3
-     while ( choice != 3 ) {
+        default:
+            puts("Invalid choice. Please enter 1, 2, or 3.");
+            instructions();
+            break;
+    }
+}
 
-         switch ( choice ) {
-         // втолкнуть значение в стек
-         case 1:
-             printf( "%s", "Enter an integer: " );
-             scanf( "%d", &value );
-             push( &stackPtr, value );
-             printStack( stackPtr );
-             break;
-         // вытолкнуть значение со стека
-         case 2:
-             // если стек не пуст
-             if ( !isEmpty( stackPtr ) ) {
-                 printf( "The popped value is %d.\n", pop( &stackPtr ) );
-             }
-             printStack( stackPtr );
-             break;
-         default:
-             puts( "Invalid choice.\n" );
-             instructions();
-             break;
-         }
+// Основное меню программы
+void menu(void) {
+    StackNodePtr stackPtr = NULL;
+    unsigned int choice;
 
-         printf( "%s", "? " );
-         scanf( "%u", &choice );
-     }
+    instructions();
 
-     puts( "End of run." );
- }
+    while (1) {
+        printf("? ");
+        if (scanf("%u", &choice) != 1) {
+            fprintf(stderr, "Error: Invalid input. Please enter a valid choice.\n");
+            while (getchar() != '\n'); // Очистка ввода
+            continue;
+        }
 
- // выполнение программы начинается с функции main
- int main( void ){
-     menu();
- }
+        if (choice == 3) {
+            handleChoice(choice, &stackPtr);
+            break;
+        }
+
+        handleChoice(choice, &stackPtr);
+    }
+}
+
+// Точка входа в программу
+int main(void) {
+    menu();
+    return 0;
+}
