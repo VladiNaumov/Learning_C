@@ -2,67 +2,51 @@
 #include <stdlib.h>
 #include "stack.h"
 
+// Вставляет новый узел со значением `info` на вершину стека
+void push(StackNodePtr *topPtr, int info) {
+    StackNodePtr newPtr = malloc(sizeof(StackNode));
 
-// Структура, ссылающаяся на саму себя
-typedef struct stackNode {
-    int data;                  // определить данные с типом int
-    struct stackNode *nextPtr; // указатель на структуру stackNode
-}StackNode;
-
-typedef StackNode *StackNodePtr;    // синоним для StackNode*
-
-// вставляет узел на вершину стека
-void push( StackNodePtr *topPtr, int info )
-{
-    StackNodePtr newPtr; // указатель на новый узел
-
-    newPtr = malloc( sizeof( StackNode ) );
-
-    // вставить узел на вершину стека
-    if ( newPtr != NULL ) {
-        newPtr->data = info;
-        newPtr->nextPtr = *topPtr;
-        *topPtr = newPtr;
+    if (newPtr == NULL) {
+        fprintf(stderr, "Error: Memory allocation failed while pushing %d onto the stack.\n", info);
+        return;
     }
-    else {
-        printf( "%d not inserted. No memory available.\n", info );
-    }
+
+    newPtr->data = info;
+    newPtr->nextPtr = *topPtr;
+    *topPtr = newPtr;
 }
 
-// удаляет узел с вершины стека
-int pop( StackNodePtr *topPtr )
-{
-    StackNodePtr tempPtr; // временный указатель на узел
-    int popValue;         // значение узла
+// Удаляет узел с вершины стека и возвращает его значение
+int pop(StackNodePtr *topPtr) {
+    if (isEmpty(*topPtr)) {
+        fprintf(stderr, "Error: Stack underflow. Attempt to pop from an empty stack.\n");
+        exit(EXIT_FAILURE);
+    }
 
-    tempPtr = *topPtr;
-    popValue = ( *topPtr )->data;
-    *topPtr = ( *topPtr )->nextPtr;
-    free( tempPtr );
+    StackNodePtr tempPtr = *topPtr;
+    int popValue = tempPtr->data;
+    *topPtr = tempPtr->nextPtr;
+    free(tempPtr);
+
     return popValue;
 }
 
-// выводит содержимое стека
-void printStack( StackNodePtr currentPtr )
-{
-    // если стек пуст
-    if ( currentPtr == NULL ) {
-        puts( "The stack is empty.\n" );
+// Выводит содержимое стека
+void printStack(StackNodePtr currentPtr) {
+    if (currentPtr == NULL) {
+        puts("The stack is empty.");
+        return;
     }
-    else {
-        puts( "The stack is:" );
 
-        // пока не достигнут конец стека
-        while ( currentPtr != NULL ) {
-            printf( "%d --> ", currentPtr->data );
-            currentPtr = currentPtr->nextPtr;
-        }
-        puts( "NULL\n" );
+    puts("The stack is:");
+    while (currentPtr != NULL) {
+        printf("%d -> ", currentPtr->data);
+        currentPtr = currentPtr->nextPtr;
     }
+    puts("NULL");
 }
-// возвращает 1, если стек пуст, 0 - в противном случае
-int isEmpty( StackNodePtr topPtr )
-{
+
+// Проверяет, пуст ли стек
+int isEmpty(StackNodePtr topPtr) {
     return topPtr == NULL;
 }
-
