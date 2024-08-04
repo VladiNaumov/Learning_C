@@ -1,0 +1,15 @@
+Комментарии к использованию именованных каналов (Named Pipes):
+sender.c:
+CreateFile("\\\\.\\pipe\\NumbersPipe", ...) - Создание именованного канала для чисел.
+WriteFile(hPipe, numbers, sizeof(numbers), &dwWritten, NULL) - Запись чисел в канал.
+
+operator.c:
+CreateFile("\\\\.\\pipe\\OperatorPipe", ...) - Создание именованного канала для операции.
+WriteFile(hPipe, &operation, sizeof(operation), &dwWritten, NULL) - Запись операции в канал.
+
+
+executor.c:
+CreateNamedPipe("\\\\.\\pipe\\NumbersPipe", ...) и CreateNamedPipe("\\\\.\\pipe\\OperatorPipe", ...) - Создание именованных каналов для чисел и операции.
+ConnectNamedPipe(hPipeNumbers, NULL) и ConnectNamedPipe(hPipeOperation, NULL) - Ожидание подключения к каналам.
+ReadFile(hPipeNumbers, numbers, sizeof(numbers), &dwRead, NULL) и ReadFile(hPipeOperation, &operation, sizeof(operation), &dwRead, NULL) - Чтение данных из каналов.
+CloseHandle(hPipeNumbers) и CloseHandle(hPipeOperation) - Закрытие дескрипторов каналов после использования.
