@@ -17,7 +17,7 @@
 - ch13 Второй подход к наследованию (множественного наследования)
 - ch14 Полиморфизм
 - 
-- ch15.1 Socket-programming "Calculator"
+- ch15.1 Socket-programming "Calculator" 
 - ch15.2 Socket-programming (Project "Calculator + unit test")
 
 - ch16 Singly linked list
@@ -29,6 +29,7 @@
 - ch21 String vai number
 - ch22 Named Pipes, Shared Memory
 - ch23 Menu
+- ch24 Macros (Макрос — это фрагмент кода, которому дано имя)
 
 ### Compiling
 
