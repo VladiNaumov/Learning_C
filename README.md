@@ -30,6 +30,7 @@
 - ch22 Named Pipes, Shared Memory
 - ch23 Menu
 - ch24 Macros (Макрос — это фрагмент кода, которому дано имя)
+- ch25 Design patterns
 
 ### Compiling
 
