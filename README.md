@@ -9,8 +9,8 @@
   - ch05 Structure as a "class"
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute", заголовочный файл List.h как interface.
-
-- ch08 
+-
+- ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
   - ch02 Отношение "композиция"
   - ch03 Отношение "aгрегация"
@@ -18,16 +18,14 @@
   - ch05 Первый подход к наследованию (одиночного наследования) 
   - ch06 Второй подход к наследованию (множественного наследования)
   - ch07 Полиморфизм
-
-- ch15
+-
+- ch03
   - ch01 Socket-programming "Calculator" 
   - ch02 Socket-programming (Project "Calculator + unit test")
-
-- ch16 empty
-- ch17 Linked list
-- ch18 empty
-- ch19 Stack (Dynamic, stack array, stack linked list)
-- ch20 Queue
+-
+- ch04 Linked list
+- ch05 Stack (Dynamic, stack array, stack linked list)
+- ch06 Queue
 - 
 - ch21 String vai number
 - ch22 Named Pipes, Shared Memory
