@@ -31,6 +31,7 @@
 - ch23 Menu
 - ch24 Macros (Макрос — это фрагмент кода, которому дано имя)
 - ch25 Design patterns
+- ch26 question/answer
 
 ### Compiling
 
