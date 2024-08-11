@@ -23,9 +23,10 @@
   - ch01 Socket-programming "Calculator" 
   - ch02 Socket-programming (Project "Calculator + unit test")
 -
-- ch04 Linked list
-- ch05 Stack (Dynamic, stack array, stack linked list)
-- ch06 Queue
+- ch04 
+  - ch01 Linked list
+  - ch02 Stack (Dynamic, stack array, stack linked list)
+  - ch03 Queue
 - 
 - ch21 String vai number
 - ch22 Named Pipes, Shared Memory
