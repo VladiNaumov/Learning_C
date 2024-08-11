@@ -1,28 +1,31 @@
 
 ## Lerning in C
 
-- ch01 Bit operations
-- ch02 Pointers
-- ch03 Array + pointer, dynamic array
-- ch04 Struct + pointer
-- ch05 Structure as a "class"
-- ch06 создание массива объектов Person
-- ch07 Structure and "private attribute", заголовочный файл List.h как interface.
-- 
-- ch08 Several structures into one array (создание обобщений с помощью Enum, Union)
-- ch09 Отношение "композиция"
-- ch10 Отношение "aгрегация"
-- ch11 Наследование	"восходящее приведение"
-- ch12 Первый подход к наследованию (одиночного наследования) 
-- ch13 Второй подход к наследованию (множественного наследования)
-- ch14 Полиморфизм
-- 
-- ch15.1 Socket-programming "Calculator" 
-- ch15.2 Socket-programming (Project "Calculator + unit test")
+- ch01
+  - ch01 Bit operations
+  - ch02 Pointers
+  - ch03 Array + pointer, dynamic array
+  - ch04 Struct + pointer
+  - ch05 Structure as a "class"
+  - ch06 создание массива объектов Person
+  - ch07 Structure and "private attribute", заголовочный файл List.h как interface.
 
-- ch16 Singly linked list
-- ch17 Doubly linked list
-- ch18 Stack
+- ch08 
+  - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
+  - ch02 Отношение "композиция"
+  - ch03 Отношение "aгрегация"
+  - ch04 Наследование	"восходящее приведение"
+  - ch05 Первый подход к наследованию (одиночного наследования) 
+  - ch06 Второй подход к наследованию (множественного наследования)
+  - ch07 Полиморфизм
+
+- ch15
+  - ch01 Socket-programming "Calculator" 
+  - ch02 Socket-programming (Project "Calculator + unit test")
+
+- ch16 empty
+- ch17 Linked list
+- ch18 empty
 - ch19 Stack (Dynamic, stack array, stack linked list)
 - ch20 Queue
 - 
