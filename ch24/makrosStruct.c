@@ -1,25 +1,16 @@
 #include <stdio.h>
+#include <string.h>
 
-// Макрос для определения структуры и вспомогательных функций
-#define DEFINE_STRUCT_WITH_FUNCTIONS(name, ...) \
+#define DEFINE_STRUCT(name, ...) \
     typedef struct { \
         __VA_ARGS__ \
-    } name; \
-    \
-    void init_##name(name* obj, __VA_ARGS__) { \
-        __VA_ARGS__ \
-    } \
-    \
-    void print_##name(const name* obj) { \
-        /* Выводим значения полей структуры */ \
-        __VA_ARGS__ \
-    }
+    } name;
 
-// Определение структуры Person и функций с помощью макроса
-DEFINE_STRUCT_WITH_FUNCTIONS(Person,
-    char name[50];
-    int age;
-    float height;
+// Определение структуры Person с помощью макроса
+DEFINE_STRUCT(Person,
+              char name[50];
+                      int age;
+                      float height;
 )
 
 // Реализация функций для инициализации и печати структуры
@@ -36,15 +27,13 @@ void print_Person(const Person* obj) {
 }
 
 int main() {
-    // Создание и инициализация переменной структуры
     Person p1;
     init_Person(&p1, "John Doe", 30, 175.5);
-
-    // Печать данных структуры
     print_Person(&p1);
 
     return 0;
 }
+
 /*
 
 ъяснение кода

@@ -1,58 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
+#include <winsock2.h>
+
+#pragma comment(lib, "ws2_32.lib") // Подключение библиотеки Winsock
 
 #define PORT 12345
 
 int main() {
-    int server_fd, client_socket, valread;
+    WSADATA wsa;
+    SOCKET server_fd, client_socket;
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
     int num1, num2, result;
 
+    // Инициализация Winsock
+    if (WSAStartup(MAKEWORD(2,2), &wsa) != 0) {
+        printf("Failed. Error Code : %d\n", WSAGetLastError());
+        return 1;
+    }
+
     // Создаем сокет для сервера
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-        perror("socket failed");
-        exit(EXIT_FAILURE);
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+        printf("Socket failed with error: %d\n", WSAGetLastError());
+        WSACleanup();
+        return 1;
     }
 
     // Настраиваем сокет для повторного использования порта
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) == SOCKET_ERROR) {
+        printf("setsockopt failed with error: %d\n", WSAGetLastError());
+        closesocket(server_fd);
+        WSACleanup();
+        return 1;
     }
+
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
 
     // Привязываем сокет к адресу и порту
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR) {
+        printf("Bind failed with error: %d\n", WSAGetLastError());
+        closesocket(server_fd);
+        WSACleanup();
+        return 1;
     }
 
     // Начинаем слушать входящие соединения
-    if (listen(server_fd, 1) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
+    if (listen(server_fd, 1) == SOCKET_ERROR) {
+        printf("Listen failed with error: %d\n", WSAGetLastError());
+        closesocket(server_fd);
+        WSACleanup();
+        return 1;
     }
 
     printf("Server listening on port %d\n", PORT);
 
     while (1) {
         // Принимаем входящее соединение от клиента
-        if ((client_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
-            perror("accept");
-            exit(EXIT_FAILURE);
+        if ((client_socket = accept(server_fd, (struct sockaddr *)&address, &addrlen)) == INVALID_SOCKET) {
+            printf("Accept failed with error: %d\n", WSAGetLastError());
+            closesocket(server_fd);
+            WSACleanup();
+            return 1;
         }
 
         // Читаем данные от клиента
-        valread = read(client_socket, buffer, 1024);
+        int valread = recv(client_socket, buffer, 1024, 0);
 
         // Парсим данные (предполагаем, что клиент отправляет два числа через пробел)
         sscanf(buffer, "%d %d", &num1, &num2);
@@ -60,6 +77,7 @@ int main() {
         // Вычисляем сумму чисел
         result = num1 + num2;
 
+        // Выводим полученные числа и отправляем сумму клиенту
         printf("Received numbers: %d and %d\n", num1, num2);
         printf("Sending sum: %d\n", result);
 
@@ -67,11 +85,16 @@ int main() {
         send(client_socket, &result, sizeof(result), 0);
 
         // Закрываем соединение с клиентом
-        close(client_socket);
+        closesocket(client_socket);
     }
+
+    // Очистка Winsock
+    closesocket(server_fd);
+    WSACleanup();
 
     return 0;
 }
+
 
 /*
     Комментарии к серверной части:
