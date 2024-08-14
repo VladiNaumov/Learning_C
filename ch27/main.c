@@ -52,7 +52,7 @@ typedef struct {
     char *stateName;     // Название состояния (например, "CLOSED", "OPEN")
 } TurnstileState;
 
-// Функция перехода состояний
+// Функция перехода состояний  (функция тип TurnstileStat  return currentState)
 TurnstileState handle_event(TurnstileState currentState, EventType event) {
     switch (currentState.currentState) {
         case STATE_CLOSED:
