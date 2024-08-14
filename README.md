@@ -9,6 +9,7 @@
   - ch05 Structure as a "class"
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute", заголовочный файл List.h как interface.
+  - ch08 функции возвращающая значение структуры
 -
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
