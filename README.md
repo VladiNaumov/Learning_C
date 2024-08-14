@@ -34,6 +34,7 @@
 - ch24 Macros (Макрос — это фрагмент кода, которому дано имя)
 - ch25 Design patterns
 - ch26 question/answer
+- ch27 finite state machine
 
 ### Compiling
 
