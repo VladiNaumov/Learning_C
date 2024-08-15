@@ -10,6 +10,7 @@
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute", заголовочный файл List.h как interface.
   - ch08 функции возвращающая значение структуры
+  - ch09 пример указателя на функцию
 -
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
@@ -29,13 +30,14 @@
   - ch02 Stack (Dynamic, stack array, stack linked list)
   - ch03 Queue
 - 
-- ch21 String vai number
-- ch22 Named Pipes, Shared Memory
-- ch23 Menu
-- ch24 Macros (Макрос - это фрагмент кода, которому дано имя)
-- ch25 Design patterns
-- ch26 question/answer
-- ch27 finite state machines (Конечный автомат - Математическая абстракция)
+- ch05
+  - ch01 (ch21) String vai number
+  - ch02 (ch22)Named Pipes, Shared Memory
+  - ch03 (ch23) Menu
+  - ch04 (ch24)Macros (Макрос - это фрагмент кода, которому дано имя)
+  - ch05 (ch25)Design patterns
+  - ch06 (ch26)question/answer
+  - ch07 ch27)finite state machines (Конечный автомат - Математическая абстракция)
 
 ### Compiling
 
