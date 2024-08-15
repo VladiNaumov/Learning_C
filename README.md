@@ -31,13 +31,13 @@
   - ch03 Queue
 - 
 - ch05
-  - ch01 (ch21) String vai number
-  - ch02 (ch22)Named Pipes, Shared Memory
-  - ch03 (ch23) Menu
-  - ch04 (ch24)Macros (Макрос - это фрагмент кода, которому дано имя)
-  - ch05 (ch25)Design patterns
-  - ch06 (ch26)question/answer
-  - ch07 ch27)finite state machines (Конечный автомат - Математическая абстракция)
+  - ch01 String vai number
+  - ch02 Named Pipes, Shared Memory
+  - ch03 Menu
+  - ch04 Macros (Макрос - это фрагмент кода, которому дано имя)
+  - ch05 Design patterns
+  - ch06 question/answer
+  - ch07 finite state machines (Конечный автомат - Математическая абстракция)
 
 ### Compiling
 
