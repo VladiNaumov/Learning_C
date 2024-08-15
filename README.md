@@ -32,10 +32,10 @@
 - ch21 String vai number
 - ch22 Named Pipes, Shared Memory
 - ch23 Menu
-- ch24 Macros (Макрос — это фрагмент кода, которому дано имя)
+- ch24 Macros (Макрос - это фрагмент кода, которому дано имя)
 - ch25 Design patterns
 - ch26 question/answer
-- ch27 finite state machine
+- ch27 finite state machines (Конечный автомат - Математическая абстракция)
 
 ### Compiling
 
