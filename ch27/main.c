@@ -53,8 +53,9 @@ typedef struct {
 } TurnstileState;
 
 // Функция перехода состояний  (функция тип TurnstileStat  return currentState)
-TurnstileState handle_event(TurnstileState currentState, EventType event) {
-    switch (currentState.currentState) {
+TurnstileState handle_event(TurnstileState state, EventType event) {
+
+    switch (state.currentState) {
         case STATE_CLOSED:
             if (event == EVENT_INSERT_TOKEN) {
                 printf("The turnstile is open.\n");
@@ -62,7 +63,7 @@ TurnstileState handle_event(TurnstileState currentState, EventType event) {
                 return newState;
             } else if (event == EVENT_INVALID_TOKEN) {
                 printf("Invalid token/card. Turnstile remains closed.\n");
-                return currentState;
+                return state;
             }
             break;
         case STATE_OPEN:
@@ -73,10 +74,11 @@ TurnstileState handle_event(TurnstileState currentState, EventType event) {
             }
             break;
         default:
-            return currentState;
+            return state;
     }
-    return currentState;  // Если событие не распознано, остаёмся в том же состоянии
+    return state;  // Если событие не распознано, остаёмся в том же состоянии
 }
+
 
 int main() {
     // Начальное состояние турникета

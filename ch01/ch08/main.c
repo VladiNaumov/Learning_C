@@ -9,8 +9,7 @@ typedef struct {
 } Rectangle;
 
 // Функция для создания прямоугольника и вычисления его свойств
-Rectangle create_rectangle(float width, float height) {
-    Rectangle rect;                // Создаем переменную типа Rectangle
+Rectangle create_rectangle(Rectangle rect, float width, float height) {
     rect.width = width;            // Устанавливаем ширину
     rect.height = height;          // Устанавливаем высоту
     rect.area = width * height;    // Вычисляем площадь
@@ -28,8 +27,10 @@ void print_rectangle(Rectangle rect) {
 }
 
 int main() {
+
+     Rectangle rec;
     // Создание прямоугольника через функцию create_rectangle
-    Rectangle myRect = create_rectangle(5.0, 3.0);
+    Rectangle myRect = create_rectangle(rec, 5.0, 3.0);
 
     // Вывод свойств прямоугольника на экран
     print_rectangle(myRect);
