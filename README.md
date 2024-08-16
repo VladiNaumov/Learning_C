@@ -10,7 +10,7 @@
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute", заголовочный файл List.h как interface.
   - ch08 функции возвращающая значение структуры
-  - ch09 пример указателя на функцию
+  - ch09 function pointer (пример указателя на функцию) 
   - ch10 Difference between struct and union
   - ch11 Типы квалификаторов в языке C
 -

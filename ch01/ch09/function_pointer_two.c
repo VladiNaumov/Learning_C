@@ -37,15 +37,15 @@ int main() {
     result = operation(x, y);
     printf("Addition: %d + %d = %d\n", x, y, result);
 
-    operation = &subtract;
+    operation = &subtract; // Можно также написать просто operation = subtract;
     result = operation(x, y);
     printf("Subtraction: %d - %d = %d\n", x, y, result);
 
-    operation = &multiply;
+    operation = &multiply; // Можно также написать просто operation = multiply;
     result = operation(x, y);
     printf("Multiplication: %d * %d = %d\n", x, y, result);
 
-    operation = &divide;
+    operation = &divide; // Можно также написать просто operation = divide;
     result = operation(x, y);
     printf("Division: %d / %d = %d\n", x, y, result);
 
