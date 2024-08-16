@@ -11,7 +11,8 @@
   - ch07 Structure and "private attribute", заголовочный файл List.h как interface.
   - ch08 функции возвращающая значение структуры
   - ch09 пример указателя на функцию
-  - ch10 Diference between struct and union
+  - ch10 Difference between struct and union
+  - ch11 Типы квалификаторов в языке C
 -
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
