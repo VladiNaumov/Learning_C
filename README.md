@@ -80,14 +80,16 @@
 
 - gcc app.c
 - gcc app.c -o app.exe
+- gcc -c app.c (компиляция в машинный код "объектный файл")
+- gcc -E  app.c -o app.txt (Компиляция в единицу трансляции)
+- gcc -S -masm=intel app.c (Компиляция с созданием файла ассемблерного кода синтаксис -masm)
+- as -alhnd app.s > output.lst (Эта команда преобразует файл ассемблерного кода app.s в листинг программы output.lst)
+-
 - gcc -std=c99 -Wall -pedantic app.c -o app.exe
 - gcc -std=c11 -Wall -pedantic app.c -o app.exe
 - gcc -std=c17 -Wall -pedantic app.c -o app.exe
 - gcc -std=c23 -Wall -pedantic app.c -o app.exe
-- gcc -E app.c (Компиляция в единицу трансляции)
-- gcc -S -masm=intel app.c (Компиляция с созданием файла ассемблерного кода синтаксис -masm)
-- as -alhnd app.s > output.lst (Эта команда преобразует файл ассемблерного кода app.s в листинг программы output.lst)
-- gcc -c app.c (компиляция в машинный код "объектный файл")
+- 
 - gcc --version
 - gcc --help
 - gcc target-help
