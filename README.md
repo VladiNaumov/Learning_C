@@ -102,16 +102,22 @@
 - **4.Компоновка (Linking).**
   - Команда: `gcc app.o`.
   - Результат: Создается исполняемый файл (по умолчанию в Linux это файл с именем app.exe).
-  - 
-- **Весь процесс компиляции (по умолчанию).**
-- `gcc app.c`
-- `gcc app.c -o app.exe`
 -
+Расширенные команды GCC:
+Если вы хотите изменить поведение команды gcc, вы можете использовать различные опции:
+
+
+
+- **Расширенные команды GCC:**
+- `gcc app.c` - по умолчанию
+- `-o output_name` (пример`gcc app.c -o app.exe`) — указывает имя выходного исполняемого файла.
+- `-Wall` — включает вывод всех предупреждений компилятора.
+- `-g`— добавляет отладочную информацию в исполняемый файл.
+- `-O2`— включает оптимизацию кода.
 - `gcc -std=c99 -Wall -pedantic app.c -o app.exe`
 - `gcc -std=c11 -Wall -pedantic app.c -o app.exe`
 - `gcc -std=c17 -Wall -pedantic app.c -o app.exe`
 - `gcc -std=c23 -Wall -pedantic app.c -o app.exe`
-- 
 - `gcc --version`
 - `gcc --help`
 - `gcc target-help`
