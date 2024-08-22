@@ -1,8 +1,8 @@
 // File name: ExtremeC_examples_chapter8_2_person.h
 // Description: Public interface of the person class
 
-#ifndef EXTREME_C_EXAMPLES_CHAPTER_8_2_PERSON_H
-#define EXTREME_C_EXAMPLES_CHAPTER_8_2_PERSON_H
+#ifndef PERSON_H
+#define PERSON_H
 
 // Forward declaration
 struct person_t;

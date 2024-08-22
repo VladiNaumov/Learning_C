@@ -4,8 +4,8 @@
 //              As you see, the attribute structure does not
 //              disclose any of its members.
 
-#ifndef PUBLIC_INTERFACE_LIST_H
-#define PUBLIC_INTERFACE_LIST_H
+#ifndef LIST_H
+#define LIST_H
 
 #include <unistd.h>
 

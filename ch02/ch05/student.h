@@ -1,8 +1,8 @@
 // File name: ExtremeC_examples_chapter8_2_student.h
 // Description: Public interface of the student class
 
-#ifndef EXTREME_C_EXAMPLES_CHAPTER_8_2_STUDENT_H
-#define EXTREME_C_EXAMPLES_CHAPTER_8_2_STUDENT_H
+#ifndef STUDENT_H
+#define STUDENT_H
 
 //Forward declaration
 struct student_t;
