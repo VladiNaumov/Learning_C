@@ -30,7 +30,7 @@ int main() {
 
      Rectangle rec;
     // Создание прямоугольника через функцию create_rectangle
-    Rectangle myRect = create_rectangle(&rec, 5.0, 3.0);
+    Rectangle myRect = create_rectangle(&rec, 5.0f, 3.0)f;
 
     // Вывод свойств прямоугольника на экран
     print_rectangle(myRect);
@@ -40,7 +40,7 @@ int main() {
         Rectangle *rec = (Rectangle*) malloc(sizeof(Rectangle));  // Выделяем память для структуры
 
         // Создание прямоугольника через функцию create_rectangle
-        Rectangle myRect = create_rectangle(rec, 5.0, 3.0);
+        Rectangle myRect = create_rectangle(rec, 5.0f, 3.0f);
 
         // Вывод свойств прямоугольника на экран
         print_rectangle(myRect);

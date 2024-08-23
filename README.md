@@ -9,11 +9,12 @@
   - ch05 Structure as a "class"
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
-  - ch08 функции возвращающая значение структуры, и динамическое выделение памяти
-  - ch09 function pointer (пример указателя на функцию) 
-  - ch10 Функция, которая принимает другую функцию в качестве аргументов
-  - ch11 Difference between struct and union
-  - ch12 Типы квалификаторов в языке C
+  - ch08 functions in language C:
+    - функции возвращающая значение структуры, + динамическое выделение памяти
+    - function pointer (пример указателя на функцию) 
+    - Функция, которая принимает другую функцию в качестве аргументов
+  - ch09 Difference between struct and union 
+  - ch10 Основные квалификаторы типа в языке C. (const, volatile, static, и extern). 
 -
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
