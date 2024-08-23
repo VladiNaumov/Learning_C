@@ -9,7 +9,7 @@
   - ch05 Structure as a "class"
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
-  - ch08 функции возвращающая значение структуры
+  - ch08 функции возвращающая значение структуры, и динамическое выделение памяти
   - ch09 function pointer (пример указателя на функцию) 
   - ch10 Функция, которая принимает другую функцию в качестве аргументов
   - ch11 Difference between struct and union
