@@ -48,7 +48,7 @@ int array()
     const int ages[] = {30, 25, 28, 22};
     int size = sizeof(names) / sizeof(names[0]);
 
-    person arr[size];  // Массив структур
+    person arr[size];  // Массив структур Person
 
     initialize_people(arr, names, ages, size);  // Инициализация
     print_people(arr, size);  // Вывод

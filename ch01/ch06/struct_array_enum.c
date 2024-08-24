@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* пример использования конструкций  ENUM/ Struct */
+
+
 // Определение перечисления Profession
 typedef enum {
     ENGINEER,
@@ -9,6 +12,13 @@ typedef enum {
     TEACHER,
     NURSE
 } Profession;
+
+// Определение структуры Person
+typedef struct {
+    char *name;
+    int age;
+    Profession profession;
+} Person;
 
 // Функция для получения строкового представления профессии
 const char* get_profession_string(Profession profession) {
@@ -20,14 +30,6 @@ const char* get_profession_string(Profession profession) {
     default: return "Unknown";
     }
 }
-
-// Определение структуры Person
-typedef struct {
-    char *name;
-    int age;
-    Profession profession;
-} Person;
-
 
 // Функция для создания объекта Person
 Person* create_person(char* name, int age, Profession profession) {
