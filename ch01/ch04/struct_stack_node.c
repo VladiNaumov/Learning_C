@@ -1,53 +1,49 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // Ссылка структуры на саму себя
-typedef struct
+
+typedef struct node
 {
-    char* value;          // значение
-    struct node* next;    // указатель на следующий узел
+    char* value;           // значение
+    struct node* next;     // указатель на следующий узел
+} node;
 
-}node;
-
-void node_constructor(node* pointer, void* p, char* name)
+void node_constructor(node* pointer, node* next, char* name)
 {
-    /* не поддерживается стандартом ISO C99 */
-    // strcopy(node->value, name);
-    // strcopy(node->next, (void*) p);
-
     pointer->value = name;
-    pointer->next = (void*) p;
-
+    pointer->next = next;
 }
 
-void iterator(node* pointer){
-
-    while(pointer != NULL)
+void iterator(node* pointer)
+{
+    while (pointer != NULL)
     {
         printf("value = %s \n", pointer->value);
-        pointer = pointer->next;     // переходим к следующему объекту
+        pointer = pointer->next;  // переходим к следующему узлу
     }
-
 }
 
 int main(void)
 {
-    // создание экземпляра структуры
+    // создание экземпляров структуры
     node bob;
     node lisp;
     node kate;
     node tom;
 
+    // Инициализация узлов
     node_constructor(&bob, &lisp, "Bob");
     node_constructor(&lisp, &kate, "Lisp");
     node_constructor(&kate, &tom, "Kate");
-    node_constructor(&tom, 0, "Tim");
+    node_constructor(&tom, NULL, "Tom");  // Установка NULL для последнего узла
 
-    // устанавливаем указатель на первую структуру в цепочке
+    // Установка указателя на первый узел и итерация по списку
     iterator(&bob);
 
     return 0;
-
 }
+
 
 /*
 Здесь определяем три переменных структуры: kate, tom и bob. У объекта kate элемент next указывает на объект tom:

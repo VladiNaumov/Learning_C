@@ -5,7 +5,13 @@
   - ch01 Bit operations
   - ch02 Pointers
   - ch03 Array + pointer, dynamic array
-  - ch04 Struct + pointer
+  - ch04 Struct
+    - Struct Basic
+    - Array of structures
+    - Struct передача структуры в функцию по указателю
+    - Heap structure
+    - Node structure
+    - Node heap structure
   - ch05 Structure as a "class"
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
