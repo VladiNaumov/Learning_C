@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*  данный пример показывает как сделать массив указателей  на объекты Person */
+
 // Определение структуры Person с помощью typedef
 typedef struct {
     char name[50];

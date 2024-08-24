@@ -8,10 +8,11 @@
   - ch04 Struct
     - Struct Basic
     - Array of structures
+    - Array of pointers
     - Struct передача структуры в функцию по указателю
-    - Heap structure
+    - Heap/Stack structure
   - ch05 Structure as a "class"
-  - ch06 создание массива объектов Person
+  - ch06 Struct/Enum
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
   - ch08 functions in language C:
     - функции возвращающая значение структуры, + динамическое выделение памяти
@@ -53,7 +54,7 @@
   - ch02 Named Pipes, Shared Memory
   - ch03 Menu
   - ch04 Macros (Макрос - это фрагмент кода, которому дано имя)
-  - ch05 Design patterns
+  - ch05 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
   - ch06 question/answer
   - ch07 finite state machines (Конечный автомат - Математическая абстракция)
 
