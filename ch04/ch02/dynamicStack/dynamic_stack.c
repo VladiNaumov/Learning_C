@@ -8,9 +8,7 @@
 /* Динамически растущий стек на массиве */
 
 #define INIT_SIZE 10
-
 #define MULTIPLIER 2
-
 typedef int T;
 
 //Теперь сама структура

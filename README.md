@@ -10,8 +10,6 @@
     - Array of structures
     - Struct передача структуры в функцию по указателю
     - Heap structure
-    - Node structure
-    - Node heap structure
   - ch05 Structure as a "class"
   - ch06 создание массива объектов Person
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
@@ -48,6 +46,7 @@
   - ch02 Stack (Dynamic, stack array, stack linked list)
   - ch03 Queue
   - ch04 Ring buffer (or circular buffer) Кольцевой буфер (или циклический буфер)
+  - ch05 Node
 - 
 - ch05
   - ch01 String vai number
