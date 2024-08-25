@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Создание массива структур Person на heap */
+
 typedef struct person
 {
     char* name;  // Имя человека

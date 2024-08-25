@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Создание массива структур Person на heap */
+
 // Определение структуры Person через typedef
 typedef struct {
     char name[50];
