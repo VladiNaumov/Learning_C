@@ -1,16 +1,58 @@
 #include <stdio.h>
- 
+
+/*--------------------- basic Struct -----------------------*/
+
+
+#include <stdio.h>
+
+typedef struct{
+    char name;
+    int age;
+} person;
+
+void print_person(person user){
+    printf("Name: %s \n", user.name);
+    printf("Age: %d \n", user.age);
+}
+
+int main(void){
+    person tom = {.name = "Tom", .age=38 };
+    print_person(tom);
+    return 0;
+}
+
+/* ---------------------------------- */
+struct person{
+    char* name;
+    int age;
+};
+
+struct person create_person(char* name, int age){
+    struct person user;
+    user.name = name;
+    user.age = age;
+    return user;
+}
+
+int main(void){
+    struct person bob = {"Bob", 22};
+    printf("Name: %s \n", bob.name);
+    printf("Age: %d \n", bob.age);
+    return 0;
+}
+
+/* ---------------------------   */
+
 typedef struct {
     int age;
     int salary;
 }person;
 
-
 void demo(){
     printf("\n HELLO \n");
 }
 
- 
+
 int main(void){
     person tom = {0};
     tom.age = 22;
@@ -24,6 +66,7 @@ int main(void){
 
     return 0;
 }
+
 
 
 /*   ------------------------   */
@@ -58,34 +101,7 @@ int main(void){
 
 }
 
-/* ---------------------------------------------------- */
-
-#include <stdio.h>
- 
-struct person {
-    int age;
-    char *name[20];
-};
- 
-int main(void){
-    struct person kate = {31, "Kate"};
-    // указатель на переменную kate
-    struct person *p_kate = &kate;
-     
-    // получаем значение элемента name
-    char *name = p_kate->name;
-    // получаем значение элемента age
-    int age = (*p_kate).age;
-     
-    printf("name = %s \t age = %d \n", name, age);
-     
-    // изменим элемент age в структуре
-    p_kate->age = 32;
-    printf("name = %s \t age = %d \n", kate.name, kate.age);
-    return 0;
-}
-
-/* ---------------------------------------------------------- */
+/* ---------------массив struct People -------------------- */
 
 #include <stdio.h>
  
@@ -103,23 +119,4 @@ int main(void){
     return 0;
 }
 
-/*--------------------------------------------------------------------*/
 
-
-#include <stdio.h>
-
-typedef struct{
-    char name;
-    int age;
-} person;
-
-void print_person(person user){
-    printf("Name: %s \n", user.name);
-    printf("Age: %d \n", user.age);
-}
-
-int main(void){
-    person tom = {.name = "Tom", .age=38 };
-    print_person(tom);
-    return 0;
-}

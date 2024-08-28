@@ -11,6 +11,7 @@
     - Array of pointers
     - Struct передача структуры в функцию по указателю
     - Heap/Stack structure
+    - Modulus
   - ch05 Structure as a "class"
   - ch06 Struct/Enum
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
