@@ -58,7 +58,9 @@
   - ch05 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
   - ch06 question/answer
   - ch07 finite state machines (Конечный автомат - Математическая абстракция)
-
+  - 
+- Linux
+- Games
 
 ### Основные рекомендации по именованию файлов
 
