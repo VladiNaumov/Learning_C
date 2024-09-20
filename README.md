@@ -54,7 +54,7 @@
   - ch01 String vai number
   - ch02 Named Pipes, Shared Memory
   - ch03 Menu
-  - ch04 Macros (Макрос - это фрагмент кода, которому дано имя)
+  - ch04 Macros
   - ch05 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
   - ch06 question/answer
   - ch07 finite state machines (Конечный автомат - Математическая абстракция)
