@@ -20,7 +20,8 @@
     - function pointer (пример указателя на функцию) 
     - Функция, которая принимает другую функцию в качестве аргументов
   - ch09 Difference between struct and union 
-  - ch10 Основные квалификаторы типа в языке C. (const, volatile, static, и extern). 
+  - ch10 Основные квалификаторы типа в языке C. (const, volatile, static, и extern).
+  - ch11 Macros
 -
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
@@ -54,12 +55,11 @@
   - ch01 String vai number
   - ch02 Named Pipes, Shared Memory
   - ch03 Menu
-  - ch04 Macros
+  - ch04 
   - ch05 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
   - ch06 question/answer
   - ch07 finite state machines (Конечный автомат - Математическая абстракция)
-  - 
-- Linux
+  -
 - Games
 
 ### Основные рекомендации по именованию файлов
