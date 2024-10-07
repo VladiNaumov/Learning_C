@@ -39,9 +39,10 @@
   - ch01 Socket-programming "Calculator" 
   - ch02 Socket-programming (Project "Calculator + unit test")
   - ch03 HTTP API (winhttp.h), HTTP (curl/curl.h)
-  - ch04 JSON (cJSON.h) 
+  - ch04 JSON (cJSON.h)
+  - ch05 SQL
 -
-- ch04 
+- ch04 Data structures
   - ch01 Linked list
   - ch02 Stack (Dynamic, stack array, stack linked list)
   - ch03 Queue
@@ -52,10 +53,10 @@
   - ch01 String vai number
   - ch02 Named Pipes, Shared Memory
   - ch03 Menu
-  - ch04 SQL
-  - ch05 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
-  - ch06 question/answer
-  - ch07 finite state machines (Конечный автомат - Математическая абстракция)
+  - ch04 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
+  - ch05 question/answer
+  - ch06 finite state machines (Конечный автомат - Математическая абстракция)
+  - ch07 
   -
 - Games
 
