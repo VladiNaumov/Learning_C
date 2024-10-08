@@ -1,75 +1,70 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <winsock2.h>
 
-#pragma comment(lib, "ws2_32.lib") // Подключение библиотеки Winsock
-
-#define PORT 12345
+#pragma comment(lib, "ws2_32.lib")  // Подключаем библиотеку для работы с сокетами
 
 int main() {
     WSADATA wsa;
-    SOCKET sock;
-    struct sockaddr_in serv_addr;
-    int num1, num2;
-    int result;
-    char buffer[1024] = {0};
+    SOCKET client_socket;
+    struct sockaddr_in server;
+    char message[1024], server_reply[50];
+    int recv_size;
 
-    // Инициализация Winsock
-    if (WSAStartup(MAKEWORD(2,2), &wsa) != 0) {
-        printf("Failed. Error Code : %d\n", WSAGetLastError());
+    printf("Initializing Winsock...\n");
+    // Инициализируем Winsock
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+        printf("Failed. Error Code: %d\n", WSAGetLastError());
         return 1;
     }
 
     // Создаем сокет для клиента
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-        printf("Could not create socket : %d\n", WSAGetLastError());
+    if ((client_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+        printf("Could not create socket: %d\n", WSAGetLastError());
+        WSACleanup();
         return 1;
     }
 
-    // Настраиваем адрес и порт сервера
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
-    serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    // Указываем IP-адрес и порт сервера (localhost и порт 8888)
+    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+    server.sin_family = AF_INET;
+    server.sin_port = htons(8888);
 
     // Подключаемся к серверу
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("Connection Failed\n");
+    if (connect(client_socket, (struct sockaddr*)&server, sizeof(server)) < 0) {
+        printf("Connection failed\n");
+        closesocket(client_socket);
+        WSACleanup();
         return 1;
     }
 
-    // Вводим два числа с клавиатуры
-    printf("Enter first number: ");
-    scanf("%d", &num1);
-    printf("Enter second number: ");
-    scanf("%d", &num2);
+    printf("Connected to server\n");
 
-    // Формируем строку для отправки серверу (два числа через пробел)
-    sprintf(buffer, "%d %d", num1, num2);
+    // Вводим сообщение для отправки (операцию и два числа)
+    printf("Enter operation and numbers (e.g., PLUS 2 3): ");
+    fgets(message, 1024, stdin);
+    message[strcspn(message, "\n")] = '\0';  // Удаляем символ новой строки
 
-    // Отправляем данные серверу
-    send(sock, buffer, strlen(buffer), 0);
-    printf("Numbers sent to server\n");
+    // Отправляем сообщение серверу
+    if (send(client_socket, message, strlen(message), 0) < 0) {
+        printf("Send failed\n");
+        closesocket(client_socket);
+        WSACleanup();
+        return 1;
+    }
 
     // Получаем ответ от сервера
-    recv(sock, (char *)&result, sizeof(result), 0);
-    printf("Sum received from server: %d\n", result);
+    if ((recv_size = recv(client_socket, server_reply, 50, 0)) == SOCKET_ERROR) {
+        printf("Receive failed\n");
+    }
 
-    // Закрываем сокет
-    closesocket(sock);
+    // Завершаем строку ответа и выводим результат
+    server_reply[recv_size] = '\0';
+    printf("Server reply: %s\n", server_reply);
 
-    // Очистка Winsock
+    // Закрываем сокет и освобождаем ресурсы
+    closesocket(client_socket);
     WSACleanup();
-
     return 0;
 }
-
-
-/*
-    Комментарии к клиентской части:
-    socket(): Создаем сокет для IPv4 и потоковой передачи данных (TCP).
-    connect(): Устанавливаем соединение с сервером, используя адрес 127.0.0.1 (localhost) и порт 12345.
-    sprintf(): Формируем строку buffer, содержащую два целых числа, введенные пользователем через пробел.
-    send(): Отправляем данные серверу.
-    read(): Читаем ответ от сервера (сумму чисел).
-    printf(): Выводим на консоль подтверждение отправки чисел и полученную сумму от сервера.
-*/

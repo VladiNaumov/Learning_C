@@ -1,111 +1,223 @@
+/* многопоточного сервера-калькулятора с enum */
+
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <winsock2.h>
+#include <windows.h>
 
-#pragma comment(lib, "ws2_32.lib") // Подключение библиотеки Winsock
+#pragma comment(lib, "ws2_32.lib")  // Подключаем библиотеку для работы с сокетами
 
-#define PORT 12345
+// Определение операций с помощью enum
+typedef enum {
+    OP_PLUS,
+    OP_MINUS,
+    OP_MULTIPLICATION,
+    OP_DIVISION,
+    OP_INVALID
+} Operation;
+
+// Функция для выполнения математической операции
+double calculate(Operation op, double num1, double num2, int *error) {
+    switch (op) {
+        case OP_PLUS:
+            return num1 + num2;
+        case OP_MINUS:
+            return num1 - num2;
+        case OP_MULTIPLICATION:
+            return num1 * num2;
+        case OP_DIVISION:
+            if (num2 != 0) {
+                return num1 / num2;
+            } else {
+                *error = 1;  // Установка флага ошибки
+                return 0;    // Возвращаем 0 для деления на ноль
+            }
+        default:
+            *error = 1;  // Установка флага ошибки для некорректной операции
+            return 0;    // Возвращаем 0 для некорректной операции
+    }
+}
+
+// Функция для парсинга входных данных
+int parse_input(const char *buffer, Operation *op, double *num1, double *num2) {
+    char operation[20];
+
+    // Используем sscanf_s для безопасного парсинга
+    if (sscanf_s(buffer, "%s %lf %lf", operation, (unsigned)_countof(operation), num1, num2) != 3) {
+        return 0;  // Некорректный ввод
+    }
+
+    // Определяем операцию
+    if (strcmp(operation, "PLUS") == 0) {
+        *op = OP_PLUS;
+    } else if (strcmp(operation, "MINUS") == 0) {
+        *op = OP_MINUS;
+    } else if (strcmp(operation, "MULTIPLICATION") == 0) {
+        *op = OP_MULTIPLICATION;
+    } else if (strcmp(operation, "DIVISION") == 0) {
+        *op = OP_DIVISION;
+    } else {
+        *op = OP_INVALID;
+    }
+
+    return 1;  // Успешный ввод
+}
+
+// Функция для обработки запросов от клиента
+DWORD WINAPI handle_client(LPVOID client_socket) {
+    SOCKET client_sock = *(SOCKET*)client_socket;
+    char buffer[1024];
+    int recv_size;
+
+    // Получаем данные от клиента
+    recv_size = recv(client_sock, buffer, sizeof(buffer) - 1, 0);
+    if (recv_size == SOCKET_ERROR) {
+        printf("Recv failed\n");
+        closesocket(client_sock);
+        return 1;
+    }
+
+    buffer[recv_size] = '\0';  // Завершаем строку
+    printf("Received: %s\n", buffer);
+
+    Operation op;
+    double num1, num2;
+    int error = 0;  // Флаг ошибки
+
+    // Парсим входные данные
+    if (!parse_input(buffer, &op, &num1, &num2)) {
+        printf("Invalid input from client: %s\n", buffer);
+        const char *error_msg = "Invalid input\n";
+        send(client_sock, error_msg, strlen(error_msg), 0);
+        closesocket(client_sock);
+        return 1;
+    }
+
+    // Вычисляем результат
+    double result = calculate(op, num1, num2, &error);
+
+    // Проверяем на ошибки при вычислении
+    if (error) {
+        const char *error_msg = "Error in calculation\n";
+        send(client_sock, error_msg, strlen(error_msg), 0);
+    } else {
+        // Отправляем результат клиенту
+        char result_buffer[50];
+        sprintf(result_buffer, "%.2lf", result);
+        send(client_sock, result_buffer, strlen(result_buffer), 0);
+        printf("Result sent: %s\n", result_buffer);
+    }
+
+    // Закрываем подключение клиента
+    closesocket(client_sock);
+    return 0;
+}
+
+// Функция для инициализации сервера
+SOCKET initialize_server(int port) {
+    WSADATA wsa;
+    SOCKET server_socket;
+    struct sockaddr_in server;
+
+    printf("Initializing Winsock...\n");
+    // Инициализируем Winsock
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+        printf("Failed. Error Code: %d\n", WSAGetLastError());
+        return INVALID_SOCKET;
+    }
+
+    // Создаем серверный сокет
+    if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+        printf("Could not create socket: %d\n", WSAGetLastError());
+        WSACleanup();
+        return INVALID_SOCKET;
+    }
+
+    // Задаем параметры сервера: IP-адрес и порт
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons(port);
+
+    // Привязываем сокет к адресу
+    if (bind(server_socket, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) {
+        printf("Bind failed: %d\n", WSAGetLastError());
+        closesocket(server_socket);
+        WSACleanup();
+        return INVALID_SOCKET;
+    }
+
+    // Начинаем прослушивание
+    listen(server_socket, 10);  // Максимум 10 подключений в очереди
+    return server_socket;
+}
+
+// Функция для обработки завершения программы
+void cleanup(SOCKET server_socket) {
+    closesocket(server_socket);
+    WSACleanup();
+}
 
 int main() {
-    WSADATA wsa;
-    SOCKET server_fd, client_socket;
-    struct sockaddr_in address;
-    int opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[1024] = {0};
-    int num1, num2, result;
-
-    // Инициализация Winsock
-    if (WSAStartup(MAKEWORD(2,2), &wsa) != 0) {
-        printf("Failed. Error Code : %d\n", WSAGetLastError());
-        return 1;
+    SOCKET server_socket = initialize_server(8888);
+    if (server_socket == INVALID_SOCKET) {
+        return 1;  // Ошибка инициализации сервера
     }
 
-    // Создаем сокет для сервера
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-        printf("Socket failed with error: %d\n", WSAGetLastError());
-        WSACleanup();
-        return 1;
-    }
+    printf("Waiting for incoming connections...\n");
+    struct sockaddr_in client;
+    int client_len = sizeof(struct sockaddr_in);
+    SOCKET client_socket;
 
-    // Настраиваем сокет для повторного использования порта
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) == SOCKET_ERROR) {
-        printf("setsockopt failed with error: %d\n", WSAGetLastError());
-        closesocket(server_fd);
-        WSACleanup();
-        return 1;
-    }
-
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
-
-    // Привязываем сокет к адресу и порту
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR) {
-        printf("Bind failed with error: %d\n", WSAGetLastError());
-        closesocket(server_fd);
-        WSACleanup();
-        return 1;
-    }
-
-    // Начинаем слушать входящие соединения
-    if (listen(server_fd, 1) == SOCKET_ERROR) {
-        printf("Listen failed with error: %d\n", WSAGetLastError());
-        closesocket(server_fd);
-        WSACleanup();
-        return 1;
-    }
-
-    printf("Server listening on port %d\n", PORT);
-
+    // Ожидание подключений от клиентов
     while (1) {
-        // Принимаем входящее соединение от клиента
-        if ((client_socket = accept(server_fd, (struct sockaddr *)&address, &addrlen)) == INVALID_SOCKET) {
-            printf("Accept failed with error: %d\n", WSAGetLastError());
-            closesocket(server_fd);
-            WSACleanup();
-            return 1;
+        client_socket = accept(server_socket, (struct sockaddr*)&client, &client_len);
+        if (client_socket == INVALID_SOCKET) {
+            printf("Accept failed: %d\n", WSAGetLastError());
+            continue; // Продолжаем цикл, даже если возникла ошибка
         }
 
-        // Читаем данные от клиента
-        int valread = recv(client_socket, buffer, 1024, 0);
+        printf("Connection accepted\n");
 
-        // Парсим данные (предполагаем, что клиент отправляет два числа через пробел)
-        sscanf(buffer, "%d %d", &num1, &num2);
-
-        // Вычисляем сумму чисел
-        result = num1 + num2;
-
-        // Выводим полученные числа и отправляем сумму клиенту
-        printf("Received numbers: %d and %d\n", num1, num2);
-        printf("Sending sum: %d\n", result);
-
-        // Отправляем результат обратно клиенту
-        send(client_socket, &result, sizeof(result), 0);
-
-        // Закрываем соединение с клиентом
-        closesocket(client_socket);
+        // Создаем новый поток для обработки каждого клиента
+        HANDLE thread = CreateThread(NULL, 0, handle_client, &client_socket, 0, NULL);
+        if (thread == NULL) {
+            printf("Could not create thread\n");
+            closesocket(client_socket);
+        } else {
+            CloseHandle(thread);  // Закрываем handle потока, так как он не нужен
+        }
     }
 
-    // Очистка Winsock
-    closesocket(server_fd);
-    WSACleanup();
-
+    // Закрываем серверный сокет
+    cleanup(server_socket);
     return 0;
 }
 
 
-/*
-    Комментарии к серверной части:
-    socket(): Создаем сокет для IPv4 и потоковой передачи данных (TCP).
-    setsockopt(): Устанавливаем опцию SO_REUSEADDR и SO_REUSEPORT, чтобы можно было повторно использовать адрес и порт сервера после его закрытия.
-    bind(): Привязываем сокет к адресу (INADDR_ANY) и порту (12345).
-    listen(): Начинаем прослушивать входящие соединения. Второй аргумент (1) указывает, что мы будем принимать только одно соединение одновременно.
-    accept(): Принимаем входящее соединение от клиента. Функция блокируется до тех пор, пока не будет получено новое соединение.
-    read(): Читаем данные от клиента в буфер buffer.
-    sscanf(): Парсим данные из буфера, ожидая два целых числа, которые клиент отправил через пробел.
-    printf(): Выводим на консоль принятые числа и сумму, которую собираемся отправить обратно клиенту.
-    send(): Отправляем результат (сумму чисел) обратно клиенту.
-    close(): Закрываем соединение с клиентом.
-*/
+/* TODO: Возможные улучшения:
+Обработка ошибок:
+
+Улучшить обработку ошибок, чтобы она была более информативной. Например, вместо того чтобы просто выводить сообщение об ошибке и завершать программу, можно обработать ошибку более гибко (например, игнорировать ее и продолжать работу сервера).
+Улучшение ввода от клиента:
+
+Добавить более строгую проверку входных данных от клиента. Сейчас мы просто парсим строку, но если клиент отправит некорректный ввод, это может привести к ошибкам. Можно добавить валидацию входных данных.
+Управление потоками:
+
+Рассмотреть возможность использования пула потоков. Создание нового потока для каждого клиента может быть ресурсоемким, особенно при большом количестве подключений. Пул потоков позволит переиспользовать уже созданные потоки и оптимизировать использование ресурсов.
+Логирование:
+
+Реализовать механизм логирования для отслеживания событий на сервере (подключения, ошибки, вычисления и т. д.). Это может помочь в отладке и мониторинге сервера.
+Конфигурируемые параметры:
+
+Сделать порт и другие параметры конфигурации настраиваемыми (например, через файл конфигурации или параметры командной строки).
+Более сложные операции:
+
+Рассмотреть возможность поддержки более сложных математических операций (например, степень, корень и т. д.) с использованием дополнительного перечисления или другой структуры данных.
+Оптимизация работы с памятью:
+
+Использовать free для освобождения выделенной памяти, если используешь динамическое выделение.
+Безопасность:
+
+Обратить внимание на безопасность данных, передаваемых между клиентом и сервером. Можно добавить шифрование для повышения уровня безопасности.
+
+ */
