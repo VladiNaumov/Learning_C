@@ -148,7 +148,26 @@ SOCKET initialize_server(int port) {
 
     // Начинаем прослушивание
     listen(server_socket, 10);  // Максимум 10 подключений в очереди
+
     return server_socket;
+}
+
+// Функция accept_connections обрабатывает ожидание подключения от клиента.
+SOCKET accept_connections(SOCKET server_socket) {
+    struct sockaddr_in client;
+    int client_len = sizeof(struct sockaddr_in);
+    SOCKET client_socket;
+
+    // Ожидание подключения
+    client_socket = accept(server_socket, (struct sockaddr*)&client, &client_len);
+    if (client_socket == INVALID_SOCKET) {
+        printf("Accept failed: %d\n", WSAGetLastError());
+        return INVALID_SOCKET; // Возвращаем недействительный сокет при ошибке
+    }
+
+    printf("Connection accepted\n");
+
+    return client_socket; // Возвращаем сокет клиента
 }
 
 // Функция для обработки завершения программы
@@ -164,19 +183,13 @@ int main() {
     }
 
     printf("Waiting for incoming connections...\n");
-    struct sockaddr_in client;
-    int client_len = sizeof(struct sockaddr_in);
-    SOCKET client_socket;
 
     // Ожидание подключений от клиентов
     while (1) {
-        client_socket = accept(server_socket, (struct sockaddr*)&client, &client_len);
+        SOCKET client_socket = accept_connections(server_socket);
         if (client_socket == INVALID_SOCKET) {
-            printf("Accept failed: %d\n", WSAGetLastError());
-            continue; // Продолжаем цикл, даже если возникла ошибка
+            continue; // Продолжаем цикл, если произошла ошибка
         }
-
-        printf("Connection accepted\n");
 
         // Создаем новый поток для обработки каждого клиента
         HANDLE thread = CreateThread(NULL, 0, handle_client, &client_socket, 0, NULL);
