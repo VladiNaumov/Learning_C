@@ -42,7 +42,7 @@ int main() {
     printf("Connected to server\n");
 
     // Вводим сообщение для отправки (операцию и два числа)
-    printf("Enter operation and numbers (e.g., PLUS 2 3): ");
+    printf("Enter operation and numbers (e.g., PLUS, MINUS, MULTIPLICATION, DIVISION 2 3): ");
     fgets(message, 1024, stdin);
     message[strcspn(message, "\n")] = '\0';  // Удаляем символ новой строки
 
