@@ -12,23 +12,47 @@
 
 // Структура для бинарного сообщения
 typedef struct {
-    char command[16];  // Команда (например, "PLUS", "MINUS")
-    float numbers[10]; // Массив чисел (количество может быть переменным)
-    int count;         // Количество чисел
+    char command[16];  // Команда (например, "PLUS", "MINUS" ....)
+    float a;           // Первое число
+    float b;           // Второе число
 } BinaryMessage;
-
-// Функция для сериализация структуры в бинарный формат
-void serialize_message(BinaryMessage *msg, char *buffer) {
-    memcpy(buffer, msg->command, sizeof(msg->command)); // Копируем команду
-    memcpy(buffer + sizeof(msg->command), &msg->count, sizeof(int)); // Копируем количество чисел
-    memcpy(buffer + sizeof(msg->command) + sizeof(int), msg->numbers, msg->count * sizeof(float)); // Копируем числа
-}
 
 // Функция для десериализации бинарного формата обратно в структуру
 void deserialize_message(char *buffer, BinaryMessage *msg) {
     memcpy(msg->command, buffer, sizeof(msg->command)); // Получаем команду
-    memcpy(&msg->count, buffer + sizeof(msg->command), sizeof(int)); // Получаем количество чисел
-    memcpy(msg->numbers, buffer + sizeof(msg->command) + sizeof(int), msg->count * sizeof(float)); // Получаем числа
+    memcpy(&msg->a, buffer + sizeof(msg->command), sizeof(float)); // Получаем первое число
+    memcpy(&msg->b, buffer + sizeof(msg->command) + sizeof(float), sizeof(float)); // Получаем второе число
+}
+
+// Функции для математических операций
+float add(float a, float b) {
+    return a + b;
+}
+
+float subtract(float a, float b) {
+    return a - b;
+}
+
+float multiply(float a, float b) {
+    return a * b;
+}
+
+float divide(float a, float b) {
+    if (b != 0) {
+        return a / b;
+    } else {
+        return -1; // Возвращаем -1 для обозначения ошибки деления на ноль
+    }
+}
+
+// Функция для вывода сообщения об ошибке
+void print_error(const char *message) {
+    printf("Error: %s\n", message);
+}
+
+// Функция для вывода результата
+void print_result(float result) {
+    printf("Result: %.2f\n", result);
 }
 
 // Функция для обработки клиента
@@ -42,48 +66,34 @@ void handle_client(void* client_socket_ptr) {
     deserialize_message(buffer, &msg); // Десериализуем данные
 
     float result = 0; // Переменная для хранения результата
+    int error_occurred = 0; // Флаг для отслеживания ошибок
 
     // Выполняем операции в зависимости от команды
     if (strcmp(msg.command, "PLUS") == 0) {
-        if (msg.count == 2) { // Проверяем, что передано ровно два числа
-            result = msg.numbers[0] + msg.numbers[1]; // Сложение двух чисел
-        } else {
-            printf("Error: PLUS requires exactly two numbers.\n");
-            result = 0; // Или любая другая логика обработки ошибки
-        }
+        result = add(msg.a, msg.b); // Вызов функции сложения
     } else if (strcmp(msg.command, "MINUS") == 0) {
-        if (msg.count == 2) { // Проверяем, что передано ровно два числа
-            result = msg.numbers[0] - msg.numbers[1]; // Вычитание двух чисел
-        } else {
-            printf("Error: MINUS requires exactly two numbers.\n");
-            result = 0; // Или любая другая логика обработки ошибки
-        }
+        result = subtract(msg.a, msg.b); // Вызов функции вычитания
     } else if (strcmp(msg.command, "MULTIPLICATION") == 0) {
-        if (msg.count == 2) { // Проверяем, что передано ровно два числа
-            result = msg.numbers[0] * msg.numbers[1]; // Умножение двух чисел
-        } else {
-            printf("Error: MULTIPLICATION requires exactly two numbers.\n");
-            result = 0; // Или любая другая логика обработки ошибки
-        }
+        result = multiply(msg.a, msg.b); // Вызов функции умножения
     } else if (strcmp(msg.command, "DIVISION") == 0) {
-        if (msg.count == 2) { // Проверяем, что передано ровно два числа
-            if (msg.numbers[1] != 0) { // Проверяем деление на ноль
-                result = msg.numbers[0] / msg.numbers[1]; // Деление двух чисел
-            } else {
-                printf("Error: DIVISION by zero.\n");
-                result = 0; // Или любая другая логика обработки ошибки
-            }
-        } else {
-            printf("Error: DIVISION requires exactly two numbers.\n");
-            result = 0; // Или любая другая логика обработки ошибки
+        result = divide(msg.a, msg.b); // Вызов функции деления
+        if (result == -1) {
+            print_error("Division by zero."); // Обработка ошибки деления на ноль
+            error_occurred = 1; // Устанавливаем флаг ошибки
         }
     } else {
-        printf("Error: Invalid command.\n");
+        print_error("Invalid command."); // Обработка неверной команды
+        error_occurred = 1; // Устанавливаем флаг ошибки
     }
 
-    // Отправка результата обратно клиенту
-    send(client_sock, (char*)&result, sizeof(result), 0);
-    closesocket(client_sock); // Закрываем сокет клиента
+    // Если ошибок не произошло, отправляем результат
+    if (!error_occurred) {
+        print_result(result); // Выводим результат на сервер
+        send(client_sock, (char*)&result, sizeof(result), 0); // Отправка результата обратно клиенту
+    }
+
+    // Закрываем сокет клиента
+    closesocket(client_sock); 
 }
 
 // Главная функция для запуска сервера
@@ -122,4 +132,3 @@ int main() {
     WSACleanup();
     return 0;
 }
-
