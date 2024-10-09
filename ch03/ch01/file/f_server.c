@@ -37,7 +37,6 @@ double calculate(Operation op, double num1, double num2, int *error) {
             return 0;    // Возвращаем 0 для некорректной операции
     }
 }
-
 // Функция для парсинга входных данных
 int parse_input(const char *buffer, Operation *op, double *num1, double *num2) {
     char *token;
