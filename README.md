@@ -19,6 +19,7 @@
   - ch09 Difference between struct and union 
   - ch10 Основные квалификаторы типа в языке C. (const, volatile, static, и extern).
   - ch11 Macros
+  - ch12 Serialize
 -
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
@@ -33,6 +34,7 @@
       - Композиция.
       - Аналогично виртуальным таблицам (vtable) из C++. . 
   - ch08 Callback
+  
 
 -
 - ch03
@@ -56,7 +58,7 @@
   - ch04 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
   - ch05 question/answer
   - ch06 finite state machines (Конечный автомат - Математическая абстракция)
-  - ch07 
+  - ch07 демонстрация хеширование команд и обработку команд с использованием таблицы указателей на функции.
   -
 - Games
 
