@@ -1,7 +1,7 @@
 
 ## Lerning in C
 
-- ch01
+- ch01 Basic operation
   - ch01 Bit operations
   - ch02 Pointers
   - ch03 Array + pointer, dynamic array
@@ -20,7 +20,7 @@
   - ch10 Основные квалификаторы типа в языке C. (const, volatile, static, и extern).
   - ch11 Macros
   - ch12 Serialize
--
+  - 
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
   - ch02 Отношение "композиция"
@@ -34,24 +34,15 @@
       - Композиция.
       - Аналогично виртуальным таблицам (vtable) из C++. . 
   - ch08 Callback
-  
-
--
-- ch03
-  - ch01 Socket-programming "Calculator" file/Serialization/Deserialization
-  - ch02 Socket-programming (Project "Calculator + unit test")
-  - ch03 HTTP API (winhttp.h), HTTP (curl/curl.h)
-  - ch04 JSON (cJSON.h)
-  - ch05 SQL
--
-- ch04 Data structures
+  - 
+- ch03 Data structures
   - ch01 Linked list
   - ch02 Stack (Dynamic, stack array, stack linked list)
   - ch03 Queue
   - ch04 Ring buffer (or circular buffer) Кольцевой буфер (или циклический буфер)
   - ch05 Node
-- 
-- ch05
+  - 
+- ch04
   - ch01 String vai number
   - ch02 Named Pipes, Shared Memory
   - ch03 Menu
@@ -59,6 +50,14 @@
   - ch05 question/answer
   - ch06 finite state machines (Конечный автомат - Математическая абстракция)
   - ch07 демонстрация хеширование команд и обработку команд с использованием таблицы указателей на функции.
+  - 
+
+- ch05 Network interaction
+  - ch01 Socket-programming "Calculator" file/Serialization/Deserialization
+  - ch02 Socket-programming (Project "Calculator + unit test")
+  - ch03 HTTP API (winhttp.h), HTTP (curl/curl.h)
+  - ch04 JSON (cJSON.h)
+  - ch05 SQL
   -
 - Games
 

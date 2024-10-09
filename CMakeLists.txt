@@ -16,4 +16,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 
 # Добавляем исполняемый файл с тем же именем, что и исходный файл
-add_executable(clion ch03/ch01/file/table_pointer_f_server.c)
+add_executable(clion ch05/ch01/file/table_pointer_f_server.c)
