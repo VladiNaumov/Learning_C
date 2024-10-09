@@ -58,7 +58,7 @@
   - ch04 Design patterns (adapter, command, decorator, factory, observer, singleton, strategy)
   - ch05 question/answer
   - ch06 finite state machines (Конечный автомат - Математическая абстракция)
-  - ch07 
+  - ch07 демонстрация хеширование команд и обработку команд с использованием таблицы указателей на функции.
   -
 - Games
 
