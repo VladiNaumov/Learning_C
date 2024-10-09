@@ -58,8 +58,6 @@ double calculate(Operation op, double num1, double num2, int *error) {
     }
 }
 
-
-
 // Функция для парсинга входных данных
 int parse_input(const char *buffer, Operation *op, double *num1, double *num2) {
     char operation[20];
@@ -69,8 +67,8 @@ int parse_input(const char *buffer, Operation *op, double *num1, double *num2) {
         return 0;  // Некорректный ввод
     }
 
-    // Используем sscanf для быстрого парсинга строки
-    if (sscanf(buffer, "%19[^&]&%lf&%lf", operation, num1, num2) != 3) {
+    // Используем sscanf_s для быстрого парсинга строки
+    if (sscanf_s(buffer, "%19[^&]&%lf&%lf", operation, num1, num2) != 3) {
         return 0;  // Некорректный ввод
     }
 
