@@ -57,15 +57,7 @@ unsigned long hash_operation(const char *str) {
     return hash;
 }
 
-// Функция для выполнения вычисления
-double calculate(Operation op, double num1, double num2, int *error) {
-    if (op != OP_INVALID) {
-        return operations[op % 4](num1, num2, error);  // Выбор операции по хешу
-    } else {
-        *error = 1;  // Ошибка, если операция недействительна
-        return 0;
-    }
-}
+
 
 // Парсинг ввода от клиента, извлечение операции и чисел
 int parse_input(const char *buffer, Operation *op, double *num1, double *num2) {
@@ -80,6 +72,86 @@ int parse_input(const char *buffer, Operation *op, double *num1, double *num2) {
     if (*op == OP_INVALID) return 0;  // Проверка на валидность операции
     return 1;
 }
+
+/*  STRAT
+ * Если клиент будет отправлять уже закодированные номера операций вместо строк
+ * (например, заранее согласованные значения для каждой операции), то хеширование действительно не нужно.
+ * В этом случае можно просто передавать числовые коды и использовать их напрямую для выбора нужной операции.
+*/
+
+// Пример вызова операции по номеру
+double perform_operation(int operation_code, double num1, double num2, int *error) {
+    if (operation_code > 0 && operation_code < sizeof(operations) / sizeof(OperationFunc)) {
+        return operations[operation_code - 1](num1, num2, error);  // Уменьшаем на 1 для корректного индекса
+    }
+    *error = 1;  // Неверный код операции
+    return 0;
+}
+
+// Массив допустимых кодов операций
+const int valid_operations[] = { OP_PLUS, OP_MINUS, OP_MULTIPLICATION, OP_DIVISION };
+
+// Функция для проверки, является ли операция допустимой
+int is_valid_operation(int operation_code) {
+    for (int i = 0; i < sizeof(valid_operations) / sizeof(valid_operations[0]); ++i) {
+        if (operation_code == valid_operations[i]) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+// Парсинг ввода от клиента
+int parse_input_(const char *buffer, Operation *op, double *num1, double *num2) {
+    int operation_code;
+    if (buffer == NULL || *buffer == '\0') {
+        return 0;  // Проверка на пустой ввод
+    }
+
+    // Извлекаем код операции и два числа
+    if (sscanf_s(buffer, "%d&%lf&%lf", &operation_code, num1, num2) != 3) {
+        return 0;  // Проверка корректности формата
+    }
+
+    // Проверяем допустимость операции через массив
+    if (is_valid_operation(operation_code)) {
+        *op = (Operation)operation_code;
+    } else {
+        *op = OP_INVALID;
+        return 0;  // Недопустимый код операции
+    }
+
+    return 1;  // Успешный парсинг
+
+
+    /*
+     * typedef enum {
+        OP_PLUS = 5001,
+        OP_MINUS = 5002
+        OP_MULTIPLICATION = 5003,
+        OP_DIVISION = 5004,
+        OP_INVALID = 0
+    } Operation;
+
+     * Если добавишь новую операцию:
+        Добавь её в enum, например:
+        OP_MODULO = 5005,
+        Добавь её в массив допустимых операций:
+        const int valid_operations[] = { OP_PLUS, OP_MINUS, OP_MULTIPLICATION, OP_DIVISION, OP_MODULO };
+        Теперь код будет поддерживать новые операции без необходимости изменять проверку на диапазон.
+     * END */
+}
+
+// Функция для выполнения вычисления
+double calculate(Operation op, double num1, double num2, int *error) {
+    if (op != OP_INVALID) {
+        return operations[op % 4](num1, num2, error);  // Выбор операции по хешу
+    } else {
+        *error = 1;  // Ошибка, если операция недействительна
+        return 0;
+    }
+}
+
 
 // Функция потока для обработки клиента
 DWORD WINAPI handle_client(LPVOID client_socket) {
