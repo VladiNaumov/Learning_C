@@ -1,4 +1,6 @@
-/* многопоточного сервера-калькулятора Serialization/Deserialization */
+/* многопоточного сервера-калькулятора Serialization/Deserialization,
+ * использование строк в качестве команд команд PLUS 23 45 , MINUS 45 67 )
+ * */
 
 #include <stdio.h>
 #include <string.h>
@@ -110,47 +112,96 @@ void handle_client(void* client_socket_ptr) {
 }
 
 
-// Главная функция для запуска сервера
-int main() {
-    WSADATA wsaData; // Данные для инициализации Winsock
-    SOCKET server_socket, client_socket; // Сокеты сервера и клиента
-    struct sockaddr_in server_addr, client_addr; // Структуры для адреса сервера и клиента
-    int addr_len = sizeof(client_addr); // Длина адреса клиента
+// Функция для инициализации сокета сервера
+SOCKET initialize_server_socket() {
+    SOCKET server_socket;
+    struct sockaddr_in server_addr;
 
-// Инициализация семафора
-    semaphore = CreateSemaphore(NULL, MAX_THREADS, MAX_THREADS, NULL);
-
-// Инициализация Winsock
-    WSAStartup(MAKEWORD(2, 2), &wsaData);
-
-// Создание сокета
+    // Создание сокета
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    server_addr.sin_family = AF_INET; // IPv4
-    server_addr.sin_addr.s_addr = INADDR_ANY; // Все интерфейсы
-    server_addr.sin_port = htons(PORT); // Порт
+    if (server_socket == INVALID_SOCKET) {
+        printf("Error creating socket.\n");
+        exit(EXIT_FAILURE);
+    }
 
-// Привязка сокета
-    bind(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
-    listen(server_socket, MAX_CLIENTS); // Прослушивание входящих подключений
+    // Настройка адреса сервера
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(PORT);
+
+    // Привязка сокета
+    if (bind(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
+        printf("Bind failed.\n");
+        closesocket(server_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    // Прослушивание подключений
+    if (listen(server_socket, MAX_CLIENTS) == SOCKET_ERROR) {
+        printf("Listen failed.\n");
+        closesocket(server_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    return server_socket;
+}
+
+// Функция для инициализации семафора
+void initialize_semaphore() {
+    semaphore = CreateSemaphore(NULL, MAX_THREADS, MAX_THREADS, NULL);
+    if (semaphore == NULL) {
+        printf("Semaphore initialization failed.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
+// Функция для ожидания и обработки подключений клиентов
+void wait_for_clients(SOCKET server_socket) {
+    SOCKET client_socket;
+    struct sockaddr_in client_addr;
+    int addr_len = sizeof(client_addr);
 
     printf("The server is running and waiting for connections...\n");
 
-// Создание пула потоков
     while (1) {
+        // Приём подключения клиента
         client_socket = accept(server_socket, (struct sockaddr*)&client_addr, &addr_len);
         if (client_socket == INVALID_SOCKET) {
             printf("Error accepting connection.\n");
             continue;
         }
+
         printf("Client connected!\n");
 
-// Создание потока для обработки клиента
+        // Создание потока для обработки клиента
         _beginthread(handle_client, 0, (void*)(intptr_t)client_socket);
     }
+}
 
-// Закрытие серверного сокета
+// Главная функция
+int main() {
+    WSADATA wsaData;
+    SOCKET server_socket;
+
+    // Инициализация Winsock
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        printf("WSAStartup failed.\n");
+        return 1;
+    }
+
+    // Инициализация семафора
+    initialize_semaphore();
+
+    // Инициализация сокета сервера
+    server_socket = initialize_server_socket();
+
+    // Ожидание и обработка подключений клиентов
+    wait_for_clients(server_socket);
+
+    // Завершение работы сокета
     closesocket(server_socket);
     WSACleanup();
+
     return 0;
 }
 
