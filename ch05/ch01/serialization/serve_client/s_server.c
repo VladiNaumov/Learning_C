@@ -58,59 +58,60 @@ void print_result(float result) {
 }
 
 // Функция для обработки клиента
+// Функция для обработки клиента
 void handle_client(void* client_socket_ptr) {
-    // Захватываем слот в семафоре
     WaitForSingleObject(semaphore, INFINITE);
 
-    SOCKET client_sock = (SOCKET)(intptr_t)client_socket_ptr; // Приведение void* к SOCKET
-    BinaryMessage msg; // Создаем структуру для сообщения
-    char buffer[sizeof(BinaryMessage)]; // Буфер для получения данных
+    SOCKET client_sock = (SOCKET)(intptr_t)client_socket_ptr;
+    BinaryMessage msg;
+    char buffer[sizeof(BinaryMessage)];
 
-// Получение данных от клиента
+    // Получение данных от клиента
     int recv_len = recv(client_sock, buffer, sizeof(buffer), 0);
 
     if (recv_len <= 0) {
         printf("Error receiving data from client.\n");
         closesocket(client_sock);
-        ReleaseSemaphore(semaphore, 1, NULL); // Освобождаем слот в семафоре
+        ReleaseSemaphore(semaphore, 1, NULL);
         return;
     }
 
-// Десериализация полученного сообщения
+    // Десериализация полученного сообщения
     deserialize_message(buffer, &msg);
 
-    float result = 0; // Переменная для хранения результата
-    int error_occurred = 0; // Флаг для отслеживания ошибок
+    // Вывод информации о принятом сообщении
+    printf("Received command: %s\n", msg.command);
+    printf("Received numbers: %.2f and %.2f\n", msg.a, msg.b);
 
-// Выполняем операции в зависимости от команды
+    float result = 0;
+    int error_occurred = 0;
+
+    // Обработка команд
     if (strcmp(msg.command, "PLUS") == 0) {
-        result = add(msg.a, msg.b); // Вызов функции сложения
+        result = add(msg.a, msg.b);
     } else if (strcmp(msg.command, "MINUS") == 0) {
-        result = subtract(msg.a, msg.b); // Вызов функции вычитания
+        result = subtract(msg.a, msg.b);
     } else if (strcmp(msg.command, "MULTIPLICATION") == 0) {
-        result = multiply(msg.a, msg.b); // Вызов функции умножения
+        result = multiply(msg.a, msg.b);
     } else if (strcmp(msg.command, "DIVISION") == 0) {
-        result = divide(msg.a, msg.b); // Вызов функции деления
+        result = divide(msg.a, msg.b);
         if (result == -1) {
-            print_error("Division by zero."); // Обработка ошибки деления на ноль
-            error_occurred = 1; // Устанавливаем флаг ошибки
+            print_error("Division by zero.");
+            error_occurred = 1;
         }
     } else {
-        print_error("Invalid command."); // Обработка неверной команды
-        error_occurred = 1; // Устанавливаем флаг ошибки
+        print_error("Invalid command.");
+        error_occurred = 1;
     }
 
-// Если ошибок не произошло, отправляем результат
     if (!error_occurred) {
-        print_result(result); // Выводим результат на сервер
-        send(client_sock, (char*)&result, sizeof(result), 0); // Отправка результата обратно клиенту
+        print_result(result);
+        send(client_sock, (char*)&result, sizeof(result), 0);
     }
 
-// Закрываем сокет клиента
     closesocket(client_sock);
-    ReleaseSemaphore(semaphore, 1, NULL); // Освобождаем слот в семафоре
+    ReleaseSemaphore(semaphore, 1, NULL);
 }
-
 
 // Функция для инициализации сокета сервера
 SOCKET initialize_server_socket() {
