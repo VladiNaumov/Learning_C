@@ -4,35 +4,31 @@
 - ch01 Basic operation
   - ch01 Bit operations
   - ch02 Pointers
-  - ch03 Array + pointer, dynamic array
-  - ch04 Struct
+  - ch03 Array pointer/dynamic array
+  - ch04 Struct/Functions
     - Struct Basic
     - Array of structures
-    - Array of pointers
-    - Struct передача структуры в функцию по указателю
+    - Struct and functions
     - Heap/Stack structure
     - Modulus: (Struct Person, Struct Group, Array Person )
   - ch05 Structure as a "class"
   - ch06 Struct/Enum
   - ch07 Structure and "private attribute"(encapsulation), заголовочный файл List.h как interface.
-  - ch08 Functions in language C.
-  - ch09 Difference between struct and union 
-  - ch10 Основные квалификаторы типа в языке C. (const, volatile, static, и extern).
-  - ch11 Macros
-  - ch12 Serialize
+  - ch08 Difference between struct and union 
+  - ch09 Основные квалификаторы типа в языке C. (const, volatile, static, и extern).
+  - ch10 Macros
+  - ch11 Serialize
   - 
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
   - ch02 Отношение "композиция"
-  - ch03 Отношение "aгрегация"
+  - ch03 Отношение "агрегация"
   - ch04 Наследование "восходящее приведение"
   - ch05 Первый подход к наследованию (одиночного наследования) 
   - ch06 Второй подход к наследованию (множественного наследования)
-  - ch07 Полиморфизм основные подходы в C: 
-      - Указатели на функции.
-      - Структуры и функции.
+  - ch07 Полиморфизм, основные подходы в C:
       - Композиция.
-      - Аналогично виртуальным таблицам (vtable) из C++. . 
+      - virtual tables (vtable) from C . 
   - ch08 Callback
   - 
 - ch03 Data structures
@@ -49,11 +45,11 @@
   - ch04 Design patterns (adapter, command_id, decorator, factory, observer, singleton, strategy)
   - ch05 question/answer
   - ch06 finite state machines (Конечный автомат - Математическая абстракция)
-  - ch07 демонстрация хеширование команд и обработку команд с использованием таблицы указателей на функции.
+  - ch07 хеширование команд и обработку команд с использованием таблицы указателей на функции.
   - 
 
 - ch05 Network interaction
-  - ch01 Socket-programming "Calculator": file(table_pointer, hash)/Serial...Deserialization
+  - ch01 Socket-programming "Calculator": file(table_pointer, hash). Serial/Deserialization
   - ch02 Socket-programming (Project "Calculator + unit test")
   - ch03 HTTP API (winhttp.h), HTTP (curl/curl.h)
   - ch04 JSON (cJSON.h)
