@@ -4,7 +4,8 @@
 - ch06 (proc) Processes
 - ch07 (mamalloc) Memory Allocation
 - ch08 (user_groups) Users and Groups
-- ch09 (proccred) Process Credentials
+- ch09 (proccred) Process Credentials (Идентификаторы процессов)
+- 
 - 10 Time 
 - 11 System Limits And Options 
 - 12 System And Process Information 
