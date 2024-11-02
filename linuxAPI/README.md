@@ -1,10 +1,10 @@
 ## Lerning in C The-Linux-Programming-Interface (Linux API)
 
-- ch04 (fileio) File I/O: The Universal I/O
-- ch06 (proc) Processes
-- ch07 (mamalloc) Memory Allocation
-- ch08 (user_groups) Users and Groups
-- ch09 (proccred) Process Credentials (Идентификаторы процессов)
+- ch04 File I/O: The Universal I/O
+- ch06 Processes
+- ch07 Memory Allocation
+- ch08 Users and Groups
+- ch09 Process Credentials (Идентификаторы процессов)
 - 
 - 10 Time 
 - 11 System Limits And Options 
