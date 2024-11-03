@@ -14,99 +14,68 @@
 
 */
 
+#include <sys/types.h>
+#include <grp.h>
+#include <pwd.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pwd.h>
-#include <grp.h>
-#include <unistd.h>
-#include <errno.h>
 
-int my_initgroups(const char *user, gid_t group) {
+int my_initgroups(const char *username, gid_t gid) {
     struct group *grp;
-    gid_t *groups;
+    struct passwd *pwd;
+    gid_t groups[NGROUPS_MAX];
     int ngroups = 0;
-    int max_groups = 16;  // Начальный размер массива
-    int i;
 
-    // Инициализируем массив для хранения идентификаторов групп
-    groups = malloc(max_groups * sizeof(gid_t));
-    if (groups == NULL) {
-        perror("malloc");
+    // Получаем информацию о пользователе
+    pwd = getpwnam(username);
+    if (pwd == NULL) {
+        perror("getpwnam");
         return -1;
     }
 
     // Добавляем основную группу пользователя
-    groups[ngroups++] = group;
+    groups[ngroups++] = gid;
 
-    // Проходим по всем группам и добавляем те, в которых состоит пользователь
-    setgrent(); // Начинаем чтение файла групп
+    // Проходим по всем группам и ищем, в каких группах состоит пользователь
+    setgrent();
     while ((grp = getgrent()) != NULL) {
-        if (grp->gr_gid == group) {
-            continue; // Пропускаем основную группу, она уже добавлена
+        if (grp->gr_gid == gid) {
+            continue; // Пропускаем основную группу
         }
 
-        // Проверяем, состоит ли пользователь в текущей группе
-        for (i = 0; grp->gr_mem[i] != NULL; i++) {
-            if (strcmp(grp->gr_mem[i], user) == 0) {
-                // Если группа найдена, добавляем её в список
-                if (ngroups >= max_groups) {
-                    max_groups *= 2;
-                    gid_t *new_groups = realloc(groups, max_groups * sizeof(gid_t));
-                    if (new_groups == NULL) {
-                        free(groups);
-                        endgrent();
-                        perror("realloc");
-                        return -1;
-                    }
-                    groups = new_groups;
+        for (char **member = grp->gr_mem; *member != NULL; member++) {
+            if (strcmp(*member, username) == 0) {
+                // Если пользователь найден в группе, добавляем ее
+                if (ngroups < NGROUPS_MAX) {
+                    groups[ngroups++] = grp->gr_gid;
+                } else {
+                    fprintf(stderr, "Too many groups\n");
+                    endgrent();
+                    return -1;
                 }
-                groups[ngroups++] = grp->gr_gid;
-                break;
             }
         }
     }
-    endgrent(); // Закрываем файл групп
+    endgrent();
 
-    // Устанавливаем группы для процесса
+    // Устанавливаем группы для пользователя
     if (setgroups(ngroups, groups) == -1) {
         perror("setgroups");
-        free(groups);
         return -1;
     }
 
-    free(groups); // Освобождаем память
     return 0;
 }
 
-int main() {
-    struct passwd *pwd = getpwnam("username"); // Замените "username" на нужное имя пользователя
-    if (pwd == NULL) {
-        perror("getpwnam");
-        return 1;
-    }
-
-    if (my_initgroups(pwd->pw_name, pwd->pw_gid) == -1) {
-        fprintf(stderr, "Failed to initialize groups\n");
-        return 1;
-    }
-
-    printf("Groups initialized successfully for user: %s\n", pwd->pw_name);
-    return 0;
-}
 
 /*
-### Объяснение:
+Объяснение:
+Получение основной группы пользователя: Функция getpwnam() ищет структуру passwd для заданного username,
+чтобы получить основную группу пользователя.
+Поиск дополнительных групп: С помощью getgrent() итерируем по всем группам системы,
+ проверяя, состоит ли пользователь в каждой из них. Если пользователь найден, добавляем идентификатор группы (gid) в массив.
 
-1. **Основная группа** — сразу добавляется в массив `groups`.
-2. **Перебор всех групп**:
-- `setgrent()` открывает файл групп.
-- `getgrent()` последовательно возвращает записи о группах, в которых перечислены все пользователи группы.
-- Для каждой записи проверяем, состоит ли пользователь в группе, и, если да, добавляем ее в массив `groups`.
-3. **`setgroups()`** — используется для установки групп для текущего процесса.
-4. **Очистка памяти** — освобождаем выделенную память после завершения.
-
-### Примечания
-
-- Не забудьте, что `setgroups()` требует прав root, поэтому для работы программы процесс должен быть привилегированным.
+Установка групп: Вызов setgroups() устанавливает все найденные группы для пользователя.
 */

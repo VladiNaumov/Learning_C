@@ -1,6 +1,6 @@
 ## Lerning in C The-Linux-Programming-Interface (Linux API)
 
-- ch04 File I/O: The Universal I/O
+- ch04/05 File I/O
 - ch06 Processes
 - ch07 Memory Allocation
 - ch08 Users and Groups
@@ -16,4 +16,29 @@
 - 17 Access Control Lists 
 - 18 Directories and Links 
 - 19 Monitoring File Events 
-- 20 Signals: Fundamental Concepts
+- 20 Signals: Fundamental Concepts (20-22)
+- 23 Timers and Sleeping
+- 24 Process Creation
+- 25 Process Termination
+- 26 Monitoring Child Processes 
+- 27 Program Execution
+- 28 Further Details on Process Creation and Program execution
+- 29 - 33 POSIX Threads
+- 34 Process Groups, Sessions, and Job Control
+- 35 Process Priorities and Scheduling
+- 36 Process Resources
+- 37 Daemons
+- 39 Capabilities
+- 40 Login Accounting
+- 41 and 42 Shared Libraries
+- 44 Pipes and FIFOs
+- 49 Memory Mappings
+- 50 Virtual Memory Operations
+- 52 POSIX Message Queues
+- 53 POSIX Semaphores
+- 54 POSIX Shared Memory
+- 55 File Locking
+- 56 - 61 Sockets and Network Programming
+- 62 Terminals
+- 63 Alternative I/O Models
+- 64 Pseudoterminals
