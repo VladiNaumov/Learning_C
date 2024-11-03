@@ -42,4 +42,4 @@
 - 52 - 57 Sockets and Network Programming
 - 58 Terminals
 - 59 Alternative I/O Models
-- 60 Pseudoterminals
+- 60 Pseudo terminals
