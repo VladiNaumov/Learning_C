@@ -32,13 +32,14 @@
 - 40 Login Accounting
 - 41 and 42 Shared Libraries
 - 44 Pipes and FIFOs
-- 49 Memory Mappings
+- 45 Memory Mappings
+- 46 Virtual Memory Operations
+- 47 POSIX Message Queues
+- 48 POSIX Semaphores
+- 49 POSIX Shared Memory
 - 50 Virtual Memory Operations
-- 52 POSIX Message Queues
-- 53 POSIX Semaphores
-- 54 POSIX Shared Memory
-- 55 File Locking
-- 56 - 61 Sockets and Network Programming
-- 62 Terminals
-- 63 Alternative I/O Models
-- 64 Pseudoterminals
+- 51 File Locking
+- 52 - 57 Sockets and Network Programming
+- 58 Terminals
+- 59 Alternative I/O Models
+- 60 Pseudoterminals
