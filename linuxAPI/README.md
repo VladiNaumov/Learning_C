@@ -5,8 +5,8 @@
 - ch07 Memory Allocation
 - ch08 Users and Groups
 - ch09 Process Credentials (Идентификаторы процессов)
-- 
-- 10 Time 
+- ch10 Time
+-  
 - 11 System Limits And Options 
 - 12 System And Process Information 
 - 13 File I/O Buffering 
