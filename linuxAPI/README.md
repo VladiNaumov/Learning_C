@@ -10,10 +10,9 @@
 - ch12 System And Process Information
 - ch13 File I/O Buffering
 - ch14 File Systems
-
--
-- 15 File Attributes 
-- 16 Extended Attributes 
+- ch15 File Attributes
+- ch16 Extended Attributes
+- 
 - 17 Access Control Lists 
 - 18 Directories and Links 
 - 19 Monitoring File Events 
