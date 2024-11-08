@@ -12,8 +12,8 @@
 - ch14 File Systems
 - ch15 File Attributes
 - ch16 Extended Attributes
+- ch17 Access Control Lists
 - 
-- 17 Access Control Lists 
 - 18 Directories and Links 
 - 19 Monitoring File Events 
 - 20 Signals: Fundamental Concepts (20-22)
