@@ -13,10 +13,10 @@
 - ch15 File Attributes
 - ch16 Extended Attributes
 - ch17 Access Control Lists
+- ch18 Directories and Links
+- ch19 Monitoring File Events
 - 
-- 18 Directories and Links 
-- 19 Monitoring File Events 
-- 20 Signals: Fundamental Concepts (20-22)
+- 20 Signals: Fundamental Concepts (21-22)
 - 23 Timers and Sleeping
 - 24 Process Creation
 - 25 Process Termination
