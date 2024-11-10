@@ -15,8 +15,8 @@
 - ch17 Access Control Lists
 - ch18 Directories and Links
 - ch19 Monitoring File Events
+- ch20 Signals (21-22)
 - 
-- 20 Signals: Fundamental Concepts (21-22)
 - 23 Timers and Sleeping
 - 24 Process Creation
 - 25 Process Termination
