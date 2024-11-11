@@ -401,8 +401,6 @@ int sigsuspend(const sigset_t *mask);  // Ожидание сигналов
 int sigwaitinfo(const sigset_t *set, siginfo_t *info);  // Ожидание информации о сигнале
 int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout);  // Ожидание с тайм-аутом
 
-// Используйте более современные методы для работы с сигналами и таймерами вместо устаревших
-
 /*
 
 ### Пояснения:
