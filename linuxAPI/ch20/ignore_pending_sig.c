@@ -1,38 +1,26 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU General Public License as published by the   *
-* Free Software Foundation, either version 3 or (at your option) any      *
-* later version. This program is distributed without any warranty.  See   *
-* the file COPYING.gpl-v3 for details.                                    *
-\*************************************************************************/
-
-/* Solution for Exercise 20-2 */
-
 /* ignore_pending_sig.c
 
-   This program demonstrates what happens if we mark a pending signal
-   (i.e., one that has been sent, but is currently blocked) as ignored.
+   Эта программа демонстрирует, что произойдет, если пометить ожидающий сигнал
+   (т.е. сигнал, который был отправлен, но в данный момент заблокирован) как игнорируемый.
 
-   Usage: ignore_pending_sig
+   Использование: ignore_pending_sig
 
-   Type Control-C (^C) to generate a SIGINT signal after the program prints
-   its "sleeping" message (see below).
+   Нажмите Control-C (^C), чтобы сгенерировать сигнал SIGINT после того,
+   как программа выведет сообщение "sleeping" (см. ниже).
 */
-#define _GNU_SOURCE     /* Get strsignal() declaration from <string.h> */
+#define _GNU_SOURCE     /* Получить объявление strsignal() из <string.h> */
 #include <string.h>
 #include <signal.h>
-#include "signal_functions.h"   /* Declaration of printSigset() */
+#include "signal_functions.h"   /* Объявление printSigset() */
 #include "tlpi_hdr.h"
 
 static void
 handler(int sig)
 {
-    /* UNSAFE: This handler uses non-async-signal-safe functions
-       (printf(), strsignal(), fflush(); see Section 21.1.2) */
+    /* НЕБЕЗОПАСНО: Этот обработчик использует функции, небезопасные
+       для асинхронных сигналов (printf(), strsignal(), fflush(); см. Раздел 21.1.2) */
 
-    printf("Caught signal %d (%s)\n", sig, strsignal(sig));
+    printf("Пойман сигнал %d (%s)\n", sig, strsignal(sig));
     fflush(NULL);
 }
 
@@ -41,9 +29,9 @@ main(int argc, char *argv[])
 {
     const int numSecs = 5;
 
-    /* Set up a handler for SIGINT */
+    /* Установить обработчик для SIGINT */
 
-    printf("Setting up handler for SIGINT\n");
+    printf("Установка обработчика для SIGINT\n");
 
     struct sigaction sa;
     sigemptyset(&sa.sa_mask);
@@ -52,7 +40,7 @@ main(int argc, char *argv[])
     if (sigaction(SIGINT, &sa, NULL) == -1)
         errExit("sigaction");
 
-    /* Block SIGINT for a while */
+    /* Заблокировать SIGINT на некоторое время */
 
     sigset_t blocked;
     sigemptyset(&blocked);
@@ -60,38 +48,38 @@ main(int argc, char *argv[])
     if (sigprocmask(SIG_SETMASK, &blocked, NULL) == -1)
         errExit("sigprocmask");
 
-    printf("BLOCKING SIGINT for %d seconds\n", numSecs);
+    printf("БЛОКИРОВКА SIGINT на %d секунд\n", numSecs);
     sleep(numSecs);
 
-    /* Display mask of pending signals */
+    /* Отобразить маску ожидающих сигналов */
 
     sigset_t pending;
     if (sigpending(&pending) == -1)
         errExit("sigpending");
-    printf("PENDING signals are: \n");
+    printf("ОЖИДАЮЩИЕ сигналы:\n");
     printSigset(stdout, "\t\t", &pending);
 
-    /* Now ignore SIGINT */
+    /* Теперь игнорируем SIGINT */
 
     sleep(2);
-    printf("Ignoring SIGINT\n");
+    printf("Игнорирование SIGINT\n");
     if (signal(SIGINT, SIG_IGN) == SIG_ERR)     errExit("signal");
 
-    /* Redisplay mask of pending signals */
+    /* Повторно отобразить маску ожидающих сигналов */
 
     if (sigpending(&pending) == -1)
         errExit("sigpending");
     if (sigismember(&pending, SIGINT)) {
-        printf("SIGINT is now pending\n");
+        printf("SIGINT теперь ожидает обработки\n");
     } else {
-        printf("PENDING signals are: \n");
+        printf("ОЖИДАЮЩИЕ сигналы:\n");
         printSigset(stdout, "\t\t", &pending);
     }
     sleep(2);
 
-    /* Reestablish SIGINT handler */
+    /* Восстановить обработчик для SIGINT */
 
-    printf("Reestablishing handler for SIGINT\n");
+    printf("Восстановление обработчика для SIGINT\n");
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
     sa.sa_handler = handler;
@@ -100,12 +88,22 @@ main(int argc, char *argv[])
 
     sleep(2);
 
-    /* And unblock SIGINT */
+    /* И разблокировать SIGINT */
 
-    printf("UNBLOCKING SIGINT\n");
+    printf("РАЗБЛОКИРОВКА SIGINT\n");
     sigemptyset(&blocked);
     if (sigprocmask(SIG_SETMASK, &blocked, NULL) == -1)
         errExit("sigprocmask");
 
     exit(EXIT_SUCCESS);
 }
+/*
+
+### Резюме кода
+
+Программа демонстрирует работу с сигналом SIGINT (генерируемым, например, с помощью Ctrl+C). 
+Она устанавливает обработчик для SIGINT и временно блокирует его. 
+Пока сигнал заблокирован, программа проверяет, есть ли он в маске ожидающих сигналов, а затем игнорирует SIGINT, что удаляет его из очереди. 
+Затем программа восстанавливает обработчик и разблокирует SIGINT. 
+Этот процесс показывает, что происходит с заблокированным и ожидающим сигналом, если его пометить как игнорируемый.
+*/

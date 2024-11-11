@@ -1,24 +1,11 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU General Public License as published by the   *
-* Free Software Foundation, either version 3 or (at your option) any      *
-* later version. This program is distributed without any warranty.  See   *
-* the file COPYING.gpl-v3 for details.                                    *
-\*************************************************************************/
-
-/* Listing 20-3 */
-
 /* t_kill.c
 
-   Send a signal using kill(2) and analyze the return status of the call.
+   Отправка сигнала с использованием kill(2) и анализ возвращаемого значения вызова.
 */
 #include <signal.h>
 #include "tlpi_hdr.h"
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     int s, sig;
 
@@ -33,15 +20,15 @@ main(int argc, char *argv[])
         if (s == -1)
             errExit("kill");
 
-    } else {                    /* Null signal: process existence check */
+    } else {                    /* Нулевой сигнал: проверка существования процесса */
         if (s == 0) {
-            printf("Process exists and we can send it a signal\n");
+            printf("Процесс существует, и мы можем отправить ему сигнал\n");
         } else {
             if (errno == EPERM)
-                printf("Process exists, but we don't have "
-                       "permission to send it a signal\n");
+                printf("Процесс существует, но у нас нет "
+                       "разрешения на отправку ему сигнала\n");
             else if (errno == ESRCH)
-                printf("Process does not exist\n");
+                printf("Процесс не существует\n");
             else
                 errExit("kill");
         }
@@ -49,3 +36,12 @@ main(int argc, char *argv[])
 
     exit(EXIT_SUCCESS);
 }
+
+/*
+### Резюме кода
+
+Программа отправляет сигнал указанному процессу с помощью функции `kill`. 
+Она принимает два аргумента командной строки: `pid` (идентификатор процесса) и `sig-num` (номер сигнала). 
+Если `sig-num` равен 0, программа не посылает сигнал, а проверяет существование процесса и права на отправку ему сигналов. 
+В зависимости от кода ошибки выводится сообщение о статусе процесса: существует ли он и есть ли разрешение на отправку сигналов.
+*/

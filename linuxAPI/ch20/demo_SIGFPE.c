@@ -1,33 +1,20 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU General Public License as published by the   *
-* Free Software Foundation, either version 3 or (at your option) any      *
-* later version. This program is distributed without any warranty.  See   *
-* the file COPYING.gpl-v3 for details.                                    *
-\*************************************************************************/
-
-/* Supplementary program for Chapter 22 */
-
 /* demo_SIGFPE.c
 
-   Demonstrate the generation of the SIGFPE signal.
+   Демонстрация генерации сигнала SIGFPE.
 
-   Usage: demo_SIGFPE [optstr]
+   Использование: demo_SIGFPE [optstr]
 
-   The main program executes code the generates a SIGFPE signal. Before doing
-   so, the program optionally ignores and/or blocks SIGFPE. If 'optstr'
-   contains 'i', then SIGFPE is ignored, otherwise it is caught by a handler.
-   If 'optstr' contains 'b', then SIGFPE is blocked before it is delivered.
-   The behavior that occurs when SIGFPE is generated depends on the kernel
-   version (Linux 2.6 is different from Linux 2.4 and earlier).
+   Основная программа выполняет код, который вызывает сигнал SIGFPE. Перед этим
+   программа при необходимости игнорирует и/или блокирует SIGFPE. Если строка 'optstr'
+   содержит 'i', то SIGFPE игнорируется, иначе он обрабатывается обработчиком.
+   Если 'optstr' содержит 'b', то SIGFPE блокируется перед его доставкой.
+   Поведение, возникающее при генерации SIGFPE, зависит от версии ядра 
+   (Linux 2.6 отличается от Linux 2.4 и более ранних версий).
 
-   NOTE: Don't compile this program with optimization, as the arithmetic
-   below is likely to be optimized away completely, with the result that
-   we don't get SIGFPE at all.
+   ПРИМЕЧАНИЕ: Не компилируйте эту программу с оптимизацией, так как нижеуказанная
+   арифметическая операция может быть полностью оптимизирована, и SIGFPE не будет получен.
 */
-#define _GNU_SOURCE     /* Get strsignal() declaration from <string.h> */
+#define _GNU_SOURCE     /* Для объявления strsignal() из <string.h> */
 #include <string.h>
 #include <signal.h>
 #include <stdbool.h>
@@ -36,21 +23,21 @@
 static void
 sigfpeCatcher(int sig)
 {
-    printf("Caught signal %d (%s)\n", sig, strsignal(sig));
-                                /* UNSAFE (see Section 21.1.2) */
-    sleep(1);                   /* Slow down execution of handler */
+    printf("Пойман сигнал %d (%s)\n", sig, strsignal(sig));
+                                /* НЕБЕЗОПАСНО (см. раздел 21.1.2) */
+    sleep(1);                   /* Замедление выполнения обработчика */
 }
 
 int
 main(int argc, char *argv[])
 {
-    /* If no command-line arguments specified, catch SIGFPE, else ignore it */
+    /* Если аргументы командной строки не заданы, ловить SIGFPE, иначе игнорировать его */
 
     if (argc > 1 && strchr(argv[1], 'i') != NULL) {
-        printf("Ignoring SIGFPE\n");
+        printf("Игнорирование SIGFPE\n");
         if (signal(SIGFPE, SIG_IGN) == SIG_ERR)     errExit("signal");
     } else {
-        printf("Catching SIGFPE\n");
+        printf("Обработка SIGFPE\n");
 
         struct sigaction sa;
         sigemptyset(&sa.sa_mask);
@@ -63,7 +50,7 @@ main(int argc, char *argv[])
     bool blocking = argc > 1 && strchr(argv[1], 'b') != NULL;
     sigset_t prevMask;
     if (blocking) {
-        printf("Blocking SIGFPE\n");
+        printf("Блокировка SIGFPE\n");
 
         sigset_t blockSet;
         sigemptyset(&blockSet);
@@ -72,20 +59,36 @@ main(int argc, char *argv[])
             errExit("sigprocmask");
     }
 
-    printf("About to generate SIGFPE\n");
+    printf("Генерация SIGFPE\n");
     int x, y;
     y = 0;
-    x = 1 / y;
-    y = x;      /* Avoid complaints from "gcc -Wunused-but-set-variable" */
+    x = 1 / y;  // Данное выражение приводит к делению на ноль, вызывая SIGFPE
+    y = x;      /* Предотвращение предупреждения "gcc -Wunused-but-set-variable" */
 
     if (blocking) {
-        printf("Sleeping before unblocking\n");
+        printf("Ожидание перед разблокировкой\n");
         sleep(2);
-        printf("Unblocking SIGFPE\n");
+        printf("Разблокировка SIGFPE\n");
         if (sigprocmask(SIG_SETMASK, &prevMask, NULL) == -1)
             errExit("sigprocmask");
     }
 
-    printf("Shouldn't get here!\n");
+    printf("Этого сообщения не должно быть!\n");
     exit(EXIT_FAILURE);
 }
+
+/* 
+### Дополнительный комментарий
+
+    x = 1 / y;  // Данное выражение приводит к делению на ноль, вызывая SIGFPE
+
+
+### Резюме коду
+
+Программа демонстрирует генерацию и обработку сигнала **SIGFPE** (ошибка арифметики, такая как деление на ноль). 
+В зависимости от аргументов командной строки она может игнорировать, обрабатывать или блокировать сигнал **SIGFPE**. 
+Если программа вызвана с `i`, то **SIGFPE** игнорируется, если без `i` — перехватывается. Аргумент `b` блокирует сигнал, пока не будет разблокирован, 
+что моделирует асинхронную обработку. Программа показывает, как установить обработчик сигнала с `sigaction`,
+ как временно блокировать сигнал с `sigprocmask`, а также демонстрирует поведение при делении на ноль.
+ 
+ */

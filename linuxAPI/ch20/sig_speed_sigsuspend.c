@@ -1,35 +1,22 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU General Public License as published by the   *
-* Free Software Foundation, either version 3 or (at your option) any      *
-* later version. This program is distributed without any warranty.  See   *
-* the file COPYING.gpl-v3 for details.                                    *
-\*************************************************************************/
-
-/* Supplementary program for Chapter 22 */
-
 /* sig_speed_sigsuspend.c
 
-   This program times how fast signals are sent and received.
+   Эта программа измеряет, как быстро отправляются и принимаются сигналы.
 
-   The program forks to create a parent and a child process that alternately
-   send signals to each other (the child starts first). Each process catches
-   the signal with a handler, and waits for signals to arrive using
-   sigsuspend().
+   Программа порождает родительский и дочерний процессы, которые поочередно
+   отправляют друг другу сигналы (первым начинает дочерний процесс). Каждый процесс 
+   обрабатывает сигнал с помощью обработчика и ожидает его с помощью sigsuspend().
 
-   Usage: $ time ./sig_speed_sigsuspend num-sigs
+   Использование: $ time ./sig_speed_sigsuspend num-sigs
 
-   The 'num-sigs' argument specifies how many times the parent and
-   child send signals to each other.
+   Аргумент 'num-sigs' указывает, сколько раз родитель и дочерний процесс
+   должны обменяться сигналами.
 
-   Child                                  Parent
+   Дочерний процесс                            Родительский процесс
 
-   for (s = 0; s < numSigs; s++) {        for (s = 0; s < numSigs; s++) {
-       send signal to parent                  wait for signal from child
-       wait for a signal from parent          send a signal to child
-   }                                      }
+   for (s = 0; s < numSigs; s++) {             for (s = 0; s < numSigs; s++) {
+       отправка сигнала родителю                   ожидание сигнала от дочери
+       ожидание сигнала от родителя               отправка сигнала дочери
+   }                                           }
 */
 #include <signal.h>
 #include "tlpi_hdr.h"
@@ -56,8 +43,8 @@ main(int argc, char *argv[])
     if (sigaction(TESTSIG, &sa, NULL) == -1)
         errExit("sigaction");
 
-    /* Block the signal before fork(), so that the child doesn't manage
-       to send it to the parent before the parent is ready to catch it */
+    /* Блокируем сигнал до fork(), чтобы дочерний процесс не успел отправить
+       сигнал родителю до того, как родитель будет готов его перехватить */
 
     sigset_t blockedMask, emptyMask;
     sigemptyset(&blockedMask);
@@ -71,7 +58,7 @@ main(int argc, char *argv[])
     switch (childPid) {
     case -1: errExit("fork");
 
-    case 0:     /* child */
+    case 0:     /* дочерний процесс */
         for (int scnt = 0; scnt < numSigs; scnt++) {
             if (kill(getppid(), TESTSIG) == -1)
                 errExit("kill");
@@ -80,7 +67,7 @@ main(int argc, char *argv[])
         }
         exit(EXIT_SUCCESS);
 
-    default: /* parent */
+    default: /* родительский процесс */
         for (int scnt = 0; scnt < numSigs; scnt++) {
             if (sigsuspend(&emptyMask) == -1 && errno != EINTR)
                     errExit("sigsuspend");
@@ -90,3 +77,14 @@ main(int argc, char *argv[])
         exit(EXIT_SUCCESS);
     }
 }
+/*
+
+### Описание работы программы
+
+Программа `sig_speed_sigsuspend.c` измеряет скорость отправки и приема сигналов между родительским и дочерним процессами. Она выполняет следующие действия:
+
+1. **Инициализация сигналов:** Используется сигнал `SIGUSR1` для обмена между процессами.
+2. **Блокировка сигналов:** Перед `fork()` блокируется сигнал, чтобы дочерний процесс не отправил сигнал родителю до того, как родитель будет готов его ловить.
+3. **Создание процессов:** Программа создает два процесса: родительский и дочерний. Оба процесса поочередно отправляют друг другу сигнал с использованием `kill()` и ожидают сигнала с помощью `sigsuspend()`.
+4. **Измерение времени:** Количество передаваемых сигналов между процессами задается аргументом `num-sigs`.
+*/

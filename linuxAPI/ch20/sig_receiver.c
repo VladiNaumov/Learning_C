@@ -1,32 +1,20 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU General Public License as published by the   *
-* Free Software Foundation, either version 3 or (at your option) any      *
-* later version. This program is distributed without any warranty.  See   *
-* the file COPYING.gpl-v3 for details.                                    *
-\*************************************************************************/
-
-/* Listing 20-7 */
-
 /* sig_receiver.c
 
-   Usage: sig_receiver [block-time]
+   Использование: sig_receiver [время блокировки]
 
-   Catch and report statistics on signals sent by sig_sender.c.
+   Улавливает и отображает статистику по сигналам, отправленным программой sig_sender.c.
 
-   Note that although we use signal() to establish the signal handler in this
-   program, the use of sigaction() is always preferable for this task.
+   Обратите внимание, что, хотя в этой программе для установки обработчика сигнала
+   используется функция signal(), предпочтительнее всегда использовать sigaction() для этой задачи.
 */
 #define _GNU_SOURCE
 #include <signal.h>
-#include "signal_functions.h"           /* Declaration of printSigset() */
+#include "signal_functions.h"           /* Объявление функции printSigset() */
 #include "tlpi_hdr.h"
 
-static int sigCnt[NSIG];                /* Counts deliveries of each signal */
+static int sigCnt[NSIG];                /* Подсчёт каждого полученного сигнала */
 static volatile sig_atomic_t gotSigint = 0;
-                                        /* Set nonzero if SIGINT is delivered */
+                                        /* Устанавливается в ненулевое значение, если получен SIGINT */
 
 static void
 handler(int sig)
@@ -43,18 +31,18 @@ main(int argc, char *argv[])
     int n, numSecs;
     sigset_t pendingMask, blockingMask, emptyMask;
 
-    printf("%s: PID is %ld\n", argv[0], (long) getpid());
+    printf("%s: PID процесса — %ld\n", argv[0], (long) getpid());
 
-    /* Here we use the simpler signal() API to establish a signal handler,
-       but for the reasons described in Section 22.7 of TLPI, sigaction()
-       is the (strongly) preferred API for this task. */
+    /* Здесь мы используем более простой API signal() для установки обработчика сигнала,
+       но по причинам, описанным в Разделе 22.7 TLPI, sigaction()
+       является (сильно) предпочтительным API для этой задачи. */
 
-    for (n = 1; n < NSIG; n++)          /* Same handler for all signals */
-        (void) signal(n, handler);      /* Ignore errors */
+    for (n = 1; n < NSIG; n++)          /* Один и тот же обработчик для всех сигналов */
+        (void) signal(n, handler);      /* Игнорируем ошибки */
 
-    /* If a sleep time was specified, temporarily block all signals,
-       sleep (while another process sends us signals), and then
-       display the mask of pending signals and unblock all signals */
+    /* Если указано время задержки, временно блокируем все сигналы,
+       приостанавливаем работу (пока другой процесс отправляет сигналы),
+       затем отображаем маску ожидающих сигналов и разблокируем все сигналы */
 
     if (argc > 1) {
         numSecs = getInt(argv[1], GN_GT_0, NULL);
@@ -63,27 +51,36 @@ main(int argc, char *argv[])
         if (sigprocmask(SIG_SETMASK, &blockingMask, NULL) == -1)
             errExit("sigprocmask");
 
-        printf("%s: sleeping for %d seconds\n", argv[0], numSecs);
+        printf("%s: приостановка на %d секунд\n", argv[0], numSecs);
         sleep(numSecs);
 
         if (sigpending(&pendingMask) == -1)
             errExit("sigpending");
 
-        printf("%s: pending signals are: \n", argv[0]);
+        printf("%s: ожидающие сигналы:\n", argv[0]);
         printSigset(stdout, "\t\t", &pendingMask);
 
-        sigemptyset(&emptyMask);        /* Unblock all signals */
+        sigemptyset(&emptyMask);        /* Разблокировка всех сигналов */
         if (sigprocmask(SIG_SETMASK, &emptyMask, NULL) == -1)
             errExit("sigprocmask");
     }
 
-    while (!gotSigint)                  /* Loop until SIGINT caught */
+    while (!gotSigint)                  /* Цикл до тех пор, пока не пойман SIGINT */
         continue;
 
-    for (n = 1; n < NSIG; n++)          /* Display number of signals received */
+    for (n = 1; n < NSIG; n++)          /* Отображение количества полученных сигналов */
         if (sigCnt[n] != 0)
-            printf("%s: signal %d caught %d time%s\n", argv[0], n,
-                    sigCnt[n], (sigCnt[n] == 1) ? "" : "s");
+            printf("%s: сигнал %d получен %d раз%s\n", argv[0], n,
+                    sigCnt[n], (sigCnt[n] == 1) ? "" : "а");
 
     exit(EXIT_SUCCESS);
 }
+/*
+
+### Резюме кода
+
+Эта программа обрабатывает и учитывает сигналы, отправленные программой `sig_sender.c`. 
+Она устанавливает обработчик для всех сигналов и подсчитывает их количество. 
+Если задано время задержки, программа блокирует все сигналы на это время, а затем отображает список ожидающих сигналов. 
+Получив сигнал SIGINT (обычно генерируемый Ctrl+C), программа завершает цикл и выводит статистику по каждому пойманному сигналу.
+*/

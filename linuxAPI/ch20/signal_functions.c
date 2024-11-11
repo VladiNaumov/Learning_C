@@ -1,75 +1,101 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU Lesser General Public License as published   *
-* by the Free Software Foundation, either version 3 or (at your option)   *
-* any later version. This program is distributed without any warranty.    *
-* See the files COPYING.lgpl-v3 and COPYING.gpl-v3 for details.           *
-\*************************************************************************/
+/*
+Этот файл содержит полезные функции для работы с сигналами в Unix-подобных системах. В частности, функции для печати информации о наборе сигналов, маске блокированных сигналов и ожидающих сигналов для процесса.
 
-/* Listing 20-4 */
+### Функции:
 
-/* signal_functions.c
+1. **`printSigset`**:  
+   Печатает список сигналов в наборе сигналов.
 
-   Various useful functions for working with signals.
 */
-#define _GNU_SOURCE
-#include <string.h>
-#include <signal.h>
-#include "signal_functions.h"           /* Declares functions defined here */
-#include "tlpi_hdr.h"
 
-/* NOTE: All of the following functions employ fprintf(), which
-   is not async-signal-safe (see Section 21.1.2). As such, these
-   functions are also not async-signal-safe (i.e., beware of
-   indiscriminately calling them from signal handlers). */
+   void printSigset(FILE *of, const char *prefix, const sigset_t *sigset)
+   {
+       int sig, cnt;
+       cnt = 0;
 
-void                    /* Print list of signals within a signal set */
-printSigset(FILE *of, const char *prefix, const sigset_t *sigset)
-{
-    int sig, cnt;
+       for (sig = 1; sig < NSIG; sig++) {
+           if (sigismember(sigset, sig)) {
+               cnt++;
+               fprintf(of, "%s%d (%s)\n", prefix, sig, strsignal(sig));
+           }
+       }
 
-    cnt = 0;
-    for (sig = 1; sig < NSIG; sig++) {
-        if (sigismember(sigset, sig)) {
-            cnt++;
-            fprintf(of, "%s%d (%s)\n", prefix, sig, strsignal(sig));
-        }
-    }
+       if (cnt == 0)
+           fprintf(of, "%s<empty signal set>\n", prefix);
+   }
+/*
 
-    if (cnt == 0)
-        fprintf(of, "%s<empty signal set>\n", prefix);
-}
+   **Описание:**
+   - Эта функция принимает набор сигналов (`sigset_t *sigset`) и печатает все сигналы, которые входят в этот набор.
+   - Для каждого сигнала выводится его номер и соответствующее описание с использованием функции `strsignal`.
+   - Если в наборе нет активных сигналов, выводится сообщение `<empty signal set>`.
 
-int                     /* Print mask of blocked signals for this process */
-printSigMask(FILE *of, const char *msg)
-{
-    sigset_t currMask;
+2. **`printSigMask`**:  
+   Печатает текущую маску заблокированных сигналов для процесса.
+*/
+   int printSigMask(FILE *of, const char *msg)
+   {
+       sigset_t currMask;
 
-    if (msg != NULL)
-        fprintf(of, "%s", msg);
+       if (msg != NULL)
+           fprintf(of, "%s", msg);
 
-    if (sigprocmask(SIG_BLOCK, NULL, &currMask) == -1)
-        return -1;
+       if (sigprocmask(SIG_BLOCK, NULL, &currMask) == -1)
+           return -1;
 
-    printSigset(of, "\t\t", &currMask);
+       printSigset(of, "\t\t", &currMask);
 
-    return 0;
-}
+       return 0;
+   }
+/*
 
-int                     /* Print signals currently pending for this process */
-printPendingSigs(FILE *of, const char *msg)
-{
-    sigset_t pendingSigs;
+   **Описание:**
+   - Функция выводит маску заблокированных сигналов для текущего процесса, используя `sigprocmask` с флагом `SIG_BLOCK`, чтобы получить текущие заблокированные сигналы.
+   - Результат выводится с использованием функции `printSigset`.
 
-    if (msg != NULL)
-        fprintf(of, "%s", msg);
+3. **`printPendingSigs`**:  
+   Печатает список сигналов, которые ожидают обработки для процесса.
+*/
+   int printPendingSigs(FILE *of, const char *msg)
+   {
+       sigset_t pendingSigs;
 
-    if (sigpending(&pendingSigs) == -1)
-        return -1;
+       if (msg != NULL)
+           fprintf(of, "%s", msg);
 
-    printSigset(of, "\t\t", &pendingSigs);
+       if (sigpending(&pendingSigs) == -1)
+           return -1;
 
-    return 0;
-}
+       printSigset(of, "\t\t", &pendingSigs);
+
+       return 0;
+   }
+
+/*
+
+   **Описание:**
+   - Функция выводит все сигналы, которые ожидают обработки, с использованием `sigpending`.
+   - Результат выводится через функцию `printSigset`.
+
+### Примечания:
+- **Асинхронная безопасность:** Все функции, использующие `fprintf()`, не являются асинхронно безопасными, поэтому они не должны вызываться из обработчиков сигналов. Это важно, поскольку вызовы, не являющиеся асинхронно безопасными, могут привести к непредсказуемому поведению при обработке сигналов.
+
+- **Типы данных:**
+   - `sigset_t`: Тип данных для набора сигналов.
+   - `NSIG`: Константа, определяющая максимальное количество сигналов в системе.
+
+### Пример использования:
+
+Если вы хотите отследить текущие заблокированные сигналы в процессе, вы можете использовать функцию `printSigMask`, которая выведет соответствующую информацию:
+
+
+printSigMask(stdout, "Blocked signals:\n");
+
+
+Аналогично, если нужно узнать о сигнале, ожидающем обработки:
+
+printPendingSigs(stdout, "Pending signals:\n");
+
+
+Это удобные утилиты для отладки и мониторинга сигналов в процессе.
+*/

@@ -1,22 +1,10 @@
-/*************************************************************************\
-*                  Copyright (C) Michael Kerrisk, 2024.                   *
-*                                                                         *
-* This program is free software. You may use, modify, and redistribute it *
-* under the terms of the GNU General Public License as published by the   *
-* Free Software Foundation, either version 3 or (at your option) any      *
-* later version. This program is distributed without any warranty.  See   *
-* the file COPYING.gpl-v3 for details.                                    *
-\*************************************************************************/
-
-/* Listing 20-2 */
-
 /* intquit.c
 
-   Catch the SIGINT and SIGQUIT signals, which are normally generated
-   by the control-C (^C) and control-\ (^\) keys respectively.
+   Обработка сигналов SIGINT и SIGQUIT, которые обычно генерируются
+   нажатием клавиш control-C (^C) и control-\ (^\) соответственно.
 
-   Note that although we use signal() to establish signal handlers in this
-   program, the use of sigaction() is always preferable for this task.
+   Обратите внимание, что, хотя в этой программе для установки обработчиков сигналов
+   используется signal(), предпочтительнее всегда использовать sigaction() для этой задачи.
 */
 #include <signal.h>
 #include "tlpi_hdr.h"
@@ -26,34 +14,45 @@ sigHandler(int sig)
 {
     static int count = 0;
 
-    /* UNSAFE: This handler uses non-async-signal-safe functions
-       (printf(), exit(); see Section 21.1.2) */
+    /* НЕБЕЗОПАСНО: Этот обработчик использует функции,
+       небезопасные для асинхронных сигналов (printf(), exit(); см. Раздел 21.1.2) */
 
     if (sig == SIGINT) {
         count++;
-        printf("Caught SIGINT (%d)\n", count);
-        return;                 /* Resume execution at point of interruption */
+        printf("Пойман SIGINT (%d)\n", count);
+        return;                 /* Возобновить выполнение с места прерывания */
     }
 
-    /* Must be SIGQUIT - print a message and terminate the process */
+    /* Должен быть SIGQUIT - выводим сообщение и завершаем процесс */
 
-    printf("Caught SIGQUIT - that's all folks!\n");
+    printf("Пойман SIGQUIT - это всё, ребята!\n");
     exit(EXIT_SUCCESS);
 }
 
 int
 main(int argc, char *argv[])
 {
-    /* Establish same handler for SIGINT and SIGQUIT. Here we use the
-       simpler signal() API to establish a signal handler, but for the
-       reasons described in Section 22.7 of TLPI, sigaction() is the
-       (strongly) preferred API for this task. */
+    /* Установить одинаковый обработчик для SIGINT и SIGQUIT. Здесь мы используем
+       более простой API signal() для установки обработчика сигнала, но по причинам,
+       описанным в Разделе 22.7 TLPI, sigaction() является
+       (сильно) предпочтительным API для этой задачи. */
 
     if (signal(SIGINT, sigHandler) == SIG_ERR)
         errExit("signal");
     if (signal(SIGQUIT, sigHandler) == SIG_ERR)
         errExit("signal");
 
-    for (;;)                    /* Loop forever, waiting for signals */
-        pause();                /* Block until a signal is caught */
+    for (;;)                    /* Бесконечный цикл, ожидание сигналов */
+        pause();                /* Блокировка до тех пор, пока не будет пойман сигнал */
 }
+
+/*
+
+### Резюме кода
+
+Эта программа обрабатывает сигналы SIGINT и SIGQUIT, обычно генерируемые нажатием Ctrl+C и Ctrl+\ соответственно. 
+При каждом нажатии Ctrl+C увеличивается счетчик обработок SIGINT, но выполнение программы продолжается. 
+Нажатие Ctrl+\ вызывает обработку SIGQUIT, выводя сообщение и завершая программу. 
+Программа использует функцию `signal()` для установки обработчиков, но предпочтительным является `sigaction()`, 
+так как она предоставляет больше возможностей для управления сигналами.
+*/
