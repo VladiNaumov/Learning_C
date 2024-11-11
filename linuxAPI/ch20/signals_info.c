@@ -287,125 +287,192 @@ int siginterrupt(int sig, int flag) {
 
 /* 22 Signals: Advanced Features */
 
-#define _GNU_SOURCE
-#include <signal.h>
-void ( *sysv_signal(int  sig , void (* handler )(int)) ) (int);
-
-#define _POSIX_C_SOURCE 199309
-#include <signal.h>
-int sigqueue(pid_t  pid , int  sig , const union sigval  value );
-
-#include <signal.h>
-int sigsuspend(const sigset_t * mask );
-
-#define _POSIX_C_SOURCE 199309
-#include <signal.h>
-int sigwaitinfo(const sigset_t * set , siginfo_t * info );
-
-#define _POSIX_C_SOURCE 199309
-#include <signal.h>
-int sigtimedwait(const sigset_t * set , siginfo_t * info ,
-                 const struct timespec * timeout );
-				 
-#include <sys/signalfd.h>
-int signalfd(int  fd , const sigset_t * mask , int  flags );
-
-#define _XOPEN_SOURCE 500
-#include <signal.h>
-void (*sigset(int  sig , void (* handler )(int)))(int);
-
-#define _XOPEN_SOURCE 500
-#include <signal.h>
-int sighold(int  sig );
-int sigrelse(int  sig );
-int sigignore(int  sig );
-int sigpause(int  sig );
-
-#define _BSD_SOURCE
-#include <signal.h>
-int sigvec(int  sig , struct sigvec * vec , struct sigvec * ovec );
-
-#define _BSD_SOURCE
-#include <signal.h>
-int sigblock(int  mask );
-int sigsetmask(int  mask );
-Both return previous signal mask
-int sigpause(int  sigmask );
-Always returns –1 with errno set to  EINTR
-int sigmask( sig );
-
-Ваш код содержит несколько функций, связанных с сигналами в Unix-подобных системах. Я добавлю краткие пояснения к каждой из них, а также упомяну некоторые аспекты использования этих функций.
-
-```c
-/* 22 Signals: Advanced Features */
+/* Signals - Additional Signal Handling Functions */
 
 #define _GNU_SOURCE
 #include <signal.h>
-void ( *sysv_signal(int sig, void (*handler)(int)) ) (int);
-/* Функция sysv_signal() предоставляет механизм установки обработчика для сигналов в стиле System V.
-   Она является устаревшей и была заменена на sigaction(). */
 
-/* Для использования сигнальных функций POSIX */
+/*
+ * sysv_signal - устаревшая версия функции для установки обработчика сигнала.
+ *
+ * sig - номер сигнала (например, SIGINT, SIGTERM).
+ * handler - указатель на функцию-обработчик сигнала.
+ *
+ * Возвращает указатель на предыдущий обработчик сигнала.
+ */
+void (*sysv_signal(int sig, void (*handler)(int)))(int);
+
 #define _POSIX_C_SOURCE 199309
 #include <signal.h>
+
+/*
+ * sigqueue - посылает сигнал процессу вместе с дополнительными данными.
+ *
+ * pid - идентификатор процесса, которому посылается сигнал.
+ * sig - номер сигнала.
+ * value - дополнительные данные, которые будут переданы вместе с сигналом.
+ *
+ * Возвращает 0 в случае успеха или -1 в случае ошибки.
+ */
 int sigqueue(pid_t pid, int sig, const union sigval value);
-/* Функция sigqueue() отправляет сигнал с дополнительными данными (value) другому процессу (pid).
-   Используется для отправки сигналов с информацией, в отличие от стандартных сигналов. */
-
-/* Функции для блокировки и ожидания сигналов */
-int sigsuspend(const sigset_t *mask);
-/* Функция sigsuspend() приостанавливает выполнение процесса и ожидает сигнала, который не в маске. */
 
 #define _POSIX_C_SOURCE 199309
 #include <signal.h>
-int sigwaitinfo(const sigset_t *set, siginfo_t *info);
-/* Функция sigwaitinfo() ожидает получение сигнала, который находится в заданном наборе сигналов (set).
-   Возвращает информацию о сигнале в структуре siginfo_t. */
 
-/* Функция sigtimedwait() аналогична sigwaitinfo(), но с возможностью задать тайм-аут. */
+/*
+ * sigsuspend - приостанавливает выполнение текущего процесса до получения сигнала.
+ *
+ * mask - маска сигналов, которые должны быть заблокированы во время ожидания.
+ *
+ * Возвращает -1 в случае ошибки, с errno = EINTR.
+ */
+int sigsuspend(const sigset_t *mask);
+
+#define _POSIX_C_SOURCE 199309
+#include <signal.h>
+
+/*
+ * sigwaitinfo - ожидает получения сигнала из заданного множества сигналов.
+ *
+ * set - множество сигналов, которые ожидаются.
+ * info - структура siginfo_t для хранения информации о сигнале.
+ *
+ * Возвращает номер полученного сигнала, или -1 в случае ошибки.
+ */
+int sigwaitinfo(const sigset_t *set, siginfo_t *info);
+
+#define _POSIX_C_SOURCE 199309
+#include <signal.h>
+
+/*
+ * sigtimedwait - ожидает получение сигнала с тайм-аутом.
+ *
+ * set - множество сигналов, которые ожидаются.
+ * info - структура siginfo_t для хранения информации о сигнале.
+ * timeout - время ожидания в виде структуры timespec.
+ *
+ * Возвращает номер полученного сигнала или -1 в случае ошибки или истечения тайм-аута.
+ */
 int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout);
-/* Ожидает сигнал из набора с тайм-аутом, после чего либо возвращает информацию о сигнале,
-   либо возвращает -1 в случае истечения времени. */
 
 #include <sys/signalfd.h>
+
+/*
+ * signalfd - создает файловый дескриптор, который можно использовать для ожидания сигналов.
+ *
+ * fd - дескриптор файла, куда будет записан сигнал.
+ * mask - множество сигналов, которые должны быть заблокированы и ожидаться.
+ * flags - флаги, определяющие поведение.
+ *
+ * Возвращает файловый дескриптор или -1 в случае ошибки.
+ */
 int signalfd(int fd, const sigset_t *mask, int flags);
-/* Функция signalfd() позволяет использовать файловый дескриптор для блокировки сигналов.
-   Позволяет использовать сигналы как обычные события ввода-вывода, что полезно для многозадачных приложений. */
 
 #define _XOPEN_SOURCE 500
 #include <signal.h>
+
+/*
+ * sigset - устаревшая версия функции для установки обработчика сигнала.
+ *
+ * sig - номер сигнала (например, SIGINT, SIGTERM).
+ * handler - указатель на функцию-обработчик сигнала.
+ *
+ * Возвращает указатель на предыдущий обработчик сигнала.
+ */
 void (*sigset(int sig, void (*handler)(int)))(int);
-/* Функция sigset() устарела. Она аналогична signal() и позволяет устанавливать обработчик сигнала, но имеет некоторые ограничения. */
 
-/* Функции для управления сигналами (устарели, но могут быть полезны в старых системах) */
 #define _XOPEN_SOURCE 500
 #include <signal.h>
+
+/*
+ * sighold - блокирует указанный сигнал, т.е. он не будет обработан до тех пор, пока его не разблокируют.
+ *
+ * sig - номер сигнала.
+ *
+ * Возвращает 0 в случае успеха или -1 в случае ошибки.
+ */
 int sighold(int sig);
-/* Устаревшая функция, блокирует сигнал sig. */
 
+/*
+ * sigrelse - разблокирует указанный сигнал, чтобы его можно было обработать.
+ *
+ * sig - номер сигнала.
+ *
+ * Возвращает 0 в случае успеха или -1 в случае ошибки.
+ */
 int sigrelse(int sig);
-/* Разблокирует сигнал sig. */
 
+/*
+ * sigignore - игнорирует указанный сигнал.
+ *
+ * sig - номер сигнала.
+ *
+ * Возвращает 0 в случае успеха или -1 в случае ошибки.
+ */
 int sigignore(int sig);
-/* Игнорирует сигнал sig. */
 
-int sigpause(int sig);
-/* Приостанавливает выполнение процесса до получения сигнала, возвращает -1 с errno = EINTR. */
-
-#define _BSD_SOURCE
-#include <signal.h>
-int sigvec(int sig, struct sigvec *vec, struct sigvec *ovec);
-/* Устаревшая функция для установки обработчиков сигналов в стиле BSD. Рекомендуется использовать sigaction(). */
-
-#define _BSD_SOURCE
-#include <signal.h>
-int sigblock(int mask);
-int sigsetmask(int mask);
-/* Функции для блокировки и установки маски сигналов в старых системах. */
-
-/* Другие функции для работы с сигналами */
+/*
+ * sigpause - приостанавливает выполнение процесса до получения сигнала, игнорируя текущие сигналы, кроме указанного.
+ *
+ * sigmask - маска сигналов.
+ *
+ * Возвращает -1 с errno = EINTR.
+ */
 int sigpause(int sigmask);
-/* Функция приостанавливает выполнение процесса с переданной маской сигналов. Возвращает -1 с errno = EINTR. */
+
+#define _BSD_SOURCE
+#include <signal.h>
+
+/*
+ * sigvec - устаревшая версия функции для установки обработчика сигнала с дополнительными настройками.
+ *
+ * sig - номер сигнала.
+ * vec - структура sigvec с настройками обработчика сигнала.
+ * ovec - структура, в которую сохраняются старые настройки.
+ *
+ * Возвращает 0 в случае успеха или -1 в случае ошибки.
+ */
+int sigvec(int sig, struct sigvec *vec, struct sigvec *ovec);
+
+#define _BSD_SOURCE
+#include <signal.h>
+
+/*
+ * sigblock - блокирует множество сигналов.
+ *
+ * mask - маска сигналов.
+ *
+ * Возвращает предыдущую маску сигналов.
+ */
+int sigblock(int mask);
+
+/*
+ * sigsetmask - устанавливает маску сигналов.
+ *
+ * mask - новая маска сигналов.
+ *
+ * Возвращает предыдущую маску сигналов.
+ */
+int sigsetmask(int mask);
+
+/*
+ * sigpause - приостанавливает выполнение процесса до получения сигнала.
+ *
+ * sigmask - маска сигналов.
+ *
+ * Всегда возвращает -1 с errno = EINTR.
+ */
+int sigpause(int sigmask);
+
+/*
+ * sigmask - возвращает маску для конкретного сигнала.
+ *
+ * sig - номер сигнала.
+ *
+ * Возвращает маску сигнала.
+ */
+int sigmask(int sig);
+
 
 /*
 ### Резюме по функционалу:
@@ -421,11 +488,7 @@ int sigpause(int sigmask);
 
 */
 
-
-
-
 /*
-
 
 ### Современные и устаревшие функции для обработки сигналов
 
