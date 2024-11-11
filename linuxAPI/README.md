@@ -16,8 +16,8 @@
 - ch18 Directories and Links
 - ch19 Monitoring File Events
 - ch20 Signals (21-22)
+- ch23 Timers and Sleeping
 - 
-- 23 Timers and Sleeping
 - 24 Process Creation
 - 25 Process Termination
 - 26 Monitoring Child Processes 
