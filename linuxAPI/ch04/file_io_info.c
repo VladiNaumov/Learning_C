@@ -1,84 +1,179 @@
 /* 4. File I/O: The Universal I/O */
 
-
-/*
-    В ранних реализациях UNIX open() имел только два аргумента и не мог создавать
-    новый файл. Для создания и открытия нового файла использовался системный вызов creat().
-*/
-int creat(const char *pathname, mode_t mode);
-// Возвращает файловый дескриптор или -1 при ошибке
-
-
-/*
-    Системный вызов close() закрывает открытый файловый дескриптор, освобождая его
-    для повторного использования процессом. Когда процесс завершается, все его открытые
-    файловые дескрипторы автоматически закрываются.
-*/
-int close(int fd);
-// Возвращает 0 при успешном выполнении или -1 при ошибке
-
-/*
-    Для каждого открытого файла ядро записывает смещение файла, иногда также называемое
-    указателем на чтение/запись. Это позиция в файле, с которой начнется следующая
-    операция read() или write().
-*/
-off_t lseek(int fd, off_t offset, int whence);
-// Возвращает новое смещение файла при успехе или -1 при ошибке
-
-
-/*
-    Системный вызов ioctl() — это универсальный механизм для выполнения операций с файлами и
-    устройствами, которые не укладываются в общую модель ввода-вывода.
-*/
-int ioctl(int fd, int request, ... /* argp */);
-// Возвращаемое значение при успешном выполнении зависит от запроса или -1 при ошибке
-
-
-/* Системный вызов fcntl() выполняет ряд управляющих операций над открытым файловым дескриптором. */
 #include <fcntl.h>
-int fcntl(int fd, int cmd, ...);
-// Возвращаемое значение при успехе зависит от cmd или -1 при ошибке
-
-/*
-    Вызов dup() принимает старый дескриптор файла oldfd и возвращает новый дескриптор,
-    который ссылается на то же открытое описание файла. Новый дескриптор гарантированно
-    будет наименьшим неиспользуемым дескриптором файла.
-*/
 #include <unistd.h>
-int dup(int oldfd);
-int dup2(int oldfd, int newfd);
-int dup3(int oldfd, int newfd, int flags);
-// Возвращает (новый) файловый дескриптор при успехе или -1 при ошибке
-
-
-/* Системные вызовы readv() и writev() выполняют scatter-gather ввод-вывод. */
 #include <sys/uio.h>
-ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
-// Возвращает количество прочитанных байтов, 0 при EOF или -1 при ошибке
-ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
-// Возвращает количество записанных байтов или -1 при ошибке
-
-
-/* Функция mkstemp() генерирует уникальное имя файла на основе шаблона, указанного вызвавшим процессом, и открывает файл, возвращая файловый дескриптор. */
 #include <stdlib.h>
-int mkstemp(char *template);
-// Возвращает файловый дескриптор при успехе или -1 при ошибке
-
-/* Функция tmpfile() создает временный файл с уникальным именем, открытый для чтения и записи. */
 #include <stdio.h>
-FILE *tmpfile(void);
-// Возвращает указатель на файл при успехе или NULL при ошибке
+#include <sys/types.h>
 
-/*Важные дополнения:
-- dup и dup2: Дублирование дескрипторов позволяет направлять вывод одного файла в другой, что может быть полезно для перенаправления ввода/вывода.
-- pread и pwrite: Независимо от текущего смещения, указание конкретной позиции в файле позволяет работать с данными в произвольной позиции, что может быть полезно для записи логов и работы с базами данных.*/
+// 1. int creat(const char *pathname, mode_t mode);
+// Создаёт новый файл или перезаписывает существующий.
+// Используйте для создания файла с определёнными правами доступа.
+int file_desc = creat("file.txt", 0644);
+
+// 2. int close(int fd);
+// Закрывает файловый дескриптор.
+// Используйте для освобождения ресурсов после работы с файлом.
+close(file_desc);
+
+// 3. off_t lseek(int fd, off_t offset, int whence);
+// Устанавливает позицию указателя в файле. `whence` может быть SEEK_SET, SEEK_CUR, SEEK_END.
+// Используйте для перемещения в определённую позицию внутри файла.
+lseek(file_desc, 0, SEEK_SET); // Вернуться в начало файла
+
+// 4. int ioctl(int fd, int request, ... /* argp */);
+// Управляет устройствами, связанными с дескриптором. 
+// Применяйте для специальных операций над устройствами.
+ioctl(file_desc, some_request, some_argument);
+
+// 5. int fcntl(int fd, int cmd, ...);
+// Управляет файлами, например, устанавливает флаги. 
+// Используйте для изменения состояния файла.
+fcntl(file_desc, F_SETFL, O_NONBLOCK); // Устанавливает неблокирующий режим
+
+// 6. int dup(int oldfd);
+// Дублирует файловый дескриптор.
+// Используйте для создания копии файлового дескриптора.
+int new_fd = dup(file_desc);
+
+// 7. int dup2(int oldfd, int newfd);
+// Дублирует `oldfd` в `newfd`.
+// Применяйте, если нужно перенаправить дескриптор на другой.
+dup2(file_desc, STDOUT_FILENO); // Перенаправление вывода в файл
+
+// 8. int dup3(int oldfd, int newfd, int flags);
+// То же, что dup2, но с дополнительными флагами.
+// Применяйте при необходимости добавления флагов при дублировании.
+dup3(file_desc, STDOUT_FILENO, O_CLOEXEC);
+
+// 9. ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
+// Считывает данные из файла в несколько буферов.
+// Используйте для эффективного чтения в несколько областей памяти.
+struct iovec iov[2];
+iov[0].iov_base = buf1;
+iov[0].iov_len = sizeof(buf1);
+iov[1].iov_base = buf2;
+iov[1].iov_len = sizeof(buf2);
+readv(file_desc, iov, 2);
+
+// 10. ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+// Записывает данные из нескольких буферов в файл.
+// Используйте для эффективной записи из нескольких областей памяти.
+writev(file_desc, iov, 2);
+
+// 11. int mkstemp(char *template);
+// Создаёт временный файл с уникальным именем.
+// Применяйте для создания временного файла, который можно сразу использовать.
+char template[] = "tempXXXXXX";
+int temp_fd = mkstemp(template);
+
+// 12. FILE *tmpfile(void);
+// Создаёт временный файл, который удаляется при закрытии.
+// Используйте для временного хранения данных, где не нужно имя файла.
+FILE *temp_file = tmpfile();
 
 
-/*
- * Пример использования open() и close():
- * open() открывает файл (создаёт его, если не существует), а close() закрывает.
- * Мы можем задать режим доступа (например, только чтение или чтение и запись).
- */
+// 1. int creat(const char *pathname, mode_t mode);
+// Создаёт новый файл или перезаписывает существующий.
+int file_desc = creat("file.txt", 0644);
+if (file_desc == -1) {
+    perror("Error creating file");
+    return -1; // Обработка ошибки
+}
+
+// 2. int close(int fd);
+// Закрывает файловый дескриптор.
+if (close(file_desc) == -1) {
+    perror("Error closing file");
+    return -1; // Обработка ошибки
+}
+
+// 3. off_t lseek(int fd, off_t offset, int whence);
+// Устанавливает позицию указателя в файле.
+file_desc = creat("file.txt", 0644); // Пересоздание файла для примера
+if (file_desc == -1) {
+    perror("Error creating file");
+    return -1; // Обработка ошибки
+}
+if (lseek(file_desc, 0, SEEK_SET) == (off_t) -1) {
+    perror("Error seeking in file");
+    return -1; // Обработка ошибки
+}
+
+// 4. int ioctl(int fd, int request, ... /* argp */);
+// Управляет устройствами, связанными с дескриптором.
+int ret = ioctl(file_desc, some_request, some_argument);
+if (ret == -1) {
+    perror("Error in ioctl");
+    return -1; // Обработка ошибки
+}
+
+// 5. int fcntl(int fd, int cmd, ...);
+// Управляет файлами.
+if (fcntl(file_desc, F_SETFL, O_NONBLOCK) == -1) {
+    perror("Error in fcntl");
+    return -1; // Обработка ошибки
+}
+
+// 6. int dup(int oldfd);
+// Дублирует файловый дескриптор.
+int new_fd = dup(file_desc);
+if (new_fd == -1) {
+    perror("Error duplicating file descriptor");
+    return -1; // Обработка ошибки
+}
+
+// 7. int dup2(int oldfd, int newfd);
+// Дублирует `oldfd` в `newfd`.
+if (dup2(file_desc, STDOUT_FILENO) == -1) {
+    perror("Error duplicating file descriptor to STDOUT");
+    return -1; // Обработка ошибки
+}
+
+// 8. int dup3(int oldfd, int newfd, int flags);
+// То же, что dup2, но с дополнительными флагами.
+if (dup3(file_desc, STDOUT_FILENO, O_CLOEXEC) == -1) {
+    perror("Error duplicating file descriptor to STDOUT with O_CLOEXEC");
+    return -1; // Обработка ошибки
+}
+
+// 9. ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
+// Считывает данные из файла в несколько буферов.
+struct iovec iov[2];
+iov[0].iov_base = buf1;
+iov[0].iov_len = sizeof(buf1);
+iov[1].iov_base = buf2;
+iov[1].iov_len = sizeof(buf2);
+if (readv(file_desc, iov, 2) == -1) {
+    perror("Error reading vectors");
+    return -1; // Обработка ошибки
+}
+
+// 10. ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+// Записывает данные из нескольких буферов в файл.
+if (writev(file_desc, iov, 2) == -1) {
+    perror("Error writing vectors");
+    return -1; // Обработка ошибки
+}
+
+// 11. int mkstemp(char *template);
+// Создаёт временный файл с уникальным именем.
+char template[] = "tempXXXXXX";
+int temp_fd = mkstemp(template);
+if (temp_fd == -1) {
+    perror("Error creating temporary file");
+    return -1; // Обработка ошибки
+}
+
+// 12. FILE *tmpfile(void);
+// Создаёт временный файл, который удаляется при закрытии.
+FILE *temp_file = tmpfile();
+if (temp_file == NULL) {
+    perror("Error creating temporary file");
+    return -1; // Обработка ошибки
+}
+
 
 #include <sys/stat.h>
 #include <fcntl.h>
