@@ -17,9 +17,9 @@
 - ch19 Monitoring File Events
 - ch20 Signals (21-22)
 - ch23 Timers and Sleeping
+- ch24 Process Creation
+- ch25 Process Termination
 - 
-- 24 Process Creation
-- 25 Process Termination
 - 26 Monitoring Child Processes 
 - 27 Program Execution
 - 28 Further Details on Process Creation and Program execution
