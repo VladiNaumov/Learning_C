@@ -20,8 +20,8 @@
 - ch24 Process Creation
 - ch25 Process Termination
 - ch26 Monitoring Child Processes
+- ch27 Program Execution
 - 
-- 27 Program Execution
 - 28 Further Details on Process Creation and Program execution
 - 29 - 33 POSIX Threads
 - 34 Process Groups, Sessions, and Job Control
