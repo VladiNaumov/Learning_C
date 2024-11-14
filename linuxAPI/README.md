@@ -19,8 +19,8 @@
 - ch23 Timers and Sleeping
 - ch24 Process Creation
 - ch25 Process Termination
+- ch26 Monitoring Child Processes
 - 
-- 26 Monitoring Child Processes 
 - 27 Program Execution
 - 28 Further Details on Process Creation and Program execution
 - 29 - 33 POSIX Threads
