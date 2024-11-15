@@ -21,8 +21,8 @@
 - ch25 Process Termination
 - ch26 Monitoring Child Processes
 - ch27 Program Execution
+- ch28 Process Creation and Program execution
 - 
-- 28 Further Details on Process Creation and Program execution
 - 29 - 33 POSIX Threads
 - 34 Process Groups, Sessions, and Job Control
 - 35 Process Priorities and Scheduling
