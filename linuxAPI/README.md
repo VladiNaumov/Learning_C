@@ -23,7 +23,12 @@
 - ch27 Program Execution
 - ch28 Process Creation and Program execution
 - 
-- 29 - 33 POSIX Threads
+- ch29 POSIX Threads: Introduction
+- ch30 POSIX Threads: Thread Synchronization
+- ch31 POSIX Threads: Thread Safety and Per-Thread Storage
+- ch32 POSIX Threads: Thread Cancellation
+- ch33 POSIX Threads: Further Details
+-
 - 34 Process Groups, Sessions, and Job Control
 - 35 Process Priorities and Scheduling
 - 36 Process Resources
