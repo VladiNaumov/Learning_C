@@ -27,11 +27,10 @@
 - ch31 POSIX Threads: Thread Safety and Per-Thread Storage
 - ch32 POSIX Threads: Thread Cancellation
 - ch33 POSIX Threads: Further Details
-
+- ch34 Process Groups, Sessions, and Job Control
+- ch35 Process Priorities and Scheduling
+- ch36 Process Resources
 -
-- 34 Process Groups, Sessions, and Job Control
-- 35 Process Priorities and Scheduling
-- 36 Process Resources
 - 37 Daemons
 - 39 Capabilities
 - 40 Login Accounting
