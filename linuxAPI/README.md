@@ -30,8 +30,8 @@
 - ch34 Process Groups, Sessions, and Job Control
 - ch35 Process Priorities and Scheduling
 - ch36 Process Resources
--
-- 37 Daemons
+- ch37 Daemons
+- 
 - 39 Capabilities
 - 40 Login Accounting
 - 41 and 42 Shared Libraries
