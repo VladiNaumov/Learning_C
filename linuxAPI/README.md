@@ -31,8 +31,8 @@
 - ch35 Process Priorities and Scheduling
 - ch36 Process Resources
 - ch37 Daemons
+- ch39 Capabilities
 - 
-- 39 Capabilities
 - 40 Login Accounting
 - 41 and 42 Shared Libraries
 - 44 Pipes and FIFOs
