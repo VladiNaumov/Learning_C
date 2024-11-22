@@ -18,6 +18,7 @@
   - ch09 Основные квалификаторы типа в языке C. (const, volatile, static, и extern).
   - ch10 Macros
   - ch11 Serialize
+ 
   - 
 - ch02 
   - ch01 Several structures into one array (создание обобщений с помощью Enum, Union)
@@ -46,7 +47,7 @@
   - ch05 question/answer
   - ch06 finite state machines (Конечный автомат - Математическая абстракция)
   - ch07 хеширование команд и обработку команд с использованием таблицы указателей на функции.
-  - 
+  - ch08 Pull process
 
 - ch05 Network interaction
   - ch01 Socket-programming "Calculator": file(table_pointer, hash). Serial/Deserialization

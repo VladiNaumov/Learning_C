@@ -22,18 +22,17 @@
 - ch26 Monitoring Child Processes
 - ch27 Program Execution
 - ch28 Process Creation and Program execution
-- 
 - ch29 POSIX Threads: Introduction
 - ch30 POSIX Threads: Thread Synchronization
 - ch31 POSIX Threads: Thread Safety and Per-Thread Storage
 - ch32 POSIX Threads: Thread Cancellation
 - ch33 POSIX Threads: Further Details
--
-- 34 Process Groups, Sessions, and Job Control
-- 35 Process Priorities and Scheduling
-- 36 Process Resources
-- 37 Daemons
-- 39 Capabilities
+- ch34 Process Groups, Sessions, and Job Control
+- ch35 Process Priorities and Scheduling
+- ch36 Process Resources
+- ch37 Daemons
+- ch39 Capabilities
+- 
 - 40 Login Accounting
 - 41 and 42 Shared Libraries
 - 44 Pipes and FIFOs
