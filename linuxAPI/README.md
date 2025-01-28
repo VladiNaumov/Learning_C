@@ -32,18 +32,4 @@
 - ch36 Process Resources
 - ch37 Daemons
 - ch39 Capabilities
-- 
-- 40 Login Accounting
-- 41 and 42 Shared Libraries
-- 44 Pipes and FIFOs
-- 45 Memory Mappings
-- 46 Virtual Memory Operations
-- 47 POSIX Message Queues
-- 48 POSIX Semaphores
-- 49 POSIX Shared Memory
-- 50 Virtual Memory Operations
-- 51 File Locking
-- 52 - 57 Sockets and Network Programming
-- 58 Terminals
-- 59 Alternative I/O Models
-- 60 Pseudo terminals
+- not full
