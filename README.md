@@ -48,6 +48,7 @@
   - ch06 finite state machines (Конечный автомат - Математическая абстракция)
   - ch07 хеширование команд и обработку команд с использованием таблицы указателей на функции.
   - ch08 Pull process
+  - ch09 async-process
 
 - ch05 Network interaction
   - ch01 Socket-programming "Calculator": file(table_pointer, hash). Serial/Deserialization
